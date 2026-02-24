@@ -1,0 +1,37 @@
+{
+  "kind": "build_request",
+  "title": "Change footer copyright/bottom bar text to white",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "In the footer component, change the text color of the bottom bar div (the 4th child div inside the footer's inner container, corresponding to XPath /html[1]/body[1]/div[1]/footer[1]/div[1]/div[1]/div[4]/div[1]) to white (text-white). This is likely the copyright bar or bottom row of the footer.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "change to white"
+        ]
+      },
+      "acceptanceCriteria": [
+        "The text in the 4th section/div of the footer (bottom bar, e.g. copyright bar) renders in white (#ffffff).",
+        "No other footer sections are affected by this change.",
+        "Change applies to both HoustonFooter.tsx and Footer.tsx if they share the same structure at that position."
+      ]
+    }
+  ],
+  "constraints": [
+    "Only modify the specific footer element identified by the XPath: the 4th child div's inner div in the footer container.",
+    "Do not alter other footer sections or any non-footer components."
+  ],
+  "nonGoals": [
+    "Changing text colors in any other section of the page.",
+    "Modifying footer layout, padding, or background colors."
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  }
+}
