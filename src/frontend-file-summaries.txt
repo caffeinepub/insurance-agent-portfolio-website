@@ -1,0 +1,17 @@
+{
+  "frontend/src/App.tsx": "Main application component that orchestrates all sections of the insurance portfolio website including hero, trust bar, about, services, testimonials, contact sections, header, footer, and floating WhatsApp button.",
+  "frontend/src/hooks/useQueries.ts": "Custom React Query hooks for backend integration including contact form submission, checking submission status, and retrieving leads data.",
+  "frontend/src/components/Header.tsx": "Sticky navigation header with smooth scroll functionality, mobile menu, and responsive design featuring the SecureWealth branding.",
+  "frontend/src/components/HeroSection.tsx": "Hero section with H1 headline, emotional trigger copy, dual CTAs, professional portrait, animated gradient lines, and dark luxury background.",
+  "frontend/src/components/TrustBar.tsx": "Authority bar displaying credentials, statistics (500+ families, 98% success, 5-star rating), and certification badges with icons.",
+  "frontend/src/components/AboutSection.tsx": "About section with emotional storytelling covering mission-driven mindset, family protection focus, transparency, and key message about designing financial safety systems.",
+  "frontend/src/components/ServicesSection.tsx": "Services section with five premium animated cards (Life, Health, Term, Investment, Retirement) featuring icons, descriptions, emotional value statements, and CTAs.",
+  "frontend/src/components/WhyChooseSection.tsx": "Why Choose Me section highlighting seven key differentiators including personalized strategy, transparency, 24/7 support, and long-term partnership.",
+  "frontend/src/components/TestimonialsSection.tsx": "Testimonials section with four emotional client stories featuring 5-star ratings, before/after contrast, and glassmorphism card styling.",
+  "frontend/src/components/EmotionalCloseSection.tsx": "Emotional close section with urgency messaging, scarcity copy, prominent CTA, spotlight visual effect, and consultation benefits.",
+  "frontend/src/components/ContactSection.tsx": "Contact section with premium form (name, phone, email, message), WhatsApp quick connect, calendar booking placeholder, and backend integration for lead capture.",
+  "frontend/src/components/FloatingWhatsApp.tsx": "Fixed floating WhatsApp button with pulse animation positioned at bottom-right corner for instant contact.",
+  "frontend/src/components/Footer.tsx": "Footer component with copyright notice, Caffeine.ai attribution with UTM tracking, and legal disclaimer text.",
+  "frontend/src/index.css": "Global styles with dark luxury theme using OKLCH colors, Montserrat/Poppins fonts, glassmorphism utilities, glow effects, animations, and gradient backgrounds.",
+  "frontend/tailwind.config.js": "Tailwind configuration extended with dark luxury theme colors (gold, electric blue, bright CTA), custom font families (Montserrat, Poppins), enhanced border radius, and glow shadow utilities."
+}

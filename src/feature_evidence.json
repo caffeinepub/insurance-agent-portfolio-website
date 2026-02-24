@@ -1,0 +1,307 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-implement-hero-section-with-h1-headline-protect-what-matters-most-build-wealth-that-lasts-subheadline-helping-professionals-and-families-secure-their-financial-future-with-intelligent-insurance-and-long-term-protection-strategies-emotional-trigger-line-one-unexpected-moment-should-never-destroy-a-lifetime-of-hard-work-two-cta-buttons-book-free-consultation-primary-get-custom-protection-plan-secondary-professional-photo-placeholder-and-subtle-animated-gold-or-blue-gradient-lines-on-dark-luxury-background",
+      "featureTitle": "Implement hero section with H1 headline 'Protect What Matters Most. Build Wealth That Lasts.', subheadline 'Helping professionals and families secure their financial future with intelligent insurance and long-term protection strategies.', emotional trigger line 'One unexpected moment should never destroy a lifetime of hard work.', two CTA buttons ('Book Free Consultation' primary, 'Get Custom Protection Plan' secondary), professional photo placeholder, and subtle animated gold or blue gradient lines on dark luxury background",
+      "files": [
+        "frontend/src/components/HeroSection.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-create-trust-authority-bar-displaying-licensed-certified-insurance-advisor-500-families-protected-98-claim-support-success-5-star-client-satisfaction-and-industry-certification-badges",
+      "featureTitle": "Create trust/authority bar displaying 'Licensed & Certified Insurance Advisor', '500+ Families Protected', '98% Claim Support Success', '5-Star Client Satisfaction', and industry certification badges",
+      "files": [
+        "frontend/src/components/TrustBar.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-2"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-build-about-section-with-headline-why-i-chose-to-protect-lives-not-just-sell-policies-emotional-storytelling-covering-realization-about-financial-vulnerability-mission-driven-mindset-focus-on-family-protection-transparency-and-long-term-relationships-and-key-message-i-don-t-sell-policies-i-design-financial-safety-systems",
+      "featureTitle": "Build About section with headline 'Why I Chose to Protect Lives — Not Just Sell Policies', emotional storytelling covering realization about financial vulnerability, mission-driven mindset, focus on family protection, transparency and long-term relationships, and key message 'I don't sell policies. I design financial safety systems.'",
+      "files": [
+        "frontend/src/components/AboutSection.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-create-services-section-with-five-premium-animated-service-cards-life-insurance-health-insurance-term-plans-investment-plans-retirement-planning-each-with-short-benefit-driven-description-emotional-value-statement-mini-cta-button-icon-hover-effects-and-clean-layout",
+      "featureTitle": "Create Services section with five premium animated service cards (Life Insurance, Health Insurance, Term Plans, Investment Plans, Retirement Planning), each with short benefit-driven description, emotional value statement, mini-CTA button, icon, hover effects, and clean layout",
+      "files": [
+        "frontend/src/components/ServicesSection.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-4"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-build-why-choose-me-section-with-headline-not-just-an-agent-your-long-term-financial-partner-and-seven-bullet-points-personalized-protection-strategy-fast-claim-support-100-transparency-no-hidden-surprises-annual-financial-review-24-7-availability-long-term-advisory-relationship",
+      "featureTitle": "Build Why Choose Me section with headline 'Not Just an Agent. Your Long-Term Financial Partner.' and seven bullet points: Personalized protection strategy, Fast claim support, 100% transparency, No hidden surprises, Annual financial review, 24/7 availability, Long-term advisory relationship",
+      "files": [
+        "frontend/src/components/WhyChooseSection.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-5"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-create-testimonials-section-with-3-5-emotional-client-testimonials-each-featuring-5-star-ratings-real-life-impact-storytelling-before-after-emotional-contrast-and-clean-card-layout",
+      "featureTitle": "Create Testimonials section with 3-5 emotional client testimonials, each featuring 5-star ratings, real-life impact storytelling, before/after emotional contrast, and clean card layout",
+      "files": [
+        "frontend/src/components/TestimonialsSection.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-6"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-emotional-close-section-with-headline-your-family-deserves-security-don-t-wait-scarcity-line-every-day-without-protection-increases-financial-risk-cta-book-your-free-financial-protection-session-now-subtext-limited-consultation-slots-available-weekly-and-strong-visual-contrast-with-spotlight-effect",
+      "featureTitle": "Implement Emotional Close section with headline 'Your Family Deserves Security. Don't Wait.', scarcity line 'Every day without protection increases financial risk.', CTA 'Book Your Free Financial Protection Session Now', subtext 'Limited consultation slots available weekly.', and strong visual contrast with spotlight effect",
+      "files": [
+        "frontend/src/components/EmotionalCloseSection.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-7"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-build-contact-section-with-premium-contact-form-name-phone-email-message-fields-whatsapp-quick-connect-button-sticky-floating-cta-button-and-calendar-booking-integration-placeholder",
+      "featureTitle": "Build Contact section with premium contact form (Name, Phone, Email, Message fields), WhatsApp quick connect button, sticky floating CTA button, and calendar booking integration placeholder",
+      "files": [
+        "frontend/src/components/ContactSection.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-8"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-dark-luxury-theme-with-deep-navy-or-black-background-gold-accent-color-d4af37-electric-blue-accent-2563eb-and-bright-gold-or-vibrant-yellow-for-ctas",
+      "featureTitle": "Implement dark luxury theme with deep navy or black background, gold accent color (#D4AF37), electric blue accent (#2563EB), and bright gold or vibrant yellow for CTAs",
+      "files": [
+        "frontend/src/index.css",
+        "frontend/tailwind.config.js"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-9"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-apply-typography-system-using-montserrat-font-for-headings-and-poppins-font-for-body-text",
+      "featureTitle": "Apply typography system using Montserrat font for headings and Poppins font for body text",
+      "files": [
+        "frontend/src/index.css",
+        "frontend/tailwind.config.js"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-10"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-glassmorphism-card-styling-with-smooth-animations-including-parallax-effects-micro-interactions-on-buttons-and-soft-glowing-hover-effects",
+      "featureTitle": "Implement glassmorphism card styling with smooth animations including parallax effects, micro-interactions on buttons, and soft glowing hover effects",
+      "files": [
+        "frontend/src/index.css"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-11"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-sticky-header-with-smooth-scroll-navigation",
+      "featureTitle": "Implement sticky header with smooth scroll navigation",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/Header.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-12"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-floating-whatsapp-icon-that-remains-visible-while-scrolling",
+      "featureTitle": "Add floating WhatsApp icon that remains visible while scrolling",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/FloatingWhatsApp.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-13"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-ensure-mobile-first-responsive-design-that-works-seamlessly-on-all-device-sizes",
+      "featureTitle": "Ensure mobile-first responsive design that works seamlessly on all device sizes",
+      "files": [
+        "frontend/src/components/ContactSection.tsx",
+        "frontend/src/components/HeroSection.tsx",
+        "frontend/src/components/ServicesSection.tsx",
+        "frontend/src/components/TestimonialsSection.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-14"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-apply-seo-optimization-including-semantic-html5-structure-with-proper-h1-h2-h3-hierarchy",
+      "featureTitle": "Apply SEO optimization including semantic HTML5 structure with proper H1/H2/H3 hierarchy",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/AboutSection.tsx",
+        "frontend/src/components/ContactSection.tsx",
+        "frontend/src/components/HeroSection.tsx",
+        "frontend/src/components/ServicesSection.tsx",
+        "frontend/src/components/TestimonialsSection.tsx",
+        "frontend/src/components/WhyChooseSection.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-15"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-render-generated-hero-background-image-professional-agent-portrait-placeholder-and-service-icons-as-static-assets-in-frontend-public-assets-generated",
+      "featureTitle": "Render generated hero background image, professional agent portrait placeholder, and service icons as static assets in frontend/public/assets/generated",
+      "files": [
+        "frontend/src/components/HeroSection.tsx",
+        "frontend/src/components/ServicesSection.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-17"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

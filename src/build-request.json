@@ -1,0 +1,359 @@
+{
+  "kind": "build_request",
+  "title": "Insurance Agent Portfolio Website",
+  "projectName": "Insurance Portfolio Pro",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Implement hero section with H1 headline 'Protect What Matters Most. Build Wealth That Lasts.', subheadline 'Helping professionals and families secure their financial future with intelligent insurance and long-term protection strategies.', emotional trigger line 'One unexpected moment should never destroy a lifetime of hard work.', two CTA buttons ('Book Free Consultation' primary, 'Get Custom Protection Plan' secondary), professional photo placeholder, and subtle animated gold or blue gradient lines on dark luxury background",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "H1 Headline (SEO optimized): \"Protect What Matters Most. Build Wealth That Lasts.\"",
+          "One unexpected moment should never destroy a lifetime of hard work."
+        ]
+      },
+      "acceptanceCriteria": [
+        "Hero section displays H1, subheadline, and emotional trigger line exactly as specified",
+        "Two distinct CTA buttons with specified text are visible and clickable",
+        "Professional photo placeholder is present",
+        "Animated gradient lines are visible with gold or blue colors",
+        "Dark luxury background is applied"
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Create trust/authority bar displaying 'Licensed & Certified Insurance Advisor', '500+ Families Protected', '98% Claim Support Success', '5-Star Client Satisfaction', and industry certification badges",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "• Licensed & Certified Insurance Advisor\n• 500+ Families Protected\n• 98% Claim Support Success\n• 5-Star Client Satisfaction\n• Industry certifications badges"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Authority bar displays all five trust elements",
+        "Stats are prominently visible",
+        "Certification badge placeholders are present"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Build About section with headline 'Why I Chose to Protect Lives — Not Just Sell Policies', emotional storytelling covering realization about financial vulnerability, mission-driven mindset, focus on family protection, transparency and long-term relationships, and key message 'I don't sell policies. I design financial safety systems.'",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Headline: \"Why I Chose to Protect Lives — Not Just Sell Policies\"",
+          "\"I don't sell policies. I design financial safety systems.\""
+        ]
+      },
+      "acceptanceCriteria": [
+        "About section includes specified headline",
+        "Emotional storytelling content covers all four themes",
+        "Key message is prominently displayed"
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Create Services section with five premium animated service cards (Life Insurance, Health Insurance, Term Plans, Investment Plans, Retirement Planning), each with short benefit-driven description, emotional value statement, mini-CTA button, icon, hover effects, and clean layout",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Life Insurance\nHealth Insurance\nTerm Plans\nInvestment Plans\nRetirement Planning",
+          "Each must include:\n• Short benefit-driven description\n• Emotional value\n• Clear mini-CTA button\n• Icons\n• Clean layout"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Five service cards are displayed",
+        "Each card has title, description, emotional value, icon, and CTA button",
+        "Hover effects are applied to cards",
+        "Layout is clean and organized"
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "text": "Build Why Choose Me section with headline 'Not Just an Agent. Your Long-Term Financial Partner.' and seven bullet points: Personalized protection strategy, Fast claim support, 100% transparency, No hidden surprises, Annual financial review, 24/7 availability, Long-term advisory relationship",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Headline: \"Not Just an Agent. Your Long-Term Financial Partner.\"",
+          "• Personalized protection strategy\n• Fast claim support\n• 100% transparency\n• No hidden surprises\n• Annual financial review\n• 24/7 availability\n• Long-term advisory relationship"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Section displays specified headline",
+        "All seven bullet points are listed",
+        "Content is visually organized"
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "text": "Create Testimonials section with 3-5 emotional client testimonials, each featuring 5-star ratings, real-life impact storytelling, before/after emotional contrast, and clean card layout",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Include 3–5 emotional testimonials with:\n\n• 5-star ratings\n• Real-life impact storytelling\n• Before/after emotional contrast\n• Clean card layout"
+        ]
+      },
+      "acceptanceCriteria": [
+        "3-5 testimonial cards are displayed",
+        "Each testimonial shows 5-star rating",
+        "Testimonials include emotional storytelling with before/after contrast",
+        "Cards have clean, consistent layout"
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "text": "Implement Emotional Close section with headline 'Your Family Deserves Security. Don't Wait.', scarcity line 'Every day without protection increases financial risk.', CTA 'Book Your Free Financial Protection Session Now', subtext 'Limited consultation slots available weekly.', and strong visual contrast with spotlight effect",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Headline: \"Your Family Deserves Security. Don't Wait.\"",
+          "Scarcity line: Every day without protection increases financial risk.",
+          "CTA: \"Book Your Free Financial Protection Session Now\""
+        ]
+      },
+      "acceptanceCriteria": [
+        "Section displays all specified copy elements",
+        "CTA button is prominently visible",
+        "Visual contrast and spotlight effect are applied",
+        "Scarcity messaging is clear"
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "text": "Build Contact section with premium contact form (Name, Phone, Email, Message fields), WhatsApp quick connect button, sticky floating CTA button, and calendar booking integration placeholder",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Simple premium contact form:\n\n• Name\n• Phone\n• Email\n• Message",
+          "• WhatsApp quick connect button\n• Sticky floating CTA\n• Calendar booking integration"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Contact form displays all four fields",
+        "WhatsApp button is visible and functional",
+        "Sticky floating CTA appears on scroll",
+        "Form submission captures lead data",
+        "Calendar booking placeholder is present"
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "text": "Implement dark luxury theme with deep navy or black background, gold accent color (#D4AF37), electric blue accent (#2563EB), and bright gold or vibrant yellow for CTAs",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Theme: Dark luxury theme (deep navy or black background)",
+          "Accent colors: Gold (#D4AF37) and electric blue (#2563EB)",
+          "CTA color: Bright high-contrast (gold or vibrant yellow)"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Background uses deep navy or black",
+        "Gold (#D4AF37) is applied as accent color",
+        "Electric blue (#2563EB) is applied as secondary accent",
+        "CTA buttons use bright gold or vibrant yellow"
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "text": "Apply typography system using Montserrat font for headings and Poppins font for body text",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Typography: Modern sans-serif like Montserrat (headings) and Poppins (body)"
+        ]
+      },
+      "acceptanceCriteria": [
+        "All headings use Montserrat font",
+        "All body text uses Poppins font",
+        "Fonts load correctly"
+      ]
+    },
+    {
+      "id": "REQ-11",
+      "text": "Implement glassmorphism card styling with smooth animations including parallax effects, micro-interactions on buttons, and soft glowing hover effects",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "• Glassmorphism cards\n• Smooth animations\n• Subtle parallax effects\n• Micro-interactions on buttons\n• Soft glowing hover effects"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Cards use glassmorphism styling (transparency, blur)",
+        "Parallax effects are visible on scroll",
+        "Buttons have micro-interactions",
+        "Hover effects include soft glowing appearance",
+        "Animations are smooth and performant"
+      ]
+    },
+    {
+      "id": "REQ-12",
+      "text": "Implement sticky header with smooth scroll navigation",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "• Sticky header",
+          "• Smooth scroll navigation"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Header remains visible on scroll",
+        "Navigation links trigger smooth scroll to sections"
+      ]
+    },
+    {
+      "id": "REQ-13",
+      "text": "Add floating WhatsApp icon that remains visible while scrolling",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "• Floating WhatsApp icon"
+        ]
+      },
+      "acceptanceCriteria": [
+        "WhatsApp icon floats on the page",
+        "Icon remains visible during scroll",
+        "Icon links to WhatsApp contact"
+      ]
+    },
+    {
+      "id": "REQ-14",
+      "text": "Ensure mobile-first responsive design that works seamlessly on all device sizes",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "• Mobile-first responsive"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Layout adapts to mobile, tablet, and desktop screens",
+        "All interactive elements are touch-friendly on mobile",
+        "Content remains readable on small screens"
+      ]
+    },
+    {
+      "id": "REQ-15",
+      "text": "Apply SEO optimization including semantic HTML5 structure with proper H1/H2/H3 hierarchy",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "• SEO-optimized headings (H1, H2, H3 hierarchy)",
+          "• Clean HTML5 semantic structure"
+        ]
+      },
+      "acceptanceCriteria": [
+        "HTML uses semantic tags (header, main, section, article, footer)",
+        "Single H1 per page",
+        "H2 and H3 tags follow logical hierarchy",
+        "Content structure supports SEO best practices"
+      ]
+    },
+    {
+      "id": "REQ-16",
+      "text": "Implement backend form submission handler to capture leads with Name, Phone, Email, and Message fields",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Simple premium contact form:\n\n• Name\n• Phone\n• Email\n• Message",
+          "• Lead capture form connected to email"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Backend stores lead submissions with all four fields",
+        "Form data is validated",
+        "Submissions are persisted"
+      ]
+    },
+    {
+      "id": "REQ-17",
+      "text": "Render generated hero background image, professional agent portrait placeholder, and service icons as static assets in frontend/public/assets/generated",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Generated images are placed in frontend/public/assets/generated directory",
+        "Hero section uses generated background image",
+        "Professional portrait is displayed in hero",
+        "Service icons are rendered in service cards"
+      ]
+    }
+  ],
+  "constraints": [
+    "Do not integrate third-party services like Twilio, SendGrid, or external calendar APIs",
+    "Do not implement real-time chat or WebSocket features",
+    "Do not integrate external payment processors beyond what's supported natively",
+    "All animations must be CSS-based for performance"
+  ],
+  "nonGoals": [
+    "Real-time chatbot with AI integration",
+    "Live video testimonials with streaming",
+    "Direct SMS notification system",
+    "Third-party CRM integration",
+    "External analytics tracking setup beyond basic structure"
+  ],
+  "imageRequirements": {
+    "required": [
+      "Dark luxury hero background with subtle gold and electric blue gradient accents, deep navy or black base (hero-bg.dim_1920x1080.png)",
+      "Professional insurance agent portrait placeholder in business attire, confident expression, corporate headshot style (agent-portrait.dim_400x400.png)",
+      "Life insurance icon, gold line art style on transparent background (icon-life.dim_64x64.png)",
+      "Health insurance icon, gold line art style on transparent background (icon-health.dim_64x64.png)",
+      "Term plan icon, gold line art style on transparent background (icon-term.dim_64x64.png)",
+      "Investment plan icon, gold line art style on transparent background (icon-investment.dim_64x64.png)",
+      "Retirement planning icon, gold line art style on transparent background (icon-retirement.dim_64x64.png)"
+    ],
+    "edits": []
+  }
+}

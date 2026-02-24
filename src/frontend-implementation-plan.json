@@ -1,0 +1,344 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Insurance Agent Portfolio Website - Frontend Implementation",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "summary": "Implement hero section with headline, subheadline, emotional trigger, dual CTAs, portrait, and animated gradient lines on dark luxury background",
+      "acceptanceCriteria": [
+        "Hero section displays H1, subheadline, and emotional trigger line exactly as specified",
+        "Two distinct CTA buttons with specified text are visible and clickable",
+        "Professional photo placeholder is present",
+        "Animated gradient lines are visible with gold or blue colors",
+        "Dark luxury background is applied"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/HeroSection.tsx",
+          "operation": "create",
+          "description": "Create hero section component with H1 'Protect What Matters Most. Build Wealth That Lasts.', subheadline 'Helping professionals and families secure their financial future with intelligent insurance and long-term protection strategies.', emotional trigger 'One unexpected moment should never destroy a lifetime of hard work.', two CTA buttons ('Book Free Consultation' primary, 'Get Custom Protection Plan' secondary), and professional agent portrait. Reference generated background image at frontend/public/assets/generated/hero-bg.dim_1920x1080.png and portrait at frontend/public/assets/generated/agent-portrait.dim_400x400.png. Apply animated gold/blue gradient lines with CSS animations on dark background."
+        }
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "summary": "Create trust/authority bar with credentials, stats, and certification badges",
+      "acceptanceCriteria": [
+        "Authority bar displays all five trust elements",
+        "Stats are prominently visible",
+        "Certification badge placeholders are present"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/TrustBar.tsx",
+          "operation": "create",
+          "description": "Create trust bar component displaying 'Licensed & Certified Insurance Advisor', '500+ Families Protected', '98% Claim Support Success', '5-Star Client Satisfaction', and industry certification badge placeholders. Use horizontal layout with icons and stats."
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "summary": "Build About section with emotional storytelling covering mission-driven mindset and key message",
+      "acceptanceCriteria": [
+        "About section includes specified headline",
+        "Emotional storytelling content covers all four themes",
+        "Key message is prominently displayed"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/AboutSection.tsx",
+          "operation": "create",
+          "description": "Create About section with headline 'Why I Chose to Protect Lives — Not Just Sell Policies' and emotional storytelling covering financial vulnerability realization, mission-driven mindset, family protection focus, and transparency. Display key message 'I don't sell policies. I design financial safety systems.' prominently."
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "summary": "Create Services section with five premium animated service cards featuring icons, descriptions, and CTAs",
+      "acceptanceCriteria": [
+        "Five service cards are displayed",
+        "Each card has title, description, emotional value, icon, and CTA button",
+        "Hover effects are applied to cards",
+        "Layout is clean and organized"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/ServicesSection.tsx",
+          "operation": "create",
+          "description": "Create Services section with five service cards (Life Insurance, Health Insurance, Term Plans, Investment Plans, Retirement Planning). Each card includes benefit-driven description, emotional value statement, mini-CTA button, and hover effects. Reference generated service icons at frontend/public/assets/generated/icon-life.dim_64x64.png, frontend/public/assets/generated/icon-health.dim_64x64.png, frontend/public/assets/generated/icon-term.dim_64x64.png, frontend/public/assets/generated/icon-investment.dim_64x64.png, and frontend/public/assets/generated/icon-retirement.dim_64x64.png. Apply glassmorphism card styling."
+        }
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "summary": "Build Why Choose Me section with headline and seven differentiation bullet points",
+      "acceptanceCriteria": [
+        "Section displays specified headline",
+        "All seven bullet points are listed",
+        "Content is visually organized"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/WhyChooseSection.tsx",
+          "operation": "create",
+          "description": "Create Why Choose Me section with headline 'Not Just an Agent. Your Long-Term Financial Partner.' and seven bullet points: Personalized protection strategy, Fast claim support, 100% transparency, No hidden surprises, Annual financial review, 24/7 availability, Long-term advisory relationship. Use icon list layout."
+        }
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "summary": "Create Testimonials section with 3-5 emotional client testimonials featuring ratings and before/after contrast",
+      "acceptanceCriteria": [
+        "3-5 testimonial cards are displayed",
+        "Each testimonial shows 5-star rating",
+        "Testimonials include emotional storytelling with before/after contrast",
+        "Cards have clean, consistent layout"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/TestimonialsSection.tsx",
+          "operation": "create",
+          "description": "Create Testimonials section with 3-5 testimonial cards, each featuring 5-star ratings, real-life impact storytelling with before/after emotional contrast, and clean card layout with glassmorphism styling."
+        }
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "summary": "Implement Emotional Close section with urgency messaging, CTA, and spotlight visual effect",
+      "acceptanceCriteria": [
+        "Section displays all specified copy elements",
+        "CTA button is prominently visible",
+        "Visual contrast and spotlight effect are applied",
+        "Scarcity messaging is clear"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/EmotionalCloseSection.tsx",
+          "operation": "create",
+          "description": "Create Emotional Close section with headline 'Your Family Deserves Security. Don't Wait.', scarcity line 'Every day without protection increases financial risk.', CTA 'Book Your Free Financial Protection Session Now', subtext 'Limited consultation slots available weekly.', and strong visual contrast with spotlight effect using CSS."
+        }
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "summary": "Build Contact section with premium form, WhatsApp button, sticky CTA, and calendar booking placeholder",
+      "acceptanceCriteria": [
+        "Contact form displays all four fields",
+        "WhatsApp button is visible and functional",
+        "Sticky floating CTA appears on scroll",
+        "Form submission captures lead data",
+        "Calendar booking placeholder is present"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/ContactSection.tsx",
+          "operation": "create",
+          "description": "Create Contact section with premium form containing Name, Phone, Email, and Message fields. Include WhatsApp quick connect button, sticky floating CTA button, and calendar booking integration placeholder. Wire form submission to backend submitContactForm method from backend interface."
+        }
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "summary": "Implement dark luxury theme with navy/black background, gold and electric blue accents, and bright CTA colors",
+      "acceptanceCriteria": [
+        "Background uses deep navy or black",
+        "Gold (#D4AF37) is applied as accent color",
+        "Electric blue (#2563EB) is applied as secondary accent",
+        "CTA buttons use bright gold or vibrant yellow"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/tailwind.config.js",
+          "operation": "modify",
+          "description": "Extend Tailwind theme with dark luxury colors: deep navy/black background, gold accent (#D4AF37), electric blue accent (#2563EB), and bright gold/vibrant yellow for CTAs. Add custom color variables for luxury-dark, accent-gold, accent-blue, and cta-bright."
+        },
+        {
+          "path": "frontend/src/index.css",
+          "operation": "modify",
+          "description": "Apply dark luxury theme with deep navy or black body background, and set default text color to light/white for contrast against dark background."
+        }
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "summary": "Apply typography system using Montserrat for headings and Poppins for body text",
+      "acceptanceCriteria": [
+        "All headings use Montserrat font",
+        "All body text uses Poppins font",
+        "Fonts load correctly"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/index.css",
+          "operation": "modify",
+          "description": "Import Montserrat and Poppins fonts from Google Fonts. Apply Montserrat to all heading elements (h1, h2, h3, h4, h5, h6) and Poppins to body text."
+        },
+        {
+          "path": "frontend/tailwind.config.js",
+          "operation": "modify",
+          "description": "Extend Tailwind fontFamily configuration with 'heading': Montserrat and 'body': Poppins font families."
+        }
+      ]
+    },
+    {
+      "id": "REQ-11",
+      "summary": "Implement glassmorphism card styling with smooth animations including parallax, micro-interactions, and glowing hover effects",
+      "acceptanceCriteria": [
+        "Cards use glassmorphism styling (transparency, blur)",
+        "Parallax effects are visible on scroll",
+        "Buttons have micro-interactions",
+        "Hover effects include soft glowing appearance",
+        "Animations are smooth and performant"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/index.css",
+          "operation": "modify",
+          "description": "Add glassmorphism utility classes with backdrop-blur, transparency, and border styles. Define CSS keyframes for parallax effects, button micro-interactions, and soft glowing hover effects. Ensure all animations use CSS only for performance."
+        }
+      ]
+    },
+    {
+      "id": "REQ-12",
+      "summary": "Implement sticky header with smooth scroll navigation",
+      "acceptanceCriteria": [
+        "Header remains visible on scroll",
+        "Navigation links trigger smooth scroll to sections"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/Header.tsx",
+          "operation": "create",
+          "description": "Create sticky header component with navigation links to all major sections (Hero, About, Services, Why Choose, Testimonials, Contact). Apply position: sticky CSS. Implement smooth scroll behavior using CSS scroll-behavior: smooth or JavaScript scrollIntoView."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Import and render Header component at the top of the application to enable navigation across all sections."
+        }
+      ]
+    },
+    {
+      "id": "REQ-13",
+      "summary": "Add floating WhatsApp icon that remains visible while scrolling",
+      "acceptanceCriteria": [
+        "WhatsApp icon floats on the page",
+        "Icon remains visible during scroll",
+        "Icon links to WhatsApp contact"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/FloatingWhatsApp.tsx",
+          "operation": "create",
+          "description": "Create floating WhatsApp icon component with fixed positioning (bottom-right corner). Add WhatsApp link with href='https://wa.me/...' pattern. Apply z-index to ensure visibility over other content."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Import and render FloatingWhatsApp component to make it globally visible across the application."
+        }
+      ]
+    },
+    {
+      "id": "REQ-14",
+      "summary": "Ensure mobile-first responsive design that works seamlessly on all device sizes",
+      "acceptanceCriteria": [
+        "Layout adapts to mobile, tablet, and desktop screens",
+        "All interactive elements are touch-friendly on mobile",
+        "Content remains readable on small screens"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/HeroSection.tsx",
+          "operation": "modify",
+          "description": "Apply responsive Tailwind classes for mobile-first layout. Adjust hero section layout, CTA button sizing, and text hierarchy for mobile, tablet, and desktop breakpoints."
+        },
+        {
+          "path": "frontend/src/components/ServicesSection.tsx",
+          "operation": "modify",
+          "description": "Apply responsive grid layout for service cards: single column on mobile, 2 columns on tablet, 3 columns on desktop. Ensure touch-friendly spacing."
+        },
+        {
+          "path": "frontend/src/components/TestimonialsSection.tsx",
+          "operation": "modify",
+          "description": "Apply responsive layout for testimonial cards with single column on mobile and multi-column on larger screens."
+        },
+        {
+          "path": "frontend/src/components/ContactSection.tsx",
+          "operation": "modify",
+          "description": "Apply responsive form layout with stacked fields on mobile and optimized touch targets for input fields and buttons."
+        }
+      ]
+    },
+    {
+      "id": "REQ-15",
+      "summary": "Apply SEO optimization including semantic HTML5 structure with proper H1/H2/H3 hierarchy",
+      "acceptanceCriteria": [
+        "HTML uses semantic tags (header, main, section, article, footer)",
+        "Single H1 per page",
+        "H2 and H3 tags follow logical hierarchy",
+        "Content structure supports SEO best practices"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/HeroSection.tsx",
+          "operation": "modify",
+          "description": "Ensure hero section uses single H1 tag for main headline. Wrap content in semantic <section> element."
+        },
+        {
+          "path": "frontend/src/components/AboutSection.tsx",
+          "operation": "modify",
+          "description": "Use H2 for section headline and semantic <section> wrapper. Apply proper heading hierarchy for subsections."
+        },
+        {
+          "path": "frontend/src/components/ServicesSection.tsx",
+          "operation": "modify",
+          "description": "Use H2 for section title, H3 for individual service card titles. Wrap in semantic <section> element."
+        },
+        {
+          "path": "frontend/src/components/WhyChooseSection.tsx",
+          "operation": "modify",
+          "description": "Use H2 for section headline and semantic <section> wrapper with <ul> for bullet list."
+        },
+        {
+          "path": "frontend/src/components/TestimonialsSection.tsx",
+          "operation": "modify",
+          "description": "Use H2 for section title and semantic <section> wrapper with <article> elements for individual testimonials."
+        },
+        {
+          "path": "frontend/src/components/ContactSection.tsx",
+          "operation": "modify",
+          "description": "Use H2 for contact section title and semantic <section> wrapper with proper <form> element structure."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wrap all section components in semantic <main> element to establish proper HTML5 document structure."
+        }
+      ]
+    },
+    {
+      "id": "REQ-17",
+      "summary": "Render generated hero background, agent portrait, and service icons as static assets",
+      "acceptanceCriteria": [
+        "Generated images are placed in frontend/public/assets/generated directory",
+        "Hero section uses generated background image",
+        "Professional portrait is displayed in hero",
+        "Service icons are rendered in service cards"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/HeroSection.tsx",
+          "operation": "modify",
+          "description": "Reference generated background image at frontend/public/assets/generated/hero-bg.dim_1920x1080.png for hero background and frontend/public/assets/generated/agent-portrait.dim_400x400.png for professional portrait. Use as background-image CSS or img src attributes."
+        },
+        {
+          "path": "frontend/src/components/ServicesSection.tsx",
+          "operation": "modify",
+          "description": "Reference generated service icons: frontend/public/assets/generated/icon-life.dim_64x64.png, frontend/public/assets/generated/icon-health.dim_64x64.png, frontend/public/assets/generated/icon-term.dim_64x64.png, frontend/public/assets/generated/icon-investment.dim_64x64.png, and frontend/public/assets/generated/icon-retirement.dim_64x64.png. Use as img src in respective service cards."
+        }
+      ]
+    }
+  ]
+}
