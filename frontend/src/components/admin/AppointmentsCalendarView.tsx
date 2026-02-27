@@ -1,101 +1,152 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import type { Appointment } from '@/hooks/useAdminQueries';
+import type { QuoteSubmission } from '../../hooks/useAdminQueries';
 
-interface AppointmentsCalendarViewProps {
-  appointments: Appointment[];
+interface Props {
+  appointments: QuoteSubmission[];
 }
 
-export default function AppointmentsCalendarView({ appointments }: AppointmentsCalendarViewProps) {
-  const [currentDate, setCurrentDate] = useState(new Date());
+const coverageColors: Record<string, string> = {
+  auto: '#2563eb',
+  home: '#16a34a',
+  life: '#d97706',
+  business: '#7c3aed',
+};
 
-  // Get calendar data
-  const year = currentDate.getFullYear();
-  const month = currentDate.getMonth();
-  const firstDay = new Date(year, month, 1);
-  const lastDay = new Date(year, month + 1, 0);
-  const daysInMonth = lastDay.getDate();
-  const startingDayOfWeek = firstDay.getDay();
+const coverageBg: Record<string, string> = {
+  auto: 'rgba(37,99,235,0.12)',
+  home: 'rgba(22,163,74,0.12)',
+  life: 'rgba(217,119,6,0.12)',
+  business: 'rgba(124,58,237,0.12)',
+};
 
-  // Navigate months
-  const previousMonth = () => {
-    setCurrentDate(new Date(year, month - 1, 1));
-  };
+export default function AppointmentsCalendarView({ appointments }: Props) {
+  const today = new Date();
+  const [month, setMonth] = useState(today.getMonth());
+  const [year, setYear] = useState(today.getFullYear());
 
-  const nextMonth = () => {
-    setCurrentDate(new Date(year, month + 1, 1));
-  };
+  const monthNames = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December',
+  ];
+  const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-  // Get appointments for a specific day
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const firstDay = new Date(year, month, 1).getDay();
+
+  // QuoteSubmission.timestamp is bigint nanoseconds from backend
   const getAppointmentsForDay = (day: number) => {
-    return appointments.filter((appointment) => {
-      const appointmentDate = new Date(Number(appointment.date) / 1000000);
+    return appointments.filter((a) => {
+      const ms = Number(a.timestamp) / 1_000_000;
+      const d = new Date(ms);
       return (
-        appointmentDate.getDate() === day &&
-        appointmentDate.getMonth() === month &&
-        appointmentDate.getFullYear() === year
+        d.getFullYear() === year &&
+        d.getMonth() === month &&
+        d.getDate() === day
       );
     });
   };
 
-  // Generate calendar days
-  const calendarDays: React.ReactElement[] = [];
-  for (let i = 0; i < startingDayOfWeek; i++) {
-    calendarDays.push(<div key={`empty-${i}`} className="h-24 bg-gray-50"></div>);
+  const days: React.ReactElement[] = [];
+
+  for (let i = 0; i < firstDay; i++) {
+    days.push(<div key={`empty-${i}`} className="min-h-[80px]" />);
   }
 
   for (let day = 1; day <= daysInMonth; day++) {
-    const dayAppointments = getAppointmentsForDay(day);
-    calendarDays.push(
-      <div key={day} className="h-24 border border-gray-200 p-2 overflow-y-auto">
-        <div className="font-semibold text-sm mb-1">{day}</div>
-        {dayAppointments.map((appointment) => (
-          <div
-            key={appointment.id.toString()}
-            className={`text-xs p-1 mb-1 rounded ${
-              appointment.status === 'scheduled'
-                ? 'bg-blue-100 text-blue-800'
-                : appointment.status === 'completed'
-                  ? 'bg-green-100 text-green-800'
-                  : 'bg-red-100 text-red-800'
-            }`}
-          >
-            {appointment.clientName}
-          </div>
-        ))}
+    const dayAppts = getAppointmentsForDay(day);
+    const isToday =
+      day === today.getDate() && month === today.getMonth() && year === today.getFullYear();
+
+    days.push(
+      <div
+        key={day}
+        className="min-h-[80px] p-1 rounded-lg border"
+        style={{
+          backgroundColor: isToday ? 'rgba(30,58,138,0.05)' : '#FFFFFF',
+          borderColor: isToday ? '#1e3a8a' : '#e2e8f0',
+        }}
+      >
+        <p
+          className="text-xs font-semibold mb-1 w-6 h-6 flex items-center justify-center rounded-full"
+          style={{
+            backgroundColor: isToday ? '#1e3a8a' : 'transparent',
+            color: isToday ? '#FFFFFF' : '#1e293b',
+          }}
+        >
+          {day}
+        </p>
+        {dayAppts.map((appt) => {
+          const coverageKey = String(appt.coverageType);
+          return (
+            <div
+              key={String(appt.id)}
+              className="text-xs px-1 py-0.5 rounded mb-0.5 truncate"
+              style={{
+                backgroundColor: coverageBg[coverageKey] ?? 'rgba(0,0,0,0.05)',
+                color: coverageColors[coverageKey] ?? '#1e293b',
+              }}
+            >
+              {appt.name}
+            </div>
+          );
+        })}
       </div>
     );
   }
 
   return (
-    <div className="bg-white rounded-lg shadow p-6">
-      {/* Calendar Header */}
-      <div className="flex items-center justify-between mb-6">
-        <Button onClick={previousMonth} variant="outline" size="icon">
-          <ChevronLeft className="w-4 h-4" />
-        </Button>
+    <div
+      className="rounded-xl border p-4 shadow-sm"
+      style={{ backgroundColor: '#FFFFFF', borderColor: '#e2e8f0' }}
+    >
+      {/* Header */}
+      <div className="flex items-center justify-between mb-4">
+        <button
+          onClick={() => {
+            if (month === 0) { setMonth(11); setYear((y) => y - 1); }
+            else setMonth((m) => m - 1);
+          }}
+          className="p-2 rounded-lg hover:opacity-70"
+          style={{ color: '#1e293b' }}
+        >
+          <ChevronLeft className="w-5 h-5" style={{ color: '#1e293b' }} />
+        </button>
+        <span className="font-bold" style={{ color: '#1e293b' }}>
+          {monthNames[month]} {year}
+        </span>
+        <button
+          onClick={() => {
+            if (month === 11) { setMonth(0); setYear((y) => y + 1); }
+            else setMonth((m) => m + 1);
+          }}
+          className="p-2 rounded-lg hover:opacity-70"
+          style={{ color: '#1e293b' }}
+        >
+          <ChevronRight className="w-5 h-5" style={{ color: '#1e293b' }} />
+        </button>
+      </div>
 
-        <h2 className="text-xl font-bold">
-          {currentDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
-        </h2>
-
-        <Button onClick={nextMonth} variant="outline" size="icon">
-          <ChevronRight className="w-4 h-4" />
-        </Button>
+      {/* Day Names */}
+      <div className="grid grid-cols-7 mb-2">
+        {dayNames.map((d) => (
+          <div key={d} className="text-center text-xs font-semibold py-1" style={{ color: '#334155' }}>
+            {d}
+          </div>
+        ))}
       </div>
 
       {/* Calendar Grid */}
-      <div className="grid grid-cols-7 gap-0">
-        {/* Day headers */}
-        {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
-          <div key={day} className="text-center font-semibold text-sm py-2 bg-gray-100 border border-gray-200">
-            {day}
+      <div className="grid grid-cols-7 gap-1">{days}</div>
+
+      {/* Legend */}
+      <div className="flex flex-wrap gap-3 mt-4 pt-3 border-t" style={{ borderColor: '#e2e8f0' }}>
+        {Object.entries(coverageColors).map(([key, color]) => (
+          <div key={key} className="flex items-center gap-1.5">
+            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: color }} />
+            <span className="text-xs capitalize" style={{ color: '#334155' }}>{key}</span>
           </div>
         ))}
-
-        {/* Calendar days */}
-        {calendarDays}
       </div>
     </div>
   );

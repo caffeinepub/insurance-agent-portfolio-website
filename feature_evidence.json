@@ -2,9 +2,53 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-in-the-footer-component-change-the-text-color-of-the-bottom-bar-div-the-4th-child-div-inside-the-footer-s-inner-container-corresponding-to-xpath-html-1-body-1-div-1-footer-1-div-1-div-1-div-4-div-1-to-white-text-white-this-is-likely-the-copyright-bar-or-bottom-row-of-the-footer",
-      "featureTitle": "In the footer component, change the text color of the bottom bar div (the 4th child div inside the footer's inner container, corresponding to XPath /html[1]/body[1]/div[1]/footer[1]/div[1]/div[1]/div[4]/div[1]) to white (text-white). This is likely the copyright bar or bottom row of the footer.",
+      "featureId": "feature-update-all-testimonial-references-that-mention-karen-to-display-tx-agent-j-d-12-quotes-first-month-instead-remove-the-name-karen-from-all-testimonial-content-across-every-testimonial-component-testimonialssection-houstontestimonialssection-reevesaboutsection-and-any-other-component-displaying-testimonials",
+      "featureTitle": "Update all testimonial references that mention 'Karen' to display 'TX Agent J.D. - 12 quotes first month' instead. Remove the name 'Karen' from all testimonial content across every testimonial component (TestimonialsSection, HoustonTestimonialsSection, ReevesAboutSection, and any other component displaying testimonials).",
       "files": [
+        "frontend/src/components/TestimonialsSection.tsx",
+        "frontend/src/components/houston/HoustonTestimonialsSection.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0",
+        "blob-storage@4.0.0"
+      ],
+      "testIds": [
+        "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-change-the-hero-section-headline-to-conroe-agents-get-12-quotes-month-and-ensure-it-is-the-most-prominent-above-the-fold-text-in-all-hero-components-herosection-houstonherosection-reevesherosection-the-headline-must-be-visible-without-scrolling-on-standard-desktop-and-mobile-viewports",
+      "featureTitle": "Change the hero section headline to 'Conroe Agents: Get 12+ Quotes/Month' and ensure it is the most prominent above-the-fold text in all hero components (HeroSection, HoustonHeroSection, ReevesHeroSection). The headline must be visible without scrolling on standard desktop and mobile viewports.",
+      "files": [
+        "frontend/src/components/HeroSection.tsx",
+        "frontend/src/components/houston/HoustonHeroSection.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0",
+        "blob-storage@4.0.0"
+      ],
+      "testIds": [
+        "REQ-2"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-a-process-proof-section-in-the-footer-area-above-or-integrated-into-the-footer-that-displays-3-steps-as-visual-screenshot-placeholders-with-labels-figma-design-live-preview-and-conroe-1-use-arrow-connectors-between-steps-to-show-the-progression-the-section-heading-should-communicate-a-proven-build-process",
+      "featureTitle": "Add a 'Process Proof' section in the footer area (above or integrated into the footer) that displays 3 steps as visual screenshot placeholders with labels: 'Figma Design', 'Live Preview', and 'Conroe #1'. Use arrow connectors between steps to show the progression. The section heading should communicate a proven build process.",
+      "files": [
+        "frontend/src/components/Footer.tsx",
+        "frontend/src/components/ProcessProofSection.tsx",
         "frontend/src/components/houston/HoustonFooter.tsx"
       ],
       "components": [
@@ -13,10 +57,58 @@
         "build-template-react@1.0.0",
         "initial-app@1.0.0",
         "github-export-icp-cli@1.0.0",
-        "authorization@4.0.0"
+        "authorization@4.0.0",
+        "blob-storage@4.0.0"
       ],
       "testIds": [
-        "REQ-1"
+        "REQ-3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-replace-every-phone-number-displayed-in-the-ui-with-832-555-1234-this-includes-the-header-phone-cta-floatingcallbutton-tel-href-contactsection-reevescontactsection-business-info-footer-reevesfooter-houstonfooter-contact-details-stickyquotebar-if-it-shows-a-phone-and-any-other-component-rendering-a-phone-number-also-update-the-default-fallback-phone-value-in-the-usebusinessinfo-hook",
+      "featureTitle": "Replace every phone number displayed in the UI with (832) 555-1234. This includes the Header phone CTA, FloatingCallButton tel: href, ContactSection/ReevesContactSection business info, Footer/ReevesFooter/HoustonFooter contact details, StickyQuoteBar if it shows a phone, and any other component rendering a phone number. Also update the default fallback phone value in the useBusinessInfo hook.",
+      "files": [
+        "frontend/src/components/Footer.tsx",
+        "frontend/src/components/Header.tsx",
+        "frontend/src/components/houston/HoustonFooter.tsx",
+        "frontend/src/components/houston/HoustonHeroSection.tsx",
+        "frontend/src/hooks/useBusinessInfo.ts"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0",
+        "blob-storage@4.0.0"
+      ],
+      "testIds": [
+        "REQ-4"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-update-all-primary-cta-quote-buttons-get-free-quote-get-quote-submit-quote-etc-to-display-the-urgency-text-get-conroe-site-3-spots-left-week-apply-this-to-the-main-cta-button-in-the-hero-section-the-header-get-free-quote-button-and-any-other-prominent-quote-cta-buttons-in-houstonherosection-reevesherosection-houstonquoteform-submit-button-and-emotionalclosesection-ctas",
+      "featureTitle": "Update all primary CTA quote buttons (Get Free Quote, Get Quote, Submit Quote, etc.) to display the urgency text 'Get Conroe Site - 3 Spots Left Week'. Apply this to the main CTA button in the hero section, the header 'Get Free Quote' button, and any other prominent quote/CTA buttons in HoustonHeroSection, ReevesHeroSection, HoustonQuoteForm submit button, and EmotionalCloseSection CTAs.",
+      "files": [
+        "frontend/src/components/EmotionalCloseSection.tsx",
+        "frontend/src/components/Header.tsx",
+        "frontend/src/components/HeroSection.tsx",
+        "frontend/src/components/houston/HoustonHeroSection.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0",
+        "blob-storage@4.0.0"
+      ],
+      "testIds": [
+        "REQ-5"
       ],
       "confidence": "high"
     }

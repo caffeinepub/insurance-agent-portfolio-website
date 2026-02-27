@@ -1,56 +1,67 @@
+import React, { useEffect, useRef } from 'react';
 import { Play } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { useBusinessInfo } from '../hooks/useBusinessInfo';
 
 export default function VideoSection() {
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
+  const { city } = useBusinessInfo();
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.querySelectorAll('.scroll-fade').forEach((el, i) => {
+              setTimeout(() => el.classList.add('visible'), i * 100);
+            });
+          }
+        });
       },
       { threshold: 0.1 }
     );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
+    if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
   }, []);
 
   return (
-    <section ref={sectionRef} className="py-20 md:py-32 bg-gradient-to-b from-navy-primary to-navy-secondary relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-radial from-gold-accent/5 via-transparent to-transparent" />
-      
-      <div className="container mx-auto px-4 relative z-10">
-        <div className={`max-w-4xl mx-auto text-center space-y-8 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-white">
-            Why Families in <span className="text-gold-accent">[City]</span> Trust Me With Their Protection Planning
-          </h2>
-          
-          <div className="relative aspect-video rounded-2xl overflow-hidden border-2 border-gold-accent/30 bg-navy-secondary/50 backdrop-blur-sm group hover:border-gold-accent/60 transition-all duration-300">
-            {/* Video Placeholder */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="text-center space-y-4">
-                <div className="w-20 h-20 rounded-full bg-gold-accent/20 flex items-center justify-center mx-auto border-2 border-gold-accent/50 group-hover:bg-gold-accent/30 transition-all duration-300">
-                  <Play className="w-10 h-10 text-gold-accent ml-1" />
-                </div>
-                <p className="text-white/70 font-sans text-sm max-w-md mx-auto px-4">
-                  Video placeholder: Insert your 60-second introduction video embed code here
-                  <br />
-                  <span className="text-gold-accent text-xs">(YouTube, Vimeo, or custom video player)</span>
-                </p>
-              </div>
-            </div>
+    <section ref={ref} className="bg-white py-24 lg:py-32">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <div className="scroll-fade flex items-center justify-center gap-3 mb-4">
+            <div className="w-8 h-px bg-amber" />
+            <span className="font-body text-amber text-sm font-semibold tracking-widest uppercase">
+              See It In Action
+            </span>
+            <div className="w-8 h-px bg-amber" />
           </div>
-
-          <p className="text-white/70 font-sans text-sm italic">
-            Hear directly from me about my commitment to protecting families in [City] and why personalized insurance planning matters.
+          <h2 className="scroll-fade delay-100 font-display text-4xl lg:text-5xl font-bold text-charcoal leading-tight mb-4">
+            How AI Is Changing
+            <br />
+            <span className="italic text-forest">Insurance Forever</span>
+          </h2>
+          <p className="scroll-fade delay-200 font-body text-charcoal-muted text-lg max-w-xl mx-auto leading-relaxed">
+            {city ? `${city} agents` : 'Smart agents'} are using AI to find better coverage faster.
+            See how modern insurance advisory works.
           </p>
+        </div>
+
+        {/* Video embed */}
+        <div className="scroll-fade delay-300 relative rounded-2xl overflow-hidden shadow-forest-xl border border-forest/10">
+          {/* Decorative corner accents */}
+          <div className="absolute top-0 left-0 w-12 h-12 border-t-2 border-l-2 border-amber z-10 rounded-tl-2xl" />
+          <div className="absolute bottom-0 right-0 w-12 h-12 border-b-2 border-r-2 border-amber z-10 rounded-br-2xl" />
+
+          <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
+            <iframe
+              className="absolute inset-0 w-full h-full"
+              src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0&modestbranding=1"
+              title="How AI is Transforming Insurance"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
         </div>
       </div>
     </section>

@@ -1,83 +1,108 @@
-import { Shield, BookOpen, Calendar, Headphones } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
+import { Scale, GraduationCap, RefreshCw, LifeBuoy } from 'lucide-react';
+
+const differentiators = [
+  {
+    icon: Scale,
+    title: 'Independent & Unbiased',
+    desc: 'We\'re not captive to any single carrier. We shop 30+ companies to find your best rate and coverage — period.',
+    stat: '30+',
+    statLabel: 'Carriers Compared',
+  },
+  {
+    icon: GraduationCap,
+    title: 'Education-First Approach',
+    desc: 'We explain your options in plain English. You make informed decisions — we never pressure or rush.',
+    stat: '100%',
+    statLabel: 'Transparent Process',
+  },
+  {
+    icon: RefreshCw,
+    title: 'Annual Policy Reviews',
+    desc: 'Life changes. Your coverage should too. We proactively review your policies every year at no extra cost.',
+    stat: 'Free',
+    statLabel: 'Annual Reviews',
+  },
+  {
+    icon: LifeBuoy,
+    title: 'Dedicated Claims Support',
+    desc: 'When you need to file a claim, we\'re in your corner — guiding you through every step of the process.',
+    stat: '24/7',
+    statLabel: 'Claims Guidance',
+  },
+];
 
 export default function WhyChooseSection() {
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.querySelectorAll('.scroll-fade').forEach((el, i) => {
+              setTimeout(() => el.classList.add('visible'), i * 100);
+            });
+          }
+        });
       },
       { threshold: 0.1 }
     );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
+    if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
   }, []);
 
-  const benefits = [
-    {
-      icon: Shield,
-      title: 'Independent & Unbiased Advice',
-      description: 'As an independent advisor, I\'m not tied to any single insurance company. I shop 20+ A-rated carriers to find you the best coverage at the best price—always putting your interests first, never corporate quotas.',
-    },
-    {
-      icon: BookOpen,
-      title: 'Transparent & Education-First Approach',
-      description: 'No confusing jargon or hidden fees. I take the time to educate you on every option, explain the fine print, and ensure you understand exactly what you\'re buying and why it matters for your family\'s future.',
-    },
-    {
-      icon: Calendar,
-      title: 'Ongoing Annual Reviews',
-      description: 'Your life changes—marriage, children, career growth, retirement. I provide complimentary annual policy reviews to ensure your coverage evolves with your needs, so you\'re never under-protected or overpaying.',
-    },
-    {
-      icon: Headphones,
-      title: 'Dedicated Claims Support',
-      description: 'When you need your insurance most, I\'m here to advocate for you. I guide you through the claims process, handle paperwork, and fight to ensure you receive every benefit you\'re entitled to—quickly and fairly.',
-    },
-  ];
-
   return (
-    <section ref={sectionRef} id="why-choose" className="py-20 md:py-32 bg-slate-50 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-radial from-gold-accent/5 via-transparent to-transparent" />
-      
-      <div className="container mx-auto px-4 relative z-10">
-        <div className={`max-w-3xl mx-auto text-center space-y-6 mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-slate-800">
-            Why Choose <span className="text-gold-accent">Me as Your Advisor</span>
+    <section ref={ref} className="bg-forest-dark py-24 lg:py-32 relative overflow-hidden">
+      {/* Texture */}
+      <div className="absolute inset-0 texture-overlay opacity-30" />
+
+      {/* Decorative circles */}
+      <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full border border-amber/8" />
+      <div className="absolute -bottom-16 -left-16 w-64 h-64 rounded-full border border-amber/8" />
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <div className="text-center max-w-2xl mx-auto mb-16">
+          <div className="scroll-fade flex items-center justify-center gap-3 mb-4">
+            <div className="w-8 h-px bg-amber" />
+            <span className="font-body text-amber text-sm font-semibold tracking-widest uppercase">
+              Why Choose Us
+            </span>
+            <div className="w-8 h-px bg-amber" />
+          </div>
+          <h2 className="scroll-fade delay-100 font-display text-4xl lg:text-5xl font-bold text-white leading-tight mb-4">
+            The Reeves Difference
           </h2>
-          <p className="text-lg md:text-xl text-slate-700 font-sans">
-            Experience the difference of working with a trusted, independent insurance professional who puts your family first.
+          <p className="scroll-fade delay-200 font-body text-white/60 text-lg leading-relaxed">
+            Most agents sell you a policy and disappear. We build lasting relationships built on
+            trust, transparency, and genuine care for your financial wellbeing.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {benefits.map((benefit, index) => {
-            const Icon = benefit.icon;
-            return (
-              <div
-                key={index}
-                className={`glass-card p-8 rounded-2xl hover-lift transition-all duration-700 bg-white/80 backdrop-blur-sm border border-slate-200 ${
-                  isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-                }`}
-                style={{ transitionDelay: `${index * 100}ms` }}
-              >
-                <div className="w-16 h-16 rounded-full bg-gold-accent/10 flex items-center justify-center border border-gold-accent/30 mb-6 transition-all duration-300 hover:border-gold-accent/60 hover:bg-gold-accent/20">
-                  <Icon className="w-8 h-8 text-gold-accent" />
-                </div>
-                <h3 className="text-xl font-serif font-bold text-slate-800 mb-4">{benefit.title}</h3>
-                <p className="text-slate-700 font-sans text-sm leading-relaxed">{benefit.description}</p>
+        {/* Cards */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {differentiators.map(({ icon: Icon, title, desc, stat, statLabel }, index) => (
+            <div
+              key={title}
+              className="scroll-fade group bg-white/5 border border-white/10 rounded-xl p-6 hover:bg-white/8 hover:border-amber/30 transition-all duration-300"
+              style={{ animationDelay: `${index * 100}ms` }}
+            >
+              {/* Stat */}
+              <div className="mb-5">
+                <div className="font-display font-bold text-amber text-3xl">{stat}</div>
+                <div className="font-body text-white/40 text-xs tracking-wide mt-0.5">{statLabel}</div>
               </div>
-            );
-          })}
+
+              {/* Icon */}
+              <div className="w-10 h-10 bg-amber/10 rounded-sm flex items-center justify-center mb-4 border border-amber/20 group-hover:bg-amber/20 transition-colors">
+                <Icon className="w-5 h-5 text-amber" />
+              </div>
+
+              <h3 className="font-display font-bold text-white text-lg mb-3">{title}</h3>
+              <p className="font-body text-white/55 text-sm leading-relaxed">{desc}</p>
+            </div>
+          ))}
         </div>
       </div>
     </section>

@@ -1,165 +1,75 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useActor } from './useActor';
-import type { UserProfile, UserRole } from '../backend';
+import type { QuoteSubmission } from '../backend';
 
-// Legacy types for old insurance site (backend methods no longer exist)
-type Lead = {
-  fullName: string;
-  phoneNumber: string;
-  email: string;
-  zipCode: string;
-  coverageAmount: string;
-  agreedToTcpA: boolean;
-};
+export type { QuoteSubmission };
 
-type Appointment = {
-  id: bigint;
-  date: bigint;
-  clientName: string;
-  contactInfo: {
-    phone: string;
-    email: string;
-  };
-  status: AppointmentStatus;
-};
-
-enum AppointmentStatus {
-  scheduled = 'scheduled',
-  completed = 'completed',
-  canceled = 'canceled',
-}
-
-// User Profile Queries
-export function useGetCallerUserProfile() {
-  const { actor, isFetching: actorFetching } = useActor();
-
-  const query = useQuery<UserProfile | null>({
-    queryKey: ['currentUserProfile'],
-    queryFn: async () => {
-      if (!actor) throw new Error('Actor not available');
-      return actor.getCallerUserProfile();
-    },
-    enabled: !!actor && !actorFetching,
-    retry: false,
-  });
-
-  return {
-    ...query,
-    isLoading: actorFetching || query.isLoading,
-    isFetched: !!actor && query.isFetched,
-  };
-}
-
-export function useSaveCallerUserProfile() {
-  const { actor } = useActor();
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: async (profile: UserProfile) => {
-      if (!actor) throw new Error('Actor not initialized');
-      await actor.saveCallerUserProfile(profile);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['currentUserProfile'] });
-    },
-  });
-}
-
-// Admin Role Queries
-export function useGetCallerUserRole() {
-  const { actor, isFetching } = useActor();
-
-  return useQuery<UserRole>({
-    queryKey: ['callerUserRole'],
-    queryFn: async () => {
-      if (!actor) throw new Error('Actor not available');
-      return actor.getCallerUserRole();
-    },
-    enabled: !!actor && !isFetching,
-    retry: false,
-  });
-}
-
-// Leads Queries (Legacy - backend methods no longer exist)
+// Get all quote submissions for admin
 export function useGetAllLeads() {
   const { actor, isFetching } = useActor();
 
-  return useQuery<Lead[]>({
-    queryKey: ['allLeads'],
+  return useQuery<QuoteSubmission[]>({
+    queryKey: ['quoteSubmissions'],
     queryFn: async () => {
       if (!actor) return [];
-      // Backend method no longer exists - return empty array
-      return [];
+      return actor.getQuoteSubmissions();
     },
     enabled: !!actor && !isFetching,
-    refetchInterval: 30000,
   });
 }
 
-// Appointments Queries (Legacy - backend methods no longer exist)
+// Alias for appointments - same data source
 export function useGetAllAppointments() {
   const { actor, isFetching } = useActor();
 
-  return useQuery<Appointment[]>({
-    queryKey: ['allAppointments'],
+  return useQuery<QuoteSubmission[]>({
+    queryKey: ['quoteSubmissions'],
     queryFn: async () => {
       if (!actor) return [];
-      // Backend method no longer exists - return empty array
-      return [];
+      return actor.getQuoteSubmissions();
     },
     enabled: !!actor && !isFetching,
-    refetchInterval: 30000,
   });
 }
 
-export function useUpdateAppointmentStatus() {
-  const { actor } = useActor();
-  const queryClient = useQueryClient();
+// Business info - stored locally
+const defaultBusinessInfo: Record<string, string> = {
+  businessName: 'Reeves Insurance Solutions',
+  agentName: 'Johnathan Reeves',
+  phone: '(213) 555-0123',
+  email: 'john@reevesinsurance.com',
+  address: 'Los Angeles, CA',
+  city: 'Los Angeles',
+  state: 'CA',
+  zipCode: '90001',
+  licenseNumber: 'CA-INS-JR-2024',
+  whatsappNumber: '+12135550123',
+  licensedStates: 'CA, NY, TX',
+  googleMapsUrl: 'https://maps.google.com',
+  videoUrl: '',
+};
 
-  return useMutation({
-    mutationFn: async ({ id, status }: { id: bigint; status: AppointmentStatus }) => {
-      if (!actor) throw new Error('Actor not initialized');
-      // Backend method no longer exists
-      throw new Error('This functionality has been replaced by the Houston demo');
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['allAppointments'] });
-    },
-  });
-}
-
-// Business Info Queries (Legacy - backend methods no longer exist)
 export function useGetBusinessInfo(key: string) {
-  const { actor, isFetching } = useActor();
-
   return useQuery<string>({
     queryKey: ['businessInfo', key],
     queryFn: async () => {
-      if (!actor) return '';
-      // Backend method no longer exists - return empty string
-      return '';
+      const stored = localStorage.getItem(`businessInfo_${key}`);
+      return stored ?? defaultBusinessInfo[key] ?? '';
     },
-    enabled: !!actor && !isFetching,
+    staleTime: Infinity,
   });
 }
 
-export function useUpdateBusinessInfo() {
-  const { actor } = useActor();
+export function useUpdateBusinessInfo(options?: { key?: string; value?: string }) {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async ({ key, value }: { key: string; value: string }) => {
-      if (!actor) throw new Error('Actor not initialized');
-      // Backend method no longer exists
-      throw new Error('This functionality has been replaced by the Houston demo');
+      localStorage.setItem(`businessInfo_${key}`, value);
     },
-    onSuccess: (_, variables) => {
+    onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({ queryKey: ['businessInfo', variables.key] });
       queryClient.invalidateQueries({ queryKey: ['businessInfo'] });
     },
   });
 }
-
-// Export types for use in components
-export type { Lead, Appointment };
-export { AppointmentStatus };

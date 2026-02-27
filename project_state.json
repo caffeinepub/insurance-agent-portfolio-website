@@ -1,22 +1,87 @@
 {
   "schemaVersion": "1.0.0",
   "projectStateVersion": 3,
-  "summary": "New project",
+  "summary": "Insurance lead generation / agent pitch platform for Houston/Conroe agents. Includes AI video, testimonials, carrier icons, portal button, and location section. Being optimized as a demo to sell to local insurance agents.",
   "architectural_notes": [],
   "known_issues": [],
   "isFixRequest": false,
+  "imageRequirements": "## Required Images\n- Mockup screenshot of a Figma-style UI wireframe design for an insurance landing page, clean and minimal design board aesthetic (figma-design-screenshot.dim_600x400.png)\n- Mockup screenshot of a live browser preview showing an insurance agent website on a laptop screen (live-preview-screenshot.dim_600x400.png)\n- Mockup screenshot of a Google search results page showing '#1' ranking for a Conroe insurance query (conroe-number-one-screenshot.dim_600x400.png)",
   "existing_features": [
     {
-      "id": "feature-in-the-footer-component-change-the-text-color-of-the-bottom-bar-div-the-4th-child-div-inside-the-footer-s-inner-container-corresponding-to-xpath-html-1-body-1-div-1-footer-1-div-1-div-1-div-4-div-1-to-white-text-white-this-is-likely-the-copyright-bar-or-bottom-row-of-the-footer",
-      "title": "In the footer component, change the text color of the bottom bar div (the 4th child div inside the footer's inner container, corresponding to XPath /html[1]/body[1]/div[1]/footer[1]/div[1]/div[1]/div[4]/div[1]) to white (text-white). This is likely the copyright bar or bottom row of the footer.",
+      "id": "feature-update-all-testimonial-references-that-mention-karen-to-display-tx-agent-j-d-12-quotes-first-month-instead-remove-the-name-karen-from-all-testimonial-content-across-every-testimonial-component-testimonialssection-houstontestimonialssection-reevesaboutsection-and-any-other-component-displaying-testimonials",
+      "title": "Update all testimonial references that mention 'Karen' to display 'TX Agent J.D. - 12 quotes first month' instead. Remove the name 'Karen' from all testimonial content across every testimonial component (TestimonialsSection, HoustonTestimonialsSection, ReevesAboutSection, and any other component displaying testimonials).",
       "reqIds": [
         "REQ-1"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-change-the-hero-section-headline-to-conroe-agents-get-12-quotes-month-and-ensure-it-is-the-most-prominent-above-the-fold-text-in-all-hero-components-herosection-houstonherosection-reevesherosection-the-headline-must-be-visible-without-scrolling-on-standard-desktop-and-mobile-viewports",
+      "title": "Change the hero section headline to 'Conroe Agents: Get 12+ Quotes/Month' and ensure it is the most prominent above-the-fold text in all hero components (HeroSection, HoustonHeroSection, ReevesHeroSection). The headline must be visible without scrolling on standard desktop and mobile viewports.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-process-proof-section-in-the-footer-area-above-or-integrated-into-the-footer-that-displays-3-steps-as-visual-screenshot-placeholders-with-labels-figma-design-live-preview-and-conroe-1-use-arrow-connectors-between-steps-to-show-the-progression-the-section-heading-should-communicate-a-proven-build-process",
+      "title": "Add a 'Process Proof' section in the footer area (above or integrated into the footer) that displays 3 steps as visual screenshot placeholders with labels: 'Figma Design', 'Live Preview', and 'Conroe #1'. Use arrow connectors between steps to show the progression. The section heading should communicate a proven build process.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-replace-every-phone-number-displayed-in-the-ui-with-832-555-1234-this-includes-the-header-phone-cta-floatingcallbutton-tel-href-contactsection-reevescontactsection-business-info-footer-reevesfooter-houstonfooter-contact-details-stickyquotebar-if-it-shows-a-phone-and-any-other-component-rendering-a-phone-number-also-update-the-default-fallback-phone-value-in-the-usebusinessinfo-hook",
+      "title": "Replace every phone number displayed in the UI with (832) 555-1234. This includes the Header phone CTA, FloatingCallButton tel: href, ContactSection/ReevesContactSection business info, Footer/ReevesFooter/HoustonFooter contact details, StickyQuoteBar if it shows a phone, and any other component rendering a phone number. Also update the default fallback phone value in the useBusinessInfo hook.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-all-primary-cta-quote-buttons-get-free-quote-get-quote-submit-quote-etc-to-display-the-urgency-text-get-conroe-site-3-spots-left-week-apply-this-to-the-main-cta-button-in-the-hero-section-the-header-get-free-quote-button-and-any-other-prominent-quote-cta-buttons-in-houstonherosection-reevesherosection-houstonquoteform-submit-button-and-emotionalclosesection-ctas",
+      "title": "Update all primary CTA quote buttons (Get Free Quote, Get Quote, Submit Quote, etc.) to display the urgency text 'Get Conroe Site - 3 Spots Left Week'. Apply this to the main CTA button in the hero section, the header 'Get Free Quote' button, and any other prominent quote/CTA buttons in HoustonHeroSection, ReevesHeroSection, HoustonQuoteForm submit button, and EmotionalCloseSection CTAs.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
     }
   ],
-  "new_feature_requests": [],
-  "projectName": "Change footer copyright/bottom bar text to white",
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Update testimonial to 'TX Agent J.D. - 12 quotes first month' and remove Karen name",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Change hero headline to 'Conroe Agents: Get 12+ Quotes/Month' above fold",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Add process proof section in footer with 3 screenshots: 'Figma Design → Live Preview → Conroe #1'",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Replace all phone numbers with US number (832) 555-1234 (Google Voice)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "Update CTA quote button text to 'Get Conroe Site - 3 Spots Left Week' for urgency",
+      "reqIds": [],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "Conroe Agent Demo",
   "clarification_mode": "instant",
   "clarification_rounds": 0
 }

@@ -1,140 +1,100 @@
+import React from 'react';
 import { useGetAllLeads, useGetAllAppointments } from '../../hooks/useAdminQueries';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Users, UserPlus, Calendar, TrendingUp, Loader2 } from 'lucide-react';
+import { Users, FileText, TrendingUp, Clock } from 'lucide-react';
 
 export default function AdminDashboard() {
   const { data: leads = [], isLoading: leadsLoading } = useGetAllLeads();
   const { data: appointments = [], isLoading: appointmentsLoading } = useGetAllAppointments();
 
-  // Calculate metrics
-  const totalLeads = leads.length;
-  
-  const now = Date.now();
-  const last24Hours = now - 24 * 60 * 60 * 1000;
-  const newLeadsToday = 0; // Note: Backend doesn't store submission timestamp, so we can't calculate this accurately
-  
-  const totalAppointments = appointments.length;
-  const conversionRate = totalLeads > 0 ? ((totalAppointments / totalLeads) * 100).toFixed(1) : '0.0';
-
   const stats = [
     {
-      title: 'Total Leads',
-      value: totalLeads,
+      label: 'Total Leads',
+      value: leads.length,
       icon: Users,
-      color: 'text-blue-400',
-      bgColor: 'bg-blue-400/10',
+      color: 'text-blue-600',
+      bg: 'bg-blue-50',
     },
     {
-      title: 'New Leads (24h)',
-      value: newLeadsToday,
-      icon: UserPlus,
-      color: 'text-green-400',
-      bgColor: 'bg-green-400/10',
+      label: 'Quote Submissions',
+      value: appointments.length,
+      icon: FileText,
+      color: 'text-green-600',
+      bg: 'bg-green-50',
     },
     {
-      title: 'Total Appointments',
-      value: totalAppointments,
-      icon: Calendar,
-      color: 'text-purple-400',
-      bgColor: 'bg-purple-400/10',
-    },
-    {
-      title: 'Conversion Rate',
-      value: `${conversionRate}%`,
+      label: 'This Month',
+      value: leads.filter(l => {
+        const ts = Number(l.timestamp) / 1_000_000;
+        const now = Date.now();
+        const monthAgo = now - 30 * 24 * 60 * 60 * 1000;
+        return ts > monthAgo;
+      }).length,
       icon: TrendingUp,
-      color: 'text-gold-accent',
-      bgColor: 'bg-gold-accent/10',
+      color: 'text-yellow-600',
+      bg: 'bg-yellow-50',
+    },
+    {
+      label: 'Pending Review',
+      value: leads.length,
+      icon: Clock,
+      color: 'text-purple-600',
+      bg: 'bg-purple-50',
     },
   ];
 
-  if (leadsLoading || appointmentsLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <Loader2 className="w-8 h-8 text-gold-accent animate-spin" />
-      </div>
-    );
-  }
-
   return (
-    <div className="space-y-8">
-      <div>
-        <h2 className="text-3xl font-serif font-bold text-white mb-2">Dashboard</h2>
-        <p className="text-white/70 font-sans">Overview of your insurance business metrics</p>
-      </div>
+    <div className="p-6">
+      <h1 className="text-2xl font-bold text-gray-900 mb-6">Dashboard</h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {stats.map((stat) => (
-          <Card key={stat.title} className="bg-navy-secondary border-gold-accent/30 hover-lift">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-sans font-medium text-white/70">
-                {stat.title}
-              </CardTitle>
-              <div className={`w-10 h-10 rounded-full ${stat.bgColor} flex items-center justify-center`}>
-                <stat.icon className={`w-5 h-5 ${stat.color}`} />
+      {/* Stats Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        {stats.map((stat) => {
+          const Icon = stat.icon;
+          return (
+            <div key={stat.label} className="bg-white rounded-lg shadow p-5 flex items-center gap-4">
+              <div className={`${stat.bg} ${stat.color} p-3 rounded-full`}>
+                <Icon size={22} />
               </div>
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-serif font-bold text-white">{stat.value}</div>
-            </CardContent>
-          </Card>
-        ))}
+              <div>
+                <p className="text-sm text-gray-500">{stat.label}</p>
+                <p className="text-2xl font-bold text-gray-900">
+                  {leadsLoading || appointmentsLoading ? '...' : stat.value}
+                </p>
+              </div>
+            </div>
+          );
+        })}
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-6">
-        <Card className="bg-navy-secondary border-gold-accent/30">
-          <CardHeader>
-            <CardTitle className="text-xl font-serif text-white">Recent Activity</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {leads.length === 0 ? (
-                <p className="text-white/60 font-sans text-center py-8">No leads yet</p>
-              ) : (
-                leads.slice(0, 5).map((lead, index) => (
-                  <div key={index} className="flex items-center gap-4 p-3 bg-navy-primary/50 rounded-lg">
-                    <div className="w-10 h-10 rounded-full bg-gold-accent/10 flex items-center justify-center border border-gold-accent/30">
-                      <Users className="w-5 h-5 text-gold-accent" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-white font-sans font-medium">{lead.fullName}</p>
-                      <p className="text-white/60 text-sm">{lead.email}</p>
-                    </div>
-                  </div>
-                ))
-              )}
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-navy-secondary border-gold-accent/30">
-          <CardHeader>
-            <CardTitle className="text-xl font-serif text-white">Upcoming Appointments</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {appointments.length === 0 ? (
-                <p className="text-white/60 font-sans text-center py-8">No appointments scheduled</p>
-              ) : (
-                appointments
-                  .filter((apt) => apt.status === 'scheduled')
-                  .slice(0, 5)
-                  .map((appointment) => (
-                    <div key={Number(appointment.id)} className="flex items-center gap-4 p-3 bg-navy-primary/50 rounded-lg">
-                      <div className="w-10 h-10 rounded-full bg-blue-400/10 flex items-center justify-center border border-blue-400/30">
-                        <Calendar className="w-5 h-5 text-blue-400" />
-                      </div>
-                      <div className="flex-1">
-                        <p className="text-white font-sans font-medium">{appointment.clientName}</p>
-                        <p className="text-white/60 text-sm">
-                          {new Date(Number(appointment.date) / 1000000).toLocaleDateString()}
-                        </p>
-                      </div>
-                    </div>
-                  ))
-              )}
-            </div>
-          </CardContent>
-        </Card>
+      {/* Recent Submissions */}
+      <div className="bg-white rounded-lg shadow">
+        <div className="px-6 py-4 border-b border-gray-200">
+          <h2 className="text-lg font-semibold text-gray-900">Recent Quote Submissions</h2>
+        </div>
+        <div className="divide-y divide-gray-100">
+          {leadsLoading ? (
+            <div className="px-6 py-8 text-center text-gray-400">Loading...</div>
+          ) : leads.length === 0 ? (
+            <div className="px-6 py-8 text-center text-gray-400">No submissions yet.</div>
+          ) : (
+            leads.slice(0, 5).map((lead) => (
+              <div key={String(lead.id)} className="px-6 py-4 flex items-center justify-between">
+                <div>
+                  <p className="font-medium text-gray-900">{lead.name}</p>
+                  <p className="text-sm text-gray-500">{lead.email} · {lead.phone}</p>
+                </div>
+                <div className="text-right">
+                  <span className="inline-block px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-700 capitalize">
+                    {String(lead.coverageType)}
+                  </span>
+                  <p className="text-xs text-gray-400 mt-1">
+                    {new Date(Number(lead.timestamp) / 1_000_000).toLocaleDateString()}
+                  </p>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
       </div>
     </div>
   );

@@ -1,62 +1,71 @@
-import { Car, Home, Heart, Briefcase } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { ArrowRight } from 'lucide-react';
+
+const coverageTypes = [
+  {
+    name: 'Auto Insurance',
+    description: 'Comprehensive auto coverage at competitive rates. We shop 30+ carriers to find you the best deal.',
+    img: '/assets/generated/icon-auto-insurance.dim_64x64.png',
+    href: '#quote',
+  },
+  {
+    name: 'Home Insurance',
+    description: 'Protect your Houston home from floods, hail, and more with the right homeowners policy.',
+    img: '/assets/generated/icon-home-insurance.dim_64x64.png',
+    href: '#quote',
+  },
+  {
+    name: 'Life Insurance',
+    description: 'Term, whole life, and IUL options to protect your family\'s financial future.',
+    img: '/assets/generated/icon-life-insurance.dim_64x64.png',
+    href: '#quote',
+  },
+  {
+    name: 'Business Insurance',
+    description: 'General liability, workers comp, and commercial coverage for Houston businesses.',
+    img: '/assets/generated/icon-business-insurance.dim_64x64.png',
+    href: '#quote',
+  },
+];
 
 export default function HoustonCoverageTypesSection() {
-  const scrollToForm = () => {
-    const form = document.getElementById('quote-form');
-    if (form) {
-      form.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  };
-
-  const coverageTypes = [
-    {
-      icon: <Car className="w-12 h-12 text-[#f59e0b]" />,
-      title: 'Auto Insurance',
-      description: 'Full coverage from $89/mo - Quote in 60 seconds',
-    },
-    {
-      icon: <Home className="w-12 h-12 text-[#f59e0b]" />,
-      title: 'Home Insurance',
-      description: 'Protect your Houston property from floods to fires',
-    },
-    {
-      icon: <Heart className="w-12 h-12 text-[#f59e0b]" />,
-      title: 'Life Insurance',
-      description: 'Affordable term policies for Texas families',
-    },
-    {
-      icon: <Briefcase className="w-12 h-12 text-[#f59e0b]" />,
-      title: 'Business Insurance',
-      description: 'Liability + Workers Comp for Houston companies',
-    },
-  ];
-
   return (
-    <section className="py-16 md:py-24 bg-[#ffffff]">
-      <div className="container mx-auto px-4">
-        <h2 className="text-3xl md:text-4xl font-semibold text-[#1e293b] text-center mb-12 leading-[1.6]" style={{ fontWeight: 600 }}>
-          Coverage Types
-        </h2>
+    <section style={{ backgroundColor: '#FFFFFF' }} className="py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <p className="text-sm font-semibold uppercase tracking-wider mb-2" style={{ color: '#f59e0b' }}>
+            Coverage Options
+          </p>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{ color: '#1e293b' }}>
+            Insurance for Every Houston Need
+          </h2>
+          <p className="text-base max-w-2xl mx-auto" style={{ color: '#334155' }}>
+            From protecting your car to securing your family's future, I offer comprehensive
+            coverage options tailored to Houston residents.
+          </p>
+        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-          {coverageTypes.map((coverage, index) => (
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {coverageTypes.map(({ name, description, img, href }) => (
             <div
-              key={index}
-              className="p-6 bg-[#f8fafc] rounded-lg border-2 border-gray-200 hover:border-[#f59e0b] hover:shadow-lg transition-all hover:scale-105"
+              key={name}
+              className="p-6 rounded-xl border text-center transition-shadow hover:shadow-lg"
+              style={{ backgroundColor: '#FFFFFF', borderColor: '#e2e8f0' }}
             >
-              <div className="flex justify-center mb-4">{coverage.icon}</div>
-              <h3 className="text-xl font-semibold text-[#1e293b] mb-3 text-center leading-[1.6]" style={{ fontWeight: 600 }}>
-                {coverage.title}
+              <img src={img} alt={name} className="w-16 h-16 mx-auto mb-4" />
+              <h3 className="text-base font-bold mb-2" style={{ color: '#1e293b' }}>
+                {name}
               </h3>
-              <p className="text-[#334155] mb-6 text-center leading-[1.6]" style={{ fontWeight: 400 }}>{coverage.description}</p>
-              <Button
-                onClick={scrollToForm}
-                className="w-full bg-[#f59e0b] hover:bg-[#f59e0b]/90 text-white font-semibold rounded-full"
-                style={{ fontWeight: 600 }}
+              <p className="text-sm mb-4" style={{ color: '#334155' }}>
+                {description}
+              </p>
+              <a
+                href={href}
+                className="inline-flex items-center gap-1 text-sm font-semibold transition-opacity hover:opacity-80"
+                style={{ color: '#f59e0b' }}
               >
-                Get Quote
-              </Button>
+                <span style={{ color: '#f59e0b' }}>Get Quote</span>
+                <ArrowRight className="w-4 h-4" style={{ color: '#f59e0b' }} />
+              </a>
             </div>
           ))}
         </div>

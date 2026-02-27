@@ -1,232 +1,284 @@
 import { useState } from 'react';
-import { Calendar } from '@/components/ui/calendar';
-import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
+import { ChevronLeft, ChevronRight, Clock, CheckCircle, Calendar } from 'lucide-react';
 import { useCalendarBooking } from '../hooks/useCalendarBooking';
-import { toast } from 'sonner';
-import { Calendar as CalendarIcon, Clock, CheckCircle2, Loader2 } from 'lucide-react';
 
 export default function CalendarBooking() {
+  const { getAvailableTimeSlots, isTimeSlotAvailable, bookAppointment } = useCalendarBooking();
+
+  const today = new Date();
+  const [currentMonth, setCurrentMonth] = useState(today.getMonth());
+  const [currentYear, setCurrentYear] = useState(today.getFullYear());
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [selectedTime, setSelectedTime] = useState<string>('');
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isConfirmed, setIsConfirmed] = useState(false);
+  const [step, setStep] = useState<'calendar' | 'form' | 'confirmed'>('calendar');
+  const [formData, setFormData] = useState({ name: '', email: '', phone: '', notes: '' });
+  const [loading, setLoading] = useState(false);
 
-  const { getAvailableTimeSlots, isTimeSlotAvailable } = useCalendarBooking();
+  const monthNames = [
+    'January','February','March','April','May','June',
+    'July','August','September','October','November','December',
+  ];
+  const dayNames = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+  const firstDay = new Date(currentYear, currentMonth, 1).getDay();
 
   const availableSlots = selectedDate ? getAvailableTimeSlots(selectedDate) : [];
 
+  const goToPrevMonth = () => {
+    if (currentMonth === 0) {
+      setCurrentMonth(11);
+      setCurrentYear((y) => y - 1);
+    } else {
+      setCurrentMonth((m) => m - 1);
+    }
+  };
+
+  const goToNextMonth = () => {
+    if (currentMonth === 11) {
+      setCurrentMonth(0);
+      setCurrentYear((y) => y + 1);
+    } else {
+      setCurrentMonth((m) => m + 1);
+    }
+  };
+
+  const handleSelectDate = (date: Date) => {
+    setSelectedDate(date);
+    setSelectedTime('');
+  };
+
   const handleBooking = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (!selectedDate || !selectedTime || !name || !email || !phone) {
-      toast.error('Please fill in all fields and select a date and time');
-      return;
-    }
-
-    if (!isTimeSlotAvailable(selectedDate, selectedTime)) {
-      toast.error('This time slot is no longer available. Please select another time.');
-      return;
-    }
-
-    setIsSubmitting(true);
-
-    // Simulate booking submission
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsConfirmed(true);
-      toast.success('Appointment booked successfully! You will receive a confirmation email shortly.');
-    }, 1500);
+    if (!selectedDate || !selectedTime) return;
+    if (!isTimeSlotAvailable(selectedDate, selectedTime)) return;
+    setLoading(true);
+    await bookAppointment(selectedDate, selectedTime, formData.name, formData.email, formData.phone);
+    setLoading(false);
+    setStep('confirmed');
   };
 
-  const handleReset = () => {
-    setSelectedDate(undefined);
-    setSelectedTime('');
-    setName('');
-    setEmail('');
-    setPhone('');
-    setIsConfirmed(false);
-  };
-
-  if (isConfirmed) {
+  if (step === 'confirmed') {
     return (
-      <div className="glass-card p-8 rounded-2xl text-center space-y-6">
-        <div className="flex justify-center">
-          <div className="w-16 h-16 rounded-full bg-accent-gold/20 flex items-center justify-center">
-            <CheckCircle2 className="w-10 h-10 text-accent-gold" />
-          </div>
-        </div>
-        <div>
-          <h3 className="text-2xl font-heading font-bold text-foreground mb-2">Appointment Confirmed!</h3>
-          <p className="text-foreground/70 font-body">
-            Your consultation is scheduled for{' '}
-            <span className="text-accent-gold font-semibold">
-              {selectedDate?.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
-            </span>{' '}
-            at <span className="text-accent-gold font-semibold">{selectedTime}</span>
-          </p>
-        </div>
-        <div className="p-4 rounded-lg bg-accent-blue/10 border border-accent-blue/30">
-          <p className="text-sm text-foreground/80 font-body">
-            A confirmation email has been sent to <span className="text-accent-blue font-semibold">{email}</span>
-          </p>
-        </div>
-        <Button
-          onClick={handleReset}
-          variant="outline"
-          className="border-accent-gold text-accent-gold hover:bg-accent-gold/10"
+      <div
+        className="max-w-md mx-auto rounded-2xl p-8 text-center shadow-xl"
+        style={{ backgroundColor: '#FFFFFF' }}
+      >
+        <CheckCircle className="w-16 h-16 mx-auto mb-4" style={{ color: '#f59e0b' }} />
+        <h3 className="text-xl font-bold mb-2" style={{ color: '#1e293b' }}>
+          Appointment Confirmed!
+        </h3>
+        <p className="text-sm mb-4" style={{ color: '#334155' }}>
+          Your consultation has been scheduled for{' '}
+          <strong style={{ color: '#1e293b' }}>
+            {selectedDate?.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+          </strong>{' '}
+          at <strong style={{ color: '#1e293b' }}>{selectedTime}</strong>.
+        </p>
+        <p className="text-sm" style={{ color: '#334155' }}>
+          A confirmation will be sent to{' '}
+          <strong style={{ color: '#1e293b' }}>{formData.email}</strong>.
+        </p>
+      </div>
+    );
+  }
+
+  if (step === 'form') {
+    return (
+      <div
+        className="max-w-md mx-auto rounded-2xl p-8 shadow-xl"
+        style={{ backgroundColor: '#FFFFFF' }}
+      >
+        <button
+          onClick={() => setStep('calendar')}
+          className="flex items-center gap-1 text-sm mb-6 transition-opacity hover:opacity-70"
+          style={{ color: '#334155' }}
         >
-          Book Another Appointment
-        </Button>
+          <ChevronLeft className="w-4 h-4" style={{ color: '#334155' }} />
+          <span style={{ color: '#334155' }}>Back to Calendar</span>
+        </button>
+
+        <h3 className="text-xl font-bold mb-1" style={{ color: '#1e293b' }}>
+          Complete Your Booking
+        </h3>
+        <p className="text-sm mb-6" style={{ color: '#334155' }}>
+          {selectedDate?.toLocaleDateString()} at {selectedTime}
+        </p>
+
+        <form onSubmit={handleBooking} className="space-y-4">
+          {[
+            { label: 'Full Name', name: 'name', type: 'text', placeholder: 'John Smith', required: true },
+            { label: 'Email', name: 'email', type: 'email', placeholder: 'john@example.com', required: true },
+            { label: 'Phone', name: 'phone', type: 'tel', placeholder: '(555) 000-0000', required: true },
+          ].map(({ label, name, type, placeholder, required }) => (
+            <div key={name}>
+              <label className="block text-sm font-semibold mb-1" style={{ color: '#1e293b' }}>
+                {label} {required && '*'}
+              </label>
+              <input
+                type={type}
+                required={required}
+                value={formData[name as keyof typeof formData]}
+                onChange={(e) => setFormData((p) => ({ ...p, [name]: e.target.value }))}
+                placeholder={placeholder}
+                className="w-full px-4 py-2 rounded-lg border text-sm focus:outline-none focus:ring-2"
+                style={{ borderColor: '#e2e8f0', color: '#1e293b', backgroundColor: '#FFFFFF' }}
+              />
+            </div>
+          ))}
+          <div>
+            <label className="block text-sm font-semibold mb-1" style={{ color: '#1e293b' }}>
+              Notes (Optional)
+            </label>
+            <textarea
+              value={formData.notes}
+              onChange={(e) => setFormData((p) => ({ ...p, notes: e.target.value }))}
+              rows={3}
+              placeholder="Any specific questions or topics you'd like to discuss..."
+              className="w-full px-4 py-2 rounded-lg border text-sm focus:outline-none focus:ring-2 resize-none"
+              style={{ borderColor: '#e2e8f0', color: '#1e293b', backgroundColor: '#FFFFFF' }}
+            />
+          </div>
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full py-3 rounded-lg font-bold text-base transition-all hover:opacity-90 disabled:opacity-50"
+            style={{ backgroundColor: '#f59e0b', color: '#FFFFFF' }}
+          >
+            <span style={{ color: '#FFFFFF' }}>{loading ? 'Booking...' : 'Confirm Appointment'}</span>
+          </button>
+        </form>
       </div>
     );
   }
 
   return (
-    <div className="glass-card p-8 rounded-2xl">
-      <div className="flex items-center gap-3 mb-6">
-        <div className="w-10 h-10 rounded-full bg-accent-blue/20 flex items-center justify-center">
-          <CalendarIcon className="w-5 h-5 text-accent-blue" />
-        </div>
-        <h3 className="text-2xl font-heading font-bold text-foreground">Book Your Consultation</h3>
+    <div
+      className="max-w-lg mx-auto rounded-2xl p-6 shadow-xl"
+      style={{ backgroundColor: '#FFFFFF' }}
+    >
+      <div className="flex items-center gap-2 mb-6">
+        <Calendar className="w-6 h-6" style={{ color: '#f59e0b' }} />
+        <h3 className="text-xl font-bold" style={{ color: '#1e293b' }}>
+          Schedule a Consultation
+        </h3>
       </div>
 
-      <form onSubmit={handleBooking} className="space-y-6">
-        {/* Personal Information */}
-        <div className="space-y-4">
-          <div>
-            <Label htmlFor="booking-name" className="text-foreground font-body mb-2 block">
-              Full Name *
-            </Label>
-            <Input
-              id="booking-name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Enter your full name"
-              className="bg-luxury-dark/50 border-accent-gold/30 text-foreground focus:border-accent-gold"
-              required
-            />
-          </div>
-
-          <div>
-            <Label htmlFor="booking-email" className="text-foreground font-body mb-2 block">
-              Email Address *
-            </Label>
-            <Input
-              id="booking-email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="your.email@example.com"
-              className="bg-luxury-dark/50 border-accent-gold/30 text-foreground focus:border-accent-gold"
-              required
-            />
-          </div>
-
-          <div>
-            <Label htmlFor="booking-phone" className="text-foreground font-body mb-2 block">
-              Phone Number *
-            </Label>
-            <Input
-              id="booking-phone"
-              type="tel"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              placeholder="+91 XXXXX XXXXX"
-              className="bg-luxury-dark/50 border-accent-gold/30 text-foreground focus:border-accent-gold"
-              required
-            />
-          </div>
-        </div>
-
-        {/* Calendar */}
-        <div>
-          <Label className="text-foreground font-body mb-3 block">Select Date *</Label>
-          <div className="flex justify-center">
-            <Calendar
-              mode="single"
-              selected={selectedDate}
-              onSelect={setSelectedDate}
-              disabled={(date) => date < new Date() || date.getDay() === 0}
-              className="rounded-lg border border-accent-gold/30 bg-luxury-dark/30 p-3"
-              classNames={{
-                months: 'flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0',
-                month: 'space-y-4',
-                caption: 'flex justify-center pt-1 relative items-center text-foreground',
-                caption_label: 'text-sm font-medium',
-                nav: 'space-x-1 flex items-center',
-                nav_button: 'h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100 text-foreground',
-                nav_button_previous: 'absolute left-1',
-                nav_button_next: 'absolute right-1',
-                table: 'w-full border-collapse space-y-1',
-                head_row: 'flex',
-                head_cell: 'text-muted-foreground rounded-md w-9 font-normal text-[0.8rem]',
-                row: 'flex w-full mt-2',
-                cell: 'text-center text-sm p-0 relative [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20',
-                day: 'h-9 w-9 p-0 font-normal aria-selected:opacity-100 hover:bg-accent-gold/20 rounded-md text-foreground',
-                day_selected: 'bg-accent-gold text-luxury-dark hover:bg-accent-gold hover:text-luxury-dark focus:bg-accent-gold focus:text-luxury-dark',
-                day_today: 'bg-accent-blue/20 text-accent-blue',
-                day_outside: 'text-muted-foreground opacity-50',
-                day_disabled: 'text-muted-foreground opacity-50 line-through',
-                day_hidden: 'invisible',
-              }}
-            />
-          </div>
-        </div>
-
-        {/* Time Slots */}
-        {selectedDate && (
-          <div>
-            <Label className="text-foreground font-body mb-3 flex items-center gap-2">
-              <Clock className="w-4 h-4 text-accent-blue" />
-              Select Time *
-            </Label>
-            <div className="grid grid-cols-3 gap-2">
-              {availableSlots.map((slot) => (
-                <button
-                  key={slot}
-                  type="button"
-                  onClick={() => setSelectedTime(slot)}
-                  className={`p-3 rounded-lg border text-sm font-body transition-all ${
-                    selectedTime === slot
-                      ? 'bg-accent-gold text-luxury-dark border-accent-gold font-semibold'
-                      : 'bg-luxury-dark/50 border-accent-gold/30 text-foreground hover:bg-accent-gold/10 hover:border-accent-gold/50'
-                  }`}
-                >
-                  {slot}
-                </button>
-              ))}
-            </div>
-            {availableSlots.length === 0 && (
-              <p className="text-sm text-foreground/60 font-body mt-2">
-                No available slots for this date. Please select another date.
-              </p>
-            )}
-          </div>
-        )}
-
-        <Button
-          type="submit"
-          disabled={!selectedDate || !selectedTime || !name || !email || !phone || isSubmitting}
-          className="w-full bg-cta-bright hover:bg-cta-bright/90 text-luxury-dark font-bold text-lg py-6 shadow-glow-gold"
+      {/* Month Navigation */}
+      <div className="flex items-center justify-between mb-4">
+        <button
+          onClick={goToPrevMonth}
+          className="p-2 rounded-lg transition-colors hover:opacity-70"
+          style={{ color: '#1e293b' }}
         >
-          {isSubmitting ? (
-            <>
-              <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-              Booking...
-            </>
+          <ChevronLeft className="w-5 h-5" style={{ color: '#1e293b' }} />
+        </button>
+        <span className="font-semibold" style={{ color: '#1e293b' }}>
+          {monthNames[currentMonth]} {currentYear}
+        </span>
+        <button
+          onClick={goToNextMonth}
+          className="p-2 rounded-lg transition-colors hover:opacity-70"
+          style={{ color: '#1e293b' }}
+        >
+          <ChevronRight className="w-5 h-5" style={{ color: '#1e293b' }} />
+        </button>
+      </div>
+
+      {/* Day Names */}
+      <div className="grid grid-cols-7 mb-2">
+        {dayNames.map((d) => (
+          <div key={d} className="text-center text-xs font-semibold py-1" style={{ color: '#334155' }}>
+            {d}
+          </div>
+        ))}
+      </div>
+
+      {/* Calendar Grid */}
+      <div className="grid grid-cols-7 gap-1 mb-6">
+        {Array.from({ length: firstDay }).map((_, i) => (
+          <div key={`empty-${i}`} />
+        ))}
+        {Array.from({ length: daysInMonth }).map((_, i) => {
+          const day = i + 1;
+          const date = new Date(currentYear, currentMonth, day);
+          const isSelected =
+            selectedDate?.getFullYear() === currentYear &&
+            selectedDate?.getMonth() === currentMonth &&
+            selectedDate?.getDate() === day;
+          const isToday =
+            day === today.getDate() &&
+            currentMonth === today.getMonth() &&
+            currentYear === today.getFullYear();
+          const isPast = date < new Date(new Date().toDateString());
+
+          return (
+            <button
+              key={day}
+              onClick={() => !isPast && handleSelectDate(date)}
+              disabled={isPast}
+              className="aspect-square rounded-lg text-sm font-medium transition-all"
+              style={{
+                backgroundColor: isSelected
+                  ? '#f59e0b'
+                  : isToday
+                  ? 'rgba(245,158,11,0.1)'
+                  : 'transparent',
+                color: isSelected ? '#FFFFFF' : isPast ? '#94a3b8' : '#1e293b',
+                cursor: isPast ? 'not-allowed' : 'pointer',
+              }}
+            >
+              {day}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Time Slots */}
+      {selectedDate && (
+        <div>
+          <div className="flex items-center gap-2 mb-3">
+            <Clock className="w-4 h-4" style={{ color: '#f59e0b' }} />
+            <span className="text-sm font-semibold" style={{ color: '#1e293b' }}>
+              Available Times
+            </span>
+          </div>
+          {availableSlots.length === 0 ? (
+            <p className="text-sm text-center py-4" style={{ color: '#334155' }}>
+              No available slots for this date.
+            </p>
           ) : (
-            <>
-              <CalendarIcon className="mr-2 h-5 w-5" />
-              Confirm Appointment
-            </>
+            <div className="grid grid-cols-3 gap-2 mb-6">
+              {availableSlots.map((slot) => {
+                const isSelectedSlot = selectedTime === slot;
+                return (
+                  <button
+                    key={slot}
+                    onClick={() => setSelectedTime(slot)}
+                    className="py-2 px-3 rounded-lg text-xs font-medium transition-all"
+                    style={{
+                      backgroundColor: isSelectedSlot ? '#f59e0b' : '#f8fafc',
+                      color: isSelectedSlot ? '#FFFFFF' : '#1e293b',
+                    }}
+                  >
+                    {slot}
+                  </button>
+                );
+              })}
+            </div>
           )}
-        </Button>
-      </form>
+
+          {selectedTime && (
+            <button
+              onClick={() => setStep('form')}
+              className="w-full py-3 rounded-lg font-bold text-base transition-all hover:opacity-90"
+              style={{ backgroundColor: '#f59e0b', color: '#FFFFFF' }}
+            >
+              <span style={{ color: '#FFFFFF' }}>Continue with {selectedTime}</span>
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 }

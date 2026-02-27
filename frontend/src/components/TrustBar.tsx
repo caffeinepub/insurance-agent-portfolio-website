@@ -1,56 +1,46 @@
-import { DollarSign, Users, CheckCircle2, Star } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
+import { Shield, Users, Star, Award } from 'lucide-react';
+
+const stats = [
+  { icon: Shield, value: '30+', label: 'Carrier Partners', color: 'text-amber' },
+  { icon: Users, value: '500+', label: 'Families Protected', color: 'text-amber' },
+  { icon: Star, value: '4.9★', label: 'Average Rating', color: 'text-amber' },
+  { icon: Award, value: '15+', label: 'Years of Experience', color: 'text-amber' },
+];
 
 export default function TrustBar() {
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.querySelectorAll('.scroll-fade').forEach((el, i) => {
+              setTimeout(() => el.classList.add('visible'), i * 100);
+            });
+          }
+        });
       },
-      { threshold: 0.1 }
+      { threshold: 0.2 }
     );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
+    if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
   }, []);
 
-  const stats = [
-    { icon: DollarSign, label: 'Coverage Placed', value: '$XX Million' },
-    { icon: Users, label: 'Families Protected', value: '500+' },
-    { icon: CheckCircle2, label: 'Claims Support Success Rate', value: '98%' },
-    { icon: Star, label: 'Client Satisfaction', value: '5-Star' },
-  ];
-
   return (
-    <section ref={sectionRef} className="py-12 bg-white border-y border-gold-accent/20">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 bg-white">
-          {stats.map((stat, index) => {
-            const Icon = stat.icon;
-            return (
-              <div
-                key={index}
-                className={`flex flex-col items-center text-center space-y-2 transition-all duration-700 ${
-                  isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-                } hover:scale-105`}
-                style={{ transitionDelay: `${index * 100}ms` }}
-              >
-                <div className="w-14 h-14 rounded-full bg-gold-accent/10 flex items-center justify-center border border-gold-accent/30 transition-all duration-300 hover:border-gold-accent/60 hover:bg-gold-accent/20">
-                  <Icon className="w-7 h-7 text-gold-accent" />
-                </div>
-                <div className="text-2xl md:text-3xl font-serif font-bold text-gold-accent">{stat.value}</div>
-                <div className="text-sm text-navy-primary font-sans">{stat.label}</div>
+    <section ref={ref} className="bg-cream-dark border-y border-amber/20 py-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          {stats.map(({ icon: Icon, value, label, color }) => (
+            <div key={label} className="scroll-fade flex flex-col items-center text-center gap-2">
+              <div className="w-12 h-12 bg-forest/8 rounded-sm flex items-center justify-center border border-forest/15">
+                <Icon className={`w-5 h-5 ${color}`} />
               </div>
-            );
-          })}
+              <div className="font-display font-bold text-forest text-2xl">{value}</div>
+              <div className="font-body text-charcoal-muted text-sm tracking-wide">{label}</div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

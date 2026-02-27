@@ -1,16 +1,22 @@
 import { MessageCircle } from 'lucide-react';
+import { useBusinessInfo } from '../hooks/useBusinessInfo';
 
 export default function FloatingWhatsApp() {
+  const { whatsappNumber } = useBusinessInfo();
+  const cleanNumber = (whatsappNumber || '+12135550123').replace(/\D/g, '');
+  const waUrl = `https://wa.me/${cleanNumber}?text=Hi%2C%20I%20would%20like%20to%20learn%20more%20about%20your%20insurance%20services.`;
+
   return (
     <a
-      href="https://wa.me/919876543210?text=Hi,%20I%20would%20like%20to%20learn%20more%20about%20your%20insurance%20services."
+      href={waUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-6 right-6 z-50 w-14 h-14 md:w-16 md:h-16 bg-accent-gold hover:bg-accent-gold/90 rounded-full flex items-center justify-center shadow-glow-gold hover-lift transition-all duration-300 group"
+      className="fixed bottom-24 right-5 z-50 w-14 h-14 rounded-full flex items-center justify-center shadow-lg pulse-animation transition-transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2"
+      style={{ backgroundColor: '#25D366' }}
       aria-label="Contact via WhatsApp"
     >
-      <MessageCircle className="w-7 h-7 md:w-8 md:h-8 text-luxury-dark group-hover:scale-110 transition-transform" />
-      <span className="absolute -top-1 -right-1 w-4 h-4 bg-destructive rounded-full animate-pulse" />
+      <MessageCircle className="w-7 h-7 text-white" aria-hidden="true" />
+      <span className="sr-only">Chat on WhatsApp</span>
     </a>
   );
 }

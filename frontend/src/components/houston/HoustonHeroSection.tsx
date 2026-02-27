@@ -1,103 +1,129 @@
-import { Phone } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { useState, useEffect } from 'react';
+import { Phone, ArrowRight, Shield, Star } from 'lucide-react';
+import { useBusinessInfo } from '../../hooks/useBusinessInfo';
 
 export default function HoustonHeroSection() {
-  const [isSticky, setIsSticky] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsSticky(window.scrollY > 100);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const scrollToForm = () => {
-    const form = document.getElementById('quote-form');
-    if (form) {
-      form.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  };
+  const { businessName, phone } = useBusinessInfo();
+  const displayPhone = phone || '(832) 555-1234';
+  const telPhone = displayPhone.replace(/\D/g, '');
 
   return (
-    <section className="relative min-h-[600px] md:min-h-[700px] flex items-center justify-center overflow-hidden">
-      {/* Background Image */}
-      <div className="absolute inset-0 z-0">
-        <img
-          src="/assets/generated/hero-handshake.dim_1920x1080.png"
-          alt="Houston Insurance Agent"
-          className="w-full h-full object-cover"
-          loading="eager"
-        />
-        <div className="absolute inset-0 bg-[#1e3a8a]/80"></div>
-      </div>
+    <section
+      className="relative min-h-[85vh] flex items-center"
+      style={{ backgroundColor: '#1e3a8a' }}
+    >
+      <div
+        className="absolute inset-0"
+        style={{
+          background: 'linear-gradient(135deg, #1e3a8a 0%, #1e40af 60%, #1e3a8a 100%)',
+        }}
+      />
 
-      {/* Content */}
-      <div className="relative z-10 container mx-auto px-4 py-16 md:py-24 text-center">
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-white mb-6 leading-[1.6]" style={{ fontWeight: 600 }}>
-          Houston Independent Insurance Agent | Free Auto - Home - Life Quotes
-        </h1>
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div>
+            {/* Trust Badge */}
+            <div
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold mb-6"
+              style={{ backgroundColor: 'rgba(245,158,11,0.2)', color: '#f59e0b' }}
+            >
+              <Shield className="w-4 h-4" style={{ color: '#f59e0b' }} />
+              <span style={{ color: '#f59e0b' }}>Conroe's Trusted Independent Broker</span>
+            </div>
 
-        <p className="text-lg md:text-xl text-white mb-8 max-w-3xl mx-auto leading-[1.6]" style={{ fontWeight: 400 }}>
-          Local Expertise - Shops 20+ Carriers - Licensed TX #123456 - IIAH Member
-        </p>
+            <h1
+              className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6"
+              style={{ color: '#FFFFFF' }}
+            >
+              Conroe Agents: Get 12+ Quotes/Month
+            </h1>
 
-        {/* CTAs */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-          <Button
-            onClick={scrollToForm}
-            size="lg"
-            className="w-full sm:w-auto bg-[#f59e0b] hover:bg-[#f59e0b]/90 text-white font-semibold text-lg px-8 py-6 rounded-full shadow-lg hover:shadow-xl transition-all"
-            style={{ fontWeight: 600 }}
-          >
-            Get Free Quote Now
-          </Button>
+            <p className="text-lg md:text-xl mb-8 leading-relaxed" style={{ color: '#FFFFFF' }}>
+              Local, independent broker serving Conroe families with honest advice and access to
+              30+ top-rated carriers. No pressure. No gimmicks. Just the right coverage at the
+              right price.
+            </p>
 
-          <a
-            href="tel:7135550123"
-            className="w-full sm:w-auto flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-400 text-white font-bold text-lg px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
-            style={{ fontWeight: 600 }}
-          >
-            <Phone className="w-5 h-5 text-white" />
-            Call (713) 555-0123
-          </a>
-        </div>
+            {/* Stars */}
+            <div className="flex items-center gap-2 mb-8">
+              {[1, 2, 3, 4, 5].map((i) => (
+                <Star key={i} className="w-5 h-5 fill-current" style={{ color: '#f59e0b' }} />
+              ))}
+              <span className="text-sm font-medium ml-1" style={{ color: '#FFFFFF' }}>
+                5.0 · 300+ Conroe Families Protected
+              </span>
+            </div>
 
-        {/* Trust Bar */}
-        <div className="flex flex-wrap justify-center items-center gap-4 md:gap-8 text-white text-sm md:text-base leading-[1.6]" style={{ fontWeight: 400 }}>
-          <div className="flex items-center gap-2">
-            <span className="font-semibold" style={{ fontWeight: 600 }}>A+ BBB Rated</span>
+            {/* CTAs */}
+            <div className="flex flex-col sm:flex-row gap-4">
+              <a
+                href="#quote"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded font-bold text-lg transition-all hover:opacity-90 hover:scale-105"
+                style={{ backgroundColor: '#f59e0b', color: '#FFFFFF' }}
+              >
+                <span style={{ color: '#FFFFFF' }}>Get Conroe Site - 3 Spots Left Week</span>
+                <ArrowRight className="w-5 h-5" style={{ color: '#FFFFFF' }} />
+              </a>
+              <a
+                href={`tel:+1${telPhone}`}
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded font-bold text-lg transition-all hover:opacity-90"
+                style={{ backgroundColor: '#f97316', color: '#FFFFFF' }}
+              >
+                <Phone className="w-5 h-5" style={{ color: '#FFFFFF' }} />
+                <span style={{ color: '#FFFFFF' }}>{displayPhone}</span>
+              </a>
+            </div>
           </div>
-          <div className="hidden sm:block w-px h-6 bg-white/30"></div>
-          <div className="flex items-center gap-2">
-            <span className="font-semibold" style={{ fontWeight: 600 }}>4.9 Stars</span>
-          </div>
-          <div className="hidden sm:block w-px h-6 bg-white/30"></div>
-          <div className="flex items-center gap-2">
-            <span className="font-semibold" style={{ fontWeight: 600 }}>347 Google Reviews</span>
-          </div>
-          <div className="hidden sm:block w-px h-6 bg-white/30"></div>
-          <div className="flex items-center gap-2">
-            <span className="font-semibold" style={{ fontWeight: 600 }}>Free Consultations</span>
+
+          {/* Agent Photo */}
+          <div className="flex justify-center md:justify-end">
+            <div className="relative">
+              <div
+                className="w-72 h-72 md:w-96 md:h-96 rounded-full overflow-hidden border-4"
+                style={{ borderColor: '#f59e0b' }}
+              >
+                <img
+                  src="/assets/generated/agent-portrait.dim_400x400.png"
+                  alt={businessName}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div
+                className="absolute -bottom-4 -left-4 px-4 py-2 rounded-lg shadow-lg"
+                style={{ backgroundColor: '#f59e0b' }}
+              >
+                <p className="text-sm font-bold" style={{ color: '#FFFFFF' }}>
+                  {businessName}
+                </p>
+                <p className="text-xs" style={{ color: '#FFFFFF' }}>
+                  Conroe Insurance Expert
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Sticky Mobile CTA */}
-      {isSticky && (
-        <div className="fixed bottom-0 left-0 right-0 z-50 p-4 bg-[#1e3a8a] shadow-lg md:hidden">
-          <Button
-            onClick={scrollToForm}
-            size="lg"
-            className="w-full bg-[#f59e0b] hover:bg-[#f59e0b]/90 text-white font-semibold text-lg py-6 rounded-full shadow-lg"
-            style={{ fontWeight: 600 }}
-          >
-            Get Free Quote Now
-          </Button>
-        </div>
-      )}
+      <div
+        className="fixed bottom-0 left-0 right-0 z-50 md:hidden px-4 py-3 flex gap-3"
+        style={{ backgroundColor: '#1e3a8a', borderTop: '1px solid rgba(255,255,255,0.2)' }}
+      >
+        <a
+          href="#quote"
+          className="flex-1 text-center py-3 rounded-lg font-bold text-sm"
+          style={{ backgroundColor: '#f59e0b', color: '#FFFFFF' }}
+        >
+          <span style={{ color: '#FFFFFF' }}>Get Conroe Site - 3 Spots Left Week</span>
+        </a>
+        <a
+          href={`tel:+1${telPhone}`}
+          className="flex-1 text-center py-3 rounded-lg font-bold text-sm flex items-center justify-center gap-2"
+          style={{ backgroundColor: '#f97316', color: '#FFFFFF' }}
+        >
+          <Phone className="w-4 h-4" style={{ color: '#FFFFFF' }} />
+          <span style={{ color: '#FFFFFF' }}>{displayPhone}</span>
+        </a>
+      </div>
     </section>
   );
 }

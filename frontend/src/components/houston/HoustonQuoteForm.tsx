@@ -1,189 +1,181 @@
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useHoustonQuoteSubmission } from '@/hooks/useHoustonQuoteSubmission';
-import { toast } from 'sonner';
-import { BestTimeToCall, CoverageType } from '@/backend';
+import { Send, CheckCircle } from 'lucide-react';
+import { useHoustonQuoteSubmission } from '../../hooks/useHoustonQuoteSubmission';
+import { CoverageType, BestTimeToCall } from '../../backend';
 
 export default function HoustonQuoteForm() {
-  const [formData, setFormData] = useState({
+  const { mutate: submitQuote, isPending } = useHoustonQuoteSubmission();
+  const [submitted, setSubmitted] = useState(false);
+  const [form, setForm] = useState({
     name: '',
     phone: '',
     email: '',
     zipCode: '',
-    coverageType: '' as CoverageType | '',
-    bestTimeToCall: '' as BestTimeToCall | '',
+    coverageType: CoverageType.auto,
+    bestTimeToCall: BestTimeToCall.anyTime,
   });
 
-  const submitQuoteMutation = useHoustonQuoteSubmission();
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // Validation
-    if (!formData.name || !formData.phone || !formData.email || !formData.zipCode || !formData.coverageType || !formData.bestTimeToCall) {
-      toast.error('Please fill in all fields');
-      return;
-    }
-
-    try {
-      await submitQuoteMutation.mutateAsync({
-        name: formData.name,
-        phone: formData.phone,
-        email: formData.email,
-        zipCode: formData.zipCode,
-        coverageType: formData.coverageType as CoverageType,
-        bestTimeToCall: formData.bestTimeToCall as BestTimeToCall,
-      });
-
-      toast.success('Quote request submitted! We\'ll contact you within 24 hours.');
-
-      // Reset form
-      setFormData({
-        name: '',
-        phone: '',
-        email: '',
-        zipCode: '',
-        coverageType: '',
-        bestTimeToCall: '',
-      });
-    } catch (error) {
-      toast.error('Failed to submit quote request. Please try again.');
-      console.error('Quote submission error:', error);
-    }
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    submitQuote(form, {
+      onSuccess: () => setSubmitted(true),
+    });
+  };
+
+  if (submitted) {
+    return (
+      <section id="quote" style={{ backgroundColor: '#1e3a8a' }} className="py-10">
+        <div className="max-w-xl mx-auto px-4 text-center">
+          <CheckCircle className="w-16 h-16 mx-auto mb-4" style={{ color: '#f59e0b' }} />
+          <h3 className="text-xl font-bold mb-2" style={{ color: '#FFFFFF' }}>
+            Quote Request Received!
+          </h3>
+          <p style={{ color: '#FFFFFF' }}>
+            We'll be in touch within 24 hours with your personalized quote.
+          </p>
+        </div>
+      </section>
+    );
+  }
+
   return (
-    <section id="quote-form" className="sticky bottom-0 z-40 bg-[#1e3a8a] border-t-4 border-[#f59e0b] shadow-2xl">
-      <div className="container mx-auto px-4 py-8">
-        <h2 className="text-2xl md:text-3xl font-semibold text-white text-center mb-6 leading-[1.6]" style={{ fontWeight: 600 }}>
-          Get Your Free Houston Quote
-        </h2>
+    <section id="quote" style={{ backgroundColor: '#1e3a8a' }} className="py-10">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-8">
+          <h2 className="text-2xl md:text-3xl font-bold mb-2" style={{ color: '#FFFFFF' }}>
+            Get Your Free Houston Insurance Quote
+          </h2>
+          <p className="text-sm" style={{ color: '#FFFFFF' }}>
+            Takes less than 2 minutes. No obligation. No spam.
+          </p>
+        </div>
 
-        <form onSubmit={handleSubmit} className="max-w-5xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-            {/* Name */}
+        <form
+          onSubmit={handleSubmit}
+          className="rounded-2xl p-6 md:p-8 space-y-4"
+          style={{ backgroundColor: 'rgba(255,255,255,0.1)' }}
+        >
+          <div className="grid sm:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="name" className="text-white mb-2 block leading-[1.6]" style={{ fontWeight: 400 }}>
-                Name *
-              </Label>
-              <Input
-                id="name"
+              <label className="block text-sm font-semibold mb-1" style={{ color: '#FFFFFF' }}>
+                Full Name *
+              </label>
+              <input
                 type="text"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                placeholder="Your full name"
-                className="bg-white border-white h-12 text-[#1e293b]"
-                style={{ fontWeight: 400 }}
+                name="name"
                 required
+                value={form.name}
+                onChange={handleChange}
+                placeholder="John Smith"
+                className="w-full px-4 py-2 rounded-lg border text-sm focus:outline-none focus:ring-2"
+                style={{ borderColor: 'rgba(255,255,255,0.3)', color: '#1e293b', backgroundColor: '#FFFFFF' }}
               />
             </div>
-
-            {/* Phone */}
             <div>
-              <Label htmlFor="phone" className="text-white mb-2 block leading-[1.6]" style={{ fontWeight: 400 }}>
-                Phone *
-              </Label>
-              <Input
-                id="phone"
+              <label className="block text-sm font-semibold mb-1" style={{ color: '#FFFFFF' }}>
+                Phone Number *
+              </label>
+              <input
                 type="tel"
-                value={formData.phone}
-                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                placeholder="(713) 555-0123"
-                className="bg-white border-white h-12 text-[#1e293b]"
-                style={{ fontWeight: 400 }}
+                name="phone"
                 required
+                value={form.phone}
+                onChange={handleChange}
+                placeholder="(713) 000-0000"
+                className="w-full px-4 py-2 rounded-lg border text-sm focus:outline-none focus:ring-2"
+                style={{ borderColor: 'rgba(255,255,255,0.3)', color: '#1e293b', backgroundColor: '#FFFFFF' }}
               />
-            </div>
-
-            {/* Email */}
-            <div>
-              <Label htmlFor="email" className="text-white mb-2 block leading-[1.6]" style={{ fontWeight: 400 }}>
-                Email *
-              </Label>
-              <Input
-                id="email"
-                type="email"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                placeholder="your@email.com"
-                className="bg-white border-white h-12 text-[#1e293b]"
-                style={{ fontWeight: 400 }}
-                required
-              />
-            </div>
-
-            {/* ZIP Code */}
-            <div>
-              <Label htmlFor="zipCode" className="text-white mb-2 block leading-[1.6]" style={{ fontWeight: 400 }}>
-                ZIP Code *
-              </Label>
-              <Input
-                id="zipCode"
-                type="text"
-                value={formData.zipCode}
-                onChange={(e) => setFormData({ ...formData, zipCode: e.target.value })}
-                placeholder="77001"
-                className="bg-white border-white h-12 text-[#1e293b]"
-                style={{ fontWeight: 400 }}
-                required
-              />
-            </div>
-
-            {/* Coverage Type */}
-            <div>
-              <Label htmlFor="coverageType" className="text-white mb-2 block leading-[1.6]" style={{ fontWeight: 400 }}>
-                Coverage Type *
-              </Label>
-              <Select
-                value={formData.coverageType}
-                onValueChange={(value) => setFormData({ ...formData, coverageType: value as CoverageType })}
-              >
-                <SelectTrigger className="bg-white border-white h-12 text-[#1e293b]" style={{ fontWeight: 400 }}>
-                  <SelectValue placeholder="Select coverage" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value={CoverageType.auto}>Auto Insurance</SelectItem>
-                  <SelectItem value={CoverageType.home}>Home Insurance</SelectItem>
-                  <SelectItem value={CoverageType.life}>Life Insurance</SelectItem>
-                  <SelectItem value={CoverageType.business}>Business Insurance</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            {/* Best Time to Call */}
-            <div>
-              <Label htmlFor="bestTimeToCall" className="text-white mb-2 block leading-[1.6]" style={{ fontWeight: 400 }}>
-                Best time to call *
-              </Label>
-              <Select
-                value={formData.bestTimeToCall}
-                onValueChange={(value) => setFormData({ ...formData, bestTimeToCall: value as BestTimeToCall })}
-              >
-                <SelectTrigger className="bg-white border-white h-12 text-[#1e293b]" style={{ fontWeight: 400 }}>
-                  <SelectValue placeholder="Select time" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value={BestTimeToCall.morning}>Morning (8am-12pm)</SelectItem>
-                  <SelectItem value={BestTimeToCall.afternoon}>Afternoon (12pm-5pm)</SelectItem>
-                  <SelectItem value={BestTimeToCall.evening}>Evening (5pm-8pm)</SelectItem>
-                  <SelectItem value={BestTimeToCall.anyTime}>Any Time</SelectItem>
-                </SelectContent>
-              </Select>
             </div>
           </div>
 
-          <Button
+          <div className="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-semibold mb-1" style={{ color: '#FFFFFF' }}>
+                Email Address *
+              </label>
+              <input
+                type="email"
+                name="email"
+                required
+                value={form.email}
+                onChange={handleChange}
+                placeholder="john@example.com"
+                className="w-full px-4 py-2 rounded-lg border text-sm focus:outline-none focus:ring-2"
+                style={{ borderColor: 'rgba(255,255,255,0.3)', color: '#1e293b', backgroundColor: '#FFFFFF' }}
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold mb-1" style={{ color: '#FFFFFF' }}>
+                ZIP Code *
+              </label>
+              <input
+                type="text"
+                name="zipCode"
+                required
+                value={form.zipCode}
+                onChange={handleChange}
+                placeholder="77001"
+                className="w-full px-4 py-2 rounded-lg border text-sm focus:outline-none focus:ring-2"
+                style={{ borderColor: 'rgba(255,255,255,0.3)', color: '#1e293b', backgroundColor: '#FFFFFF' }}
+              />
+            </div>
+          </div>
+
+          <div className="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-semibold mb-1" style={{ color: '#FFFFFF' }}>
+                Coverage Type *
+              </label>
+              <select
+                name="coverageType"
+                value={form.coverageType}
+                onChange={handleChange}
+                className="w-full px-4 py-2 rounded-lg border text-sm focus:outline-none focus:ring-2"
+                style={{ borderColor: 'rgba(255,255,255,0.3)', color: '#1e293b', backgroundColor: '#FFFFFF' }}
+              >
+                <option value={CoverageType.auto} style={{ color: '#1e293b' }}>Auto Insurance</option>
+                <option value={CoverageType.home} style={{ color: '#1e293b' }}>Home Insurance</option>
+                <option value={CoverageType.life} style={{ color: '#1e293b' }}>Life Insurance</option>
+                <option value={CoverageType.business} style={{ color: '#1e293b' }}>Business Insurance</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-semibold mb-1" style={{ color: '#FFFFFF' }}>
+                Best Time to Call *
+              </label>
+              <select
+                name="bestTimeToCall"
+                value={form.bestTimeToCall}
+                onChange={handleChange}
+                className="w-full px-4 py-2 rounded-lg border text-sm focus:outline-none focus:ring-2"
+                style={{ borderColor: 'rgba(255,255,255,0.3)', color: '#1e293b', backgroundColor: '#FFFFFF' }}
+              >
+                <option value={BestTimeToCall.morning} style={{ color: '#1e293b' }}>Morning (8am–12pm)</option>
+                <option value={BestTimeToCall.afternoon} style={{ color: '#1e293b' }}>Afternoon (12pm–5pm)</option>
+                <option value={BestTimeToCall.evening} style={{ color: '#1e293b' }}>Evening (5pm–8pm)</option>
+                <option value={BestTimeToCall.anyTime} style={{ color: '#1e293b' }}>Any Time</option>
+              </select>
+            </div>
+          </div>
+
+          <button
             type="submit"
-            size="lg"
-            disabled={submitQuoteMutation.isPending}
-            className="w-full bg-[#f59e0b] hover:bg-[#f59e0b]/90 text-white font-semibold text-lg py-6 rounded-full shadow-lg hover:shadow-xl transition-all"
-            style={{ fontWeight: 600 }}
+            disabled={isPending}
+            className="w-full flex items-center justify-center gap-2 py-3 rounded-lg font-bold text-base transition-all hover:opacity-90 disabled:opacity-50"
+            style={{ backgroundColor: '#f59e0b', color: '#FFFFFF' }}
           >
-            {submitQuoteMutation.isPending ? 'Submitting...' : 'Get Free Houston Quote in 60 Seconds'}
-          </Button>
+            <Send className="w-5 h-5" style={{ color: '#FFFFFF' }} />
+            <span style={{ color: '#FFFFFF' }}>
+              {isPending ? 'Submitting...' : 'Get My Free Houston Quote'}
+            </span>
+          </button>
         </form>
       </div>
     </section>

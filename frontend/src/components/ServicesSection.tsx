@@ -1,166 +1,135 @@
-import { Button } from '@/components/ui/button';
-import { ArrowRight } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
+import { Car, Home, Heart, Briefcase, TrendingUp, Umbrella, ArrowRight } from 'lucide-react';
+
+const services = [
+  {
+    icon: Car,
+    title: 'Auto Insurance',
+    desc: 'Comprehensive coverage for your vehicles with competitive rates from top carriers. We find the right balance of protection and affordability.',
+    benefits: ['Liability & collision', 'Uninsured motorist', 'Roadside assistance'],
+    tag: 'Most Popular',
+  },
+  {
+    icon: Home,
+    title: 'Home Insurance',
+    desc: 'Protect your most valuable asset with tailored homeowners coverage. From structure to personal property and liability.',
+    benefits: ['Dwelling protection', 'Personal property', 'Loss of use coverage'],
+    tag: null,
+  },
+  {
+    icon: Heart,
+    title: 'Life Insurance',
+    desc: 'Secure your family\'s financial future with term, whole, or universal life policies designed around your goals and budget.',
+    benefits: ['Term & whole life', 'IUL strategies', 'Estate planning'],
+    tag: 'High Demand',
+  },
+  {
+    icon: Briefcase,
+    title: 'Business Insurance',
+    desc: 'Comprehensive commercial coverage to protect your business, employees, and assets from unexpected risks.',
+    benefits: ['General liability', 'Workers\' comp', 'Commercial property'],
+    tag: null,
+  },
+  {
+    icon: TrendingUp,
+    title: 'Retirement Planning',
+    desc: 'Build a tax-advantaged retirement strategy using annuities and indexed products that grow with market upside and protect against downside.',
+    benefits: ['Fixed & indexed annuities', 'Tax-deferred growth', 'Income guarantees'],
+    tag: null,
+  },
+  {
+    icon: Umbrella,
+    title: 'Umbrella Coverage',
+    desc: 'An extra layer of liability protection that goes beyond your standard policies — essential for high-net-worth families.',
+    benefits: ['Excess liability', 'Legal defense costs', 'Worldwide coverage'],
+    tag: null,
+  },
+];
 
 export default function ServicesSection() {
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.querySelectorAll('.scroll-fade').forEach((el, i) => {
+              setTimeout(() => el.classList.add('visible'), i * 80);
+            });
+          }
+        });
       },
-      { threshold: 0.1 }
+      { threshold: 0.05 }
     );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
+    if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
   }, []);
 
-  const services = [
-    {
-      icon: '/assets/generated/icon-term-life.dim_128x128.png',
-      title: 'Term Life Insurance',
-      description: 'Affordable income protection that ensures your family can maintain their lifestyle if the unexpected happens.',
-      benefits: [
-        'Affordable income protection for your family',
-        'Mortgage and debt payoff coverage',
-        'Replace lost income for 10-30 years',
-        'Convertible to permanent coverage',
-      ],
-      taxAdvantage: 'Death benefits paid 100% income tax-free to beneficiaries',
-    },
-    {
-      icon: '/assets/generated/icon-iul.dim_128x128.png',
-      title: 'Indexed Universal Life (IUL)',
-      description: 'Build tax-advantaged cash value while protecting your family—wealth accumulation with downside protection.',
-      benefits: [
-        'Tax-advantaged cash value growth',
-        'Market-linked gains with 0% floor protection',
-        'Tax-free retirement income potential',
-        'Flexible premium payments',
-      ],
-      taxAdvantage: 'Tax-deferred growth + tax-free loans for retirement income',
-    },
-    {
-      icon: '/assets/generated/icon-whole-life.dim_128x128.png',
-      title: 'Whole Life Insurance',
-      description: 'Guaranteed growth and lifetime protection—the foundation of generational wealth transfer and estate planning.',
-      benefits: [
-        'Guaranteed cash value growth',
-        'Lifetime death benefit protection',
-        'Dividend potential from mutual companies',
-        'Estate planning and wealth transfer',
-      ],
-      taxAdvantage: 'Tax-deferred growth + tax-free death benefit for heirs',
-    },
-    {
-      icon: '/assets/generated/icon-retirement.dim_128x128.png',
-      title: 'Retirement Planning',
-      description: 'Create tax-efficient retirement income streams that last as long as you do—401(k) rollovers and Roth strategies.',
-      benefits: [
-        'Tax-efficient retirement income strategies',
-        '401(k) and IRA rollover guidance',
-        'Roth conversion planning',
-        'Social Security optimization',
-      ],
-      taxAdvantage: 'Minimize taxes in retirement with strategic income planning',
-    },
-    {
-      icon: '/assets/generated/icon-annuities.dim_128x128.png',
-      title: 'Annuities',
-      description: 'Guaranteed lifetime income you can\'t outlive—principal protection with predictable retirement cash flow.',
-      benefits: [
-        'Guaranteed lifetime income solutions',
-        'Principal protection strategies',
-        'Inflation-adjusted income options',
-        'No market risk on fixed annuities',
-      ],
-      taxAdvantage: 'Tax-deferred growth until withdrawal + guaranteed income',
-    },
-    {
-      icon: '/assets/generated/icon-business-protection.dim_128x128.png',
-      title: 'Business Owner Protection',
-      description: 'Protect your business and key employees—succession planning, buy-sell agreements, and executive benefits.',
-      benefits: [
-        'Key person insurance for critical employees',
-        'Buy-sell agreement funding',
-        'Executive bonus and retention plans',
-        'Business succession planning',
-      ],
-      taxAdvantage: 'Tax-deductible premiums + tax-advantaged executive benefits',
-    },
-  ];
-
-  const scrollToContact = () => {
-    const element = document.getElementById('contact');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  };
-
   return (
-    <section ref={sectionRef} id="services" className="py-20 md:py-32 bg-white relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-radial from-gold-accent/5 via-transparent to-transparent" />
-      
-      <div className="container mx-auto px-4 relative z-10">
-        <div className={`max-w-3xl mx-auto text-center space-y-6 mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-slate-800">
-            Comprehensive <span className="text-gold-accent">Protection Solutions</span>
+    <section id="services" ref={ref} className="bg-white py-24 lg:py-32">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <div className="max-w-2xl mb-16">
+          <div className="scroll-fade flex items-center gap-3 mb-4">
+            <div className="w-8 h-px bg-amber" />
+            <span className="font-body text-amber text-sm font-semibold tracking-widest uppercase">
+              What We Cover
+            </span>
+          </div>
+          <h2 className="scroll-fade delay-100 font-display text-4xl lg:text-5xl font-bold text-charcoal leading-tight mb-4">
+            Coverage for Every
+            <br />
+            <span className="italic text-forest">Stage of Life</span>
           </h2>
-          <p className="text-lg md:text-xl text-slate-700 font-sans">
-            Strategic insurance and wealth-building solutions designed for [City] families and business owners.
+          <p className="scroll-fade delay-200 font-body text-charcoal-muted text-lg leading-relaxed">
+            From your first car to your retirement nest egg — we have the expertise and carrier
+            relationships to protect everything that matters.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {services.map((service, index) => (
+        {/* Services grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {services.map(({ icon: Icon, title, desc, benefits, tag }, index) => (
             <div
-              key={index}
-              className={`glass-card p-8 rounded-2xl hover-lift group transition-all duration-700 bg-white/80 backdrop-blur-sm border border-slate-200 ${
-                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-              }`}
-              style={{ transitionDelay: `${index * 100}ms` }}
+              key={title}
+              className={`scroll-fade group relative bg-cream rounded-xl border border-forest/8 p-7 hover:border-amber/40 hover:shadow-card-hover transition-all duration-300 cursor-pointer`}
+              style={{ animationDelay: `${index * 80}ms` }}
             >
-              <div className="w-20 h-20 mb-6 rounded-xl bg-gold-accent/10 flex items-center justify-center border border-gold-accent/30 group-hover:border-gold-accent/60 transition-all duration-300">
-                <img src={service.icon} alt={service.title} className="w-16 h-16" loading="lazy" />
-              </div>
-              
-              <h3 className="text-2xl font-serif font-bold text-slate-800 mb-4 group-hover:text-gold-accent transition-colors duration-300">
-                {service.title}
-              </h3>
-              
-              <p className="text-slate-700 font-sans mb-4 leading-relaxed text-sm">
-                {service.description}
-              </p>
+              {/* Tag */}
+              {tag && (
+                <div className="absolute top-4 right-4 bg-amber text-forest-dark font-body font-bold text-xs px-2.5 py-1 rounded-full">
+                  {tag}
+                </div>
+              )}
 
-              <div className="mb-4 space-y-2">
-                {service.benefits.map((benefit, idx) => (
-                  <div key={idx} className="flex items-start gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-gold-accent mt-2 flex-shrink-0" />
-                    <p className="text-slate-700 text-xs font-sans">{benefit}</p>
-                  </div>
+              {/* Icon */}
+              <div className="w-12 h-12 bg-forest/8 rounded-sm flex items-center justify-center mb-5 border border-forest/15 group-hover:bg-forest group-hover:border-forest transition-colors duration-300">
+                <Icon className="w-6 h-6 text-forest group-hover:text-white transition-colors duration-300" />
+              </div>
+
+              {/* Content */}
+              <h3 className="font-display font-bold text-charcoal text-xl mb-3">{title}</h3>
+              <p className="font-body text-charcoal-muted text-sm leading-relaxed mb-5">{desc}</p>
+
+              {/* Benefits */}
+              <ul className="space-y-1.5 mb-6">
+                {benefits.map((b) => (
+                  <li key={b} className="flex items-center gap-2 font-body text-charcoal text-sm">
+                    <div className="w-1.5 h-1.5 rounded-full bg-amber flex-shrink-0" />
+                    {b}
+                  </li>
                 ))}
-              </div>
+              </ul>
 
-              <div className="mb-6 p-4 rounded-lg bg-gold-accent/5 border border-gold-accent/20">
-                <p className="text-gold-accent text-xs font-sans font-semibold">💰 {service.taxAdvantage}</p>
-              </div>
-              
-              <Button
-                onClick={scrollToContact}
-                variant="outline"
-                className="w-full border-gold-accent/30 text-gold-accent hover:bg-gold-accent/10 group-hover:border-gold-accent transition-all duration-300"
+              {/* CTA */}
+              <a
+                href="#contact"
+                className="inline-flex items-center gap-1.5 text-forest font-body font-semibold text-sm group-hover:text-amber transition-colors"
               >
-                Learn More
-                <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-              </Button>
+                Get a Quote
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </a>
             </div>
           ))}
         </div>

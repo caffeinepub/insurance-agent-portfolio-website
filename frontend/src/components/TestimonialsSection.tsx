@@ -1,98 +1,202 @@
-import { Star } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Star, ChevronLeft, ChevronRight, Quote } from 'lucide-react';
+
+const testimonials = [
+  {
+    name: 'TX Agent J.D.',
+    location: 'Conroe, TX',
+    rating: 5,
+    text: 'Johnathan helped me get 12 quotes in my first month working with him. He found coverage I didn\'t even know I needed — and saved me $400 a year in the process.',
+    coverage: 'Auto + Home Bundle',
+    attribution: 'TX Agent J.D. - 12 quotes first month',
+  },
+  {
+    name: 'Marcus & Diane Webb',
+    location: 'The Woodlands, TX',
+    rating: 5,
+    text: 'After our previous agent retired, we were lost. Johnathan sat with us for two hours, explained everything, and set up a life insurance plan that actually fits our retirement goals.',
+    coverage: 'Life Insurance',
+    attribution: 'Marcus & Diane Webb, The Woodlands TX',
+  },
+  {
+    name: 'Roberto Salinas',
+    location: 'Katy, TX',
+    rating: 5,
+    text: 'I\'ve been burned by pushy agents before. Johnathan was completely different — patient, honest, and he never once pressured me. My business is now fully covered and I sleep better at night.',
+    coverage: 'Business Insurance',
+    attribution: 'Roberto Salinas, Katy TX',
+  },
+  {
+    name: 'Priya Nair',
+    location: 'Sugar Land, TX',
+    rating: 5,
+    text: 'The annual review process alone is worth it. Johnathan caught that my home coverage was $80k underinsured after we renovated. That could have been catastrophic.',
+    coverage: 'Home Insurance',
+    attribution: 'Priya Nair, Sugar Land TX',
+  },
+  {
+    name: 'James & Tonya Caldwell',
+    location: 'Spring, TX',
+    rating: 5,
+    text: 'When we had a water damage claim, Johnathan was on the phone with us within an hour. He guided us through every step. That\'s the kind of agent you want in your corner.',
+    coverage: 'Home Insurance',
+    attribution: 'James & Tonya Caldwell, Spring TX',
+  },
+];
 
 export default function TestimonialsSection() {
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
+  const [current, setCurrent] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  const navigate = (dir: 'prev' | 'next') => {
+    if (isAnimating) return;
+    setIsAnimating(true);
+    setTimeout(() => {
+      setCurrent((prev) =>
+        dir === 'next'
+          ? (prev + 1) % testimonials.length
+          : (prev - 1 + testimonials.length) % testimonials.length
+      );
+      setIsAnimating(false);
+    }, 200);
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => navigate('next'), 6000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.querySelectorAll('.scroll-fade').forEach((el, i) => {
+              setTimeout(() => el.classList.add('visible'), i * 100);
+            });
+          }
+        });
       },
       { threshold: 0.1 }
     );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
+    if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
   }, []);
 
-  const testimonials = [
-    {
-      name: 'Michael Thompson',
-      location: 'Dallas, TX',
-      rating: 5,
-      text: 'Before working with [Advisor Name], I was overwhelmed trying to figure out how to protect my family\'s future. Now I have a $1M term policy and an IUL building tax-free retirement income. I finally have peace of mind knowing my wife and kids are protected no matter what happens.',
-    },
-    {
-      name: 'Sarah Martinez',
-      location: 'Austin, TX',
-      rating: 5,
-      text: 'I thought life insurance was too expensive until [Advisor Name] showed me how affordable term coverage actually is. For less than my monthly streaming subscriptions, I secured $500K in coverage. The education-first approach made all the difference—I finally understand what I\'m buying.',
-    },
-    {
-      name: 'David Chen',
-      location: 'Houston, TX',
-      rating: 5,
-      text: 'As a business owner, I needed more than just personal coverage. [Advisor Name] set up key person insurance and a buy-sell agreement that protects both my family and my business partners. The tax advantages alone have saved me thousands. Highly recommend!',
-    },
-    {
-      name: 'Jennifer Williams',
-      location: 'San Antonio, TX',
-      rating: 5,
-      text: 'After my husband passed away, [Advisor Name] was there every step of the way during the claims process. The death benefit came through quickly and tax-free, allowing me to pay off our mortgage and secure my children\'s college fund. I\'m forever grateful for the guidance and support.',
-    },
-    {
-      name: 'Robert Johnson',
-      location: 'Fort Worth, TX',
-      rating: 5,
-      text: 'I was skeptical about whole life insurance until [Advisor Name] broke down the numbers. Now I see it as a tax-advantaged savings vehicle that also protects my family. The guaranteed cash value growth and dividends are building wealth I can access in retirement. Best financial decision I\'ve made.',
-    },
-  ];
+  const t = testimonials[current];
 
   return (
-    <section ref={sectionRef} id="testimonials" className="py-20 md:py-32 bg-white relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-radial from-gold-accent/5 via-transparent to-transparent" />
-      
-      <div className="container mx-auto px-4 relative z-10">
-        <div className={`max-w-3xl mx-auto text-center space-y-6 mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-slate-800">
-            Real Stories from <span className="text-houstonGold">Protected Families</span>
+    <section id="testimonials" ref={ref} className="bg-cream-dark py-24 lg:py-32 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <div className="text-center max-w-xl mx-auto mb-16">
+          <div className="scroll-fade flex items-center justify-center gap-3 mb-4">
+            <div className="w-8 h-px bg-amber" />
+            <span className="font-body text-amber text-sm font-semibold tracking-widest uppercase">
+              Client Stories
+            </span>
+            <div className="w-8 h-px bg-amber" />
+          </div>
+          <h2 className="scroll-fade delay-100 font-display text-4xl lg:text-5xl font-bold text-charcoal leading-tight">
+            Real People,
+            <br />
+            <span className="italic text-forest">Real Results</span>
           </h2>
-          <p className="text-lg md:text-xl text-slate-700 font-sans">
-            See how personalized insurance strategies have transformed financial security for families across [State].
-          </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, index) => (
-            <div
-              key={index}
-              className={`glass-card p-8 rounded-2xl hover-lift transition-all duration-700 bg-white/80 backdrop-blur-sm border border-slate-200 ${
-                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-              }`}
-              style={{ transitionDelay: `${index * 100}ms` }}
-            >
-              <div className="flex gap-1 mb-4">
-                {[...Array(testimonial.rating)].map((_, i) => (
-                  <Star key={i} className="w-5 h-5 fill-houstonGold text-houstonGold" />
-                ))}
+        {/* Main testimonial */}
+        <div className="scroll-fade delay-200 max-w-3xl mx-auto">
+          <div
+            className={`bg-white rounded-2xl border border-forest/10 p-10 shadow-card-lift transition-opacity duration-200 ${
+              isAnimating ? 'opacity-0' : 'opacity-100'
+            }`}
+          >
+            {/* Quote icon */}
+            <div className="w-12 h-12 bg-forest/8 rounded-sm flex items-center justify-center mb-6 border border-forest/15">
+              <Quote className="w-6 h-6 text-forest" />
+            </div>
+
+            {/* Stars */}
+            <div className="flex gap-1 mb-5">
+              {[...Array(t.rating)].map((_, i) => (
+                <Star key={i} className="w-5 h-5 text-amber fill-amber" />
+              ))}
+            </div>
+
+            {/* Text */}
+            <blockquote className="font-display text-xl lg:text-2xl text-charcoal leading-relaxed italic mb-8">
+              "{t.text}"
+            </blockquote>
+
+            {/* Author */}
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="font-body font-bold text-charcoal text-base">{t.attribution}</div>
+                <div className="font-body text-charcoal-muted text-sm">{t.location}</div>
               </div>
-              
-              <p className="text-slate-700 font-sans mb-6 leading-relaxed text-sm italic">
-                "{testimonial.text}"
-              </p>
-              
-              <div className="border-t border-slate-200 pt-4">
-                <p className="font-serif font-bold text-slate-800">{testimonial.name}</p>
-                <p className="text-sm text-slate-700 font-sans">{testimonial.location}</p>
+              <div className="bg-amber/10 border border-amber/25 rounded-full px-4 py-1.5">
+                <span className="font-body text-amber-dark font-semibold text-xs tracking-wide">
+                  {t.coverage}
+                </span>
               </div>
             </div>
+          </div>
+
+          {/* Navigation */}
+          <div className="flex items-center justify-center gap-6 mt-8">
+            <button
+              onClick={() => navigate('prev')}
+              className="w-10 h-10 rounded-sm border border-forest/20 flex items-center justify-center text-forest hover:bg-forest hover:text-white hover:border-forest transition-all duration-200"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+
+            {/* Dots */}
+            <div className="flex gap-2">
+              {testimonials.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setCurrent(i)}
+                  className={`transition-all duration-300 rounded-full ${
+                    i === current ? 'w-6 h-2 bg-amber' : 'w-2 h-2 bg-forest/20 hover:bg-forest/40'
+                  }`}
+                />
+              ))}
+            </div>
+
+            <button
+              onClick={() => navigate('next')}
+              className="w-10 h-10 rounded-sm border border-forest/20 flex items-center justify-center text-forest hover:bg-forest hover:text-white hover:border-forest transition-all duration-200"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
+
+        {/* Mini testimonial cards */}
+        <div className="scroll-fade delay-300 grid md:grid-cols-3 gap-4 mt-12">
+          {testimonials.slice(0, 3).map((t, i) => (
+            <button
+              key={t.attribution}
+              onClick={() => setCurrent(i)}
+              className={`text-left bg-white rounded-xl border p-5 transition-all duration-200 ${
+                current === i
+                  ? 'border-amber/50 shadow-amber-glow'
+                  : 'border-forest/8 hover:border-forest/20 shadow-forest-sm'
+              }`}
+            >
+              <div className="flex gap-0.5 mb-2">
+                {[...Array(5)].map((_, j) => (
+                  <Star key={j} className="w-3.5 h-3.5 text-amber fill-amber" />
+                ))}
+              </div>
+              <p className="font-body text-charcoal-muted text-xs leading-relaxed line-clamp-2 mb-3">
+                "{t.text}"
+              </p>
+              <div className="font-body font-semibold text-charcoal text-xs">{t.attribution}</div>
+              <div className="font-body text-charcoal-muted text-xs">{t.location}</div>
+            </button>
           ))}
         </div>
       </div>

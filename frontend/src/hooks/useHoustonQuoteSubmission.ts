@@ -1,8 +1,8 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useActor } from './useActor';
-import { BestTimeToCall, CoverageType } from '@/backend';
+import { CoverageType, BestTimeToCall } from '../backend';
 
-interface QuoteSubmissionData {
+export interface HoustonQuoteFormData {
   name: string;
   phone: string;
   email: string;
@@ -11,14 +11,16 @@ interface QuoteSubmissionData {
   bestTimeToCall: BestTimeToCall;
 }
 
+export { CoverageType, BestTimeToCall };
+
 export function useHoustonQuoteSubmission() {
   const { actor } = useActor();
+  const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (data: QuoteSubmissionData) => {
+    mutationFn: async (data: HoustonQuoteFormData) => {
       if (!actor) throw new Error('Actor not available');
-
-      await actor.submitQuote(
+      return actor.submitQuote(
         data.name,
         data.phone,
         data.email,
@@ -26,6 +28,9 @@ export function useHoustonQuoteSubmission() {
         data.coverageType,
         data.bestTimeToCall
       );
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['quoteSubmissions'] });
     },
   });
 }

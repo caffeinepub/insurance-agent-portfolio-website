@@ -1,138 +1,80 @@
-import { useState } from 'react';
-import { Search, Download } from 'lucide-react';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useGetAllLeads, type Lead } from '@/hooks/useAdminQueries';
+import React, { useState } from 'react';
+import { useGetAllLeads } from '../../hooks/useAdminQueries';
+import { Search } from 'lucide-react';
 
 export default function AdminLeadsPage() {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [coverageFilter, setCoverageFilter] = useState<string>('all');
-
   const { data: leads = [], isLoading } = useGetAllLeads();
+  const [search, setSearch] = useState('');
 
-  // Filter leads
-  const filteredLeads = leads.filter((lead) => {
-    const matchesSearch =
-      lead.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      lead.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      lead.phoneNumber.includes(searchTerm);
-
-    const matchesCoverage = coverageFilter === 'all' || lead.coverageAmount === coverageFilter;
-
-    return matchesSearch && matchesCoverage;
-  });
-
-  // Export to CSV
-  const exportToCSV = () => {
-    const headers = ['Name', 'Phone', 'Email', 'ZIP Code', 'Coverage Amount', 'TCPA Agreed'];
-    const rows = filteredLeads.map((lead) => [
-      lead.fullName,
-      lead.phoneNumber,
-      lead.email,
-      lead.zipCode,
-      lead.coverageAmount,
-      lead.agreedToTcpA ? 'Yes' : 'No',
-    ]);
-
-    const csvContent = [headers, ...rows].map((row) => row.join(',')).join('\n');
-    const blob = new Blob([csvContent], { type: 'text/csv' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `leads-${new Date().toISOString().split('T')[0]}.csv`;
-    a.click();
-  };
-
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <p className="text-gray-500">Loading leads...</p>
-      </div>
-    );
-  }
+  const filtered = leads.filter(lead =>
+    lead.name.toLowerCase().includes(search.toLowerCase()) ||
+    lead.email.toLowerCase().includes(search.toLowerCase()) ||
+    lead.phone.includes(search)
+  );
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-gray-900">Leads</h1>
-        <Button onClick={exportToCSV} variant="outline" className="flex items-center gap-2">
-          <Download className="w-4 h-4" />
-          Export CSV
-        </Button>
+    <div className="p-6">
+      <h1 className="text-2xl font-bold text-gray-900 mb-6">Quote Submissions</h1>
+
+      {/* Search */}
+      <div className="relative mb-4">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+        <input
+          type="text"
+          placeholder="Search by name, email, or phone..."
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+          className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
       </div>
 
-      {/* Filters */}
-      <div className="flex flex-col sm:flex-row gap-4">
-        <div className="flex-1 relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-          <Input
-            type="text"
-            placeholder="Search by name, email, or phone..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10"
-          />
-        </div>
-
-        <Select value={coverageFilter} onValueChange={setCoverageFilter}>
-          <SelectTrigger className="w-full sm:w-48">
-            <SelectValue placeholder="Filter by coverage" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Coverage</SelectItem>
-            <SelectItem value="amount50k">$50,000</SelectItem>
-            <SelectItem value="amount100k">$100,000</SelectItem>
-            <SelectItem value="amount250k">$250,000</SelectItem>
-            <SelectItem value="amount500k">$500,000</SelectItem>
-            <SelectItem value="amount1m">$1,000,000</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-
-      {/* Leads Table */}
+      {/* Table */}
       <div className="bg-white rounded-lg shadow overflow-hidden">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Phone</TableHead>
-              <TableHead>Email</TableHead>
-              <TableHead>ZIP Code</TableHead>
-              <TableHead>Coverage Amount</TableHead>
-              <TableHead>TCPA</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {filteredLeads.length === 0 ? (
-              <TableRow>
-                <TableCell colSpan={6} className="text-center text-gray-500 py-8">
-                  No leads found
-                </TableCell>
-              </TableRow>
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-50">
+            <tr>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Coverage</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Best Time</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Zip</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
+            {isLoading ? (
+              <tr>
+                <td colSpan={6} className="px-6 py-8 text-center text-gray-400">Loading...</td>
+              </tr>
+            ) : filtered.length === 0 ? (
+              <tr>
+                <td colSpan={6} className="px-6 py-8 text-center text-gray-400">No submissions found.</td>
+              </tr>
             ) : (
-              filteredLeads.map((lead, index) => (
-                <TableRow key={index}>
-                  <TableCell className="font-medium">{lead.fullName}</TableCell>
-                  <TableCell>{lead.phoneNumber}</TableCell>
-                  <TableCell>{lead.email}</TableCell>
-                  <TableCell>{lead.zipCode}</TableCell>
-                  <TableCell>{lead.coverageAmount}</TableCell>
-                  <TableCell>
-                    <span
-                      className={`px-2 py-1 rounded-full text-xs ${
-                        lead.agreedToTcpA ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                      }`}
-                    >
-                      {lead.agreedToTcpA ? 'Yes' : 'No'}
+              filtered.map(lead => (
+                <tr key={String(lead.id)} className="hover:bg-gray-50">
+                  <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">{lead.name}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="text-sm text-gray-900">{lead.email}</div>
+                    <div className="text-sm text-gray-500">{lead.phone}</div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-700 capitalize">
+                      {String(lead.coverageType)}
                     </span>
-                  </TableCell>
-                </TableRow>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 capitalize">
+                    {String(lead.bestTimeToCall)}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{lead.zipCode}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {new Date(Number(lead.timestamp) / 1_000_000).toLocaleDateString()}
+                  </td>
+                </tr>
               ))
             )}
-          </TableBody>
-        </Table>
+          </tbody>
+        </table>
       </div>
     </div>
   );

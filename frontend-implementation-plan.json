@@ -1,26 +1,219 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Change footer copyright/bottom bar text to white",
+  "title": "5 Demo Polish Changes: Testimonial, Headline, Process Proof, Phone, CTA Urgency",
   "requirements": [
     {
       "id": "REQ-1",
-      "summary": "Change the text color of the bottom bar/copyright section in the footer component to white",
+      "summary": "Update all testimonial references from 'Karen' to 'TX Agent J.D. - 12 quotes first month'",
       "acceptanceCriteria": [
-        "The text in the 4th section/div of the footer (bottom bar, e.g. copyright bar) renders in white (#ffffff).",
-        "No other footer sections are affected by this change.",
-        "Change applies to both HoustonFooter.tsx and Footer.tsx if they share the same structure at that position."
+        "No instance of the name 'Karen' appears anywhere in the rendered UI",
+        "At least one testimonial displays 'TX Agent J.D. - 12 quotes first month' as the attribution",
+        "All testimonial carousel/grid components are updated consistently"
       ],
       "file_operations": [
         {
-          "path": "frontend/src/components/houston/HoustonFooter.tsx",
+          "path": "frontend/src/components/TestimonialsSection.tsx",
           "operation": "modify",
-          "description": "Modify the bottom bar div (the 4th child div inside the footer's inner container, corresponding to the copyright bar) to use text-white class instead of its current text color class. Locate the div that contains copyright text and ensure it has the text-white Tailwind class applied."
+          "description": "Replace all testimonial content mentioning 'Karen' with 'TX Agent J.D. - 12 quotes first month' attribution. Update the testimonial text and name fields in the testimonials array to remove any reference to Karen and display the new attribution consistently."
+        },
+        {
+          "path": "frontend/src/components/houston/HoustonTestimonialsSection.tsx",
+          "operation": "modify",
+          "description": "Replace all testimonial content mentioning 'Karen' with 'TX Agent J.D. - 12 quotes first month' attribution. Update the testimonial cards to display the new attribution text instead of any Karen references."
+        },
+        {
+          "path": "frontend/src/components/ReevesAboutSection.tsx",
+          "operation": "modify",
+          "description": "Update the testimonial carousel data to replace any 'Karen' references with 'TX Agent J.D. - 12 quotes first month' attribution. Ensure the carousel displays the updated testimonial consistently across all slides."
+        }
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "summary": "Change hero section headline to 'Conroe Agents: Get 12+ Quotes/Month' across all hero components",
+      "acceptanceCriteria": [
+        "The headline 'Conroe Agents: Get 12+ Quotes/Month' is visible above the fold on desktop (1280px) and mobile (375px) without scrolling",
+        "The headline is the largest/most prominent text element in the hero section",
+        "All hero components display this updated headline"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/HeroSection.tsx",
+          "operation": "modify",
+          "description": "Replace the existing hero headline with 'Conroe Agents: Get 12+ Quotes/Month'. Ensure the headline uses the largest text size (text-5xl or larger on desktop, text-4xl on mobile) and is positioned prominently above the fold with sufficient contrast and spacing."
+        },
+        {
+          "path": "frontend/src/components/houston/HoustonHeroSection.tsx",
+          "operation": "modify",
+          "description": "Update the hero headline to 'Conroe Agents: Get 12+ Quotes/Month'. Ensure it is the most prominent text element, visible above the fold on both desktop and mobile viewports, using the largest available text scale."
+        },
+        {
+          "path": "frontend/src/components/ReevesHeroSection.tsx",
+          "operation": "modify",
+          "description": "Change the main headline to 'Conroe Agents: Get 12+ Quotes/Month'. Position it as the primary above-the-fold element with appropriate font sizing (text-5xl or text-6xl on desktop, text-4xl on mobile) to ensure maximum prominence and visibility without scrolling."
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "summary": "Add a 'Process Proof' section in the footer area displaying 3 steps with generated screenshots and arrow connectors",
+      "acceptanceCriteria": [
+        "A process proof section appears above or within the footer area on all public-facing pages",
+        "Three step cards are displayed labeled 'Figma Design', 'Live Preview', and 'Conroe #1'",
+        "Arrows or connectors visually link the three steps in order",
+        "Each step includes a screenshot placeholder image or representative visual",
+        "Section is responsive on mobile (stacks vertically) and desktop (horizontal row)"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/ProcessProofSection.tsx",
+          "operation": "create",
+          "description": "Create a new ProcessProofSection component that displays three process steps with labels 'Figma Design', 'Live Preview', and 'Conroe #1'. Each step includes a screenshot image from the generated assets: frontend/public/assets/generated/figma-design-screenshot.dim_600x400.png, frontend/public/assets/generated/live-preview-screenshot.dim_600x400.png, and frontend/public/assets/generated/conroe-number-one-screenshot.dim_600x400.png. Add arrow connectors (→) between steps using SVG or Unicode characters. Use a flex layout that displays horizontally on desktop (flex-row with justify-center and gap) and stacks vertically on mobile (flex-col). Include a section heading like 'Our Proven Build Process' or 'From Design to #1 Ranking'. Apply consistent styling with the site theme (forest/amber palette)."
         },
         {
           "path": "frontend/src/components/Footer.tsx",
           "operation": "modify",
-          "description": "Modify the bottom bar div (the 4th child div inside the footer's inner container, corresponding to the copyright bar) to use text-white class instead of its current text color class. Locate the div that contains copyright or bottom section text and ensure it has the text-white Tailwind class applied."
+          "description": "Import and integrate the ProcessProofSection component above the existing footer content. Place it immediately before the footer's main container so it appears in the footer area but remains visually distinct. Ensure proper spacing and background styling."
+        },
+        {
+          "path": "frontend/src/components/ReevesFooter.tsx",
+          "operation": "modify",
+          "description": "Import and integrate the ProcessProofSection component above the existing footer content. Position it before the main footer container to display in the footer area with appropriate spacing and styling consistent with the Reeves brand palette."
+        },
+        {
+          "path": "frontend/src/components/houston/HoustonFooter.tsx",
+          "operation": "modify",
+          "description": "Import and integrate the ProcessProofSection component above the existing footer content. Place it before the main footer sections with proper spacing to ensure it appears in the footer area on the Houston landing page."
+        },
+        {
+          "path": "frontend/src/pages/PublicSite.tsx",
+          "operation": "modify",
+          "description": "Verify that the Footer component is rendered at the bottom of the page layout, ensuring the integrated ProcessProofSection will appear consistently on the public site."
+        },
+        {
+          "path": "frontend/src/pages/ReevesPublicSite.tsx",
+          "operation": "modify",
+          "description": "Verify that the ReevesFooter component is rendered at the bottom of the page layout, ensuring the integrated ProcessProofSection will appear consistently on the Reeves site."
+        },
+        {
+          "path": "frontend/src/pages/HoustonDemoPage.tsx",
+          "operation": "modify",
+          "description": "Verify that the HoustonFooter component is rendered at the bottom of the page, ensuring the integrated ProcessProofSection will appear consistently on the Houston demo page."
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "summary": "Replace all phone numbers displayed in the UI with (832) 555-1234",
+      "acceptanceCriteria": [
+        "No phone number other than (832) 555-1234 appears anywhere in the rendered UI",
+        "The FloatingCallButton tel: href points to tel:+18325551234",
+        "Header, footer, and contact section all display (832) 555-1234",
+        "The useBusinessInfo hook default fallback phone is set to (832) 555-1234"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useBusinessInfo.ts",
+          "operation": "modify",
+          "description": "Update the default fallback phone value in the useBusinessInfo hook aggregation logic to '(832) 555-1234'. Ensure this fallback is used when business info is unavailable or loading."
+        },
+        {
+          "path": "frontend/src/components/Header.tsx",
+          "operation": "modify",
+          "description": "Replace any hardcoded phone number with (832) 555-1234 or ensure the component uses the useBusinessInfo hook which now defaults to (832) 555-1234. Update the phone CTA button href to tel:+18325551234 and display text to (832) 555-1234."
+        },
+        {
+          "path": "frontend/src/components/ReevesHeader.tsx",
+          "operation": "modify",
+          "description": "Replace any hardcoded phone number with (832) 555-1234 or verify the component uses the useBusinessInfo hook. Update the phone CTA href to tel:+18325551234 and display text to (832) 555-1234."
+        },
+        {
+          "path": "frontend/src/components/FloatingCallButton.tsx",
+          "operation": "modify",
+          "description": "Update the tel: href to 'tel:+18325551234' (removing spaces and formatting). If the component displays the phone number visually, update it to '(832) 555-1234'. Ensure the button uses the useBusinessInfo hook or hardcodes the new phone number."
+        },
+        {
+          "path": "frontend/src/components/ContactSection.tsx",
+          "operation": "modify",
+          "description": "Replace any hardcoded phone number in the business info display with (832) 555-1234 or verify the component uses the useBusinessInfo hook which now defaults to (832) 555-1234. Update tel: links to tel:+18325551234."
+        },
+        {
+          "path": "frontend/src/components/ReevesContactSection.tsx",
+          "operation": "modify",
+          "description": "Replace any hardcoded phone number in the contact info with (832) 555-1234 or verify it uses the useBusinessInfo hook. Update tel: links to tel:+18325551234."
+        },
+        {
+          "path": "frontend/src/components/Footer.tsx",
+          "operation": "modify",
+          "description": "Replace any hardcoded phone number in the contact details section with (832) 555-1234 or verify the component uses the useBusinessInfo hook. Update tel: links to tel:+18325551234."
+        },
+        {
+          "path": "frontend/src/components/ReevesFooter.tsx",
+          "operation": "modify",
+          "description": "Replace any hardcoded phone number in the footer contact info with (832) 555-1234 or verify it uses the useBusinessInfo hook. Update tel: links to tel:+18325551234."
+        },
+        {
+          "path": "frontend/src/components/houston/HoustonFooter.tsx",
+          "operation": "modify",
+          "description": "Replace any hardcoded phone number in the footer with (832) 555-1234 or verify it uses the useBusinessInfo hook. Update tel: links to tel:+18325551234."
+        },
+        {
+          "path": "frontend/src/components/houston/HoustonHeroSection.tsx",
+          "operation": "modify",
+          "description": "Replace any hardcoded phone number in the Call Now button or hero contact info with (832) 555-1234. Update tel: href to tel:+18325551234."
+        },
+        {
+          "path": "frontend/src/components/StickyQuoteBar.tsx",
+          "operation": "modify",
+          "description": "If this component displays a phone number, replace it with (832) 555-1234 and update any tel: links to tel:+18325551234. Otherwise, verify no phone number is displayed."
+        }
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "summary": "Update all primary CTA quote buttons to display 'Get Conroe Site - 3 Spots Left Week' urgency text",
+      "acceptanceCriteria": [
+        "The primary CTA button in the hero section reads 'Get Conroe Site - 3 Spots Left Week'",
+        "The header 'Get Free Quote' button is updated to 'Get Conroe Site - 3 Spots Left Week'",
+        "All other prominent quote/CTA buttons display the urgency text",
+        "Form submit buttons may retain functional labels (e.g., 'Submit Request') but top-of-page CTA buttons show the urgency text"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/HeroSection.tsx",
+          "operation": "modify",
+          "description": "Update the primary CTA button text from 'Get Free Quote' or similar to 'Get Conroe Site - 3 Spots Left Week'. Ensure the button remains visually prominent with appropriate styling for the urgency message."
+        },
+        {
+          "path": "frontend/src/components/ReevesHeroSection.tsx",
+          "operation": "modify",
+          "description": "Change the main CTA button text to 'Get Conroe Site - 3 Spots Left Week'. Keep the button styling prominent and ensure it links to the quote/contact section."
+        },
+        {
+          "path": "frontend/src/components/houston/HoustonHeroSection.tsx",
+          "operation": "modify",
+          "description": "Update the 'Get Free Quote' button text to 'Get Conroe Site - 3 Spots Left Week'. Maintain the existing button styling and functionality."
+        },
+        {
+          "path": "frontend/src/components/Header.tsx",
+          "operation": "modify",
+          "description": "Replace the 'Get Free Quote' button text in the header navigation with 'Get Conroe Site - 3 Spots Left Week'. Ensure the button remains styled appropriately for the header and is responsive on mobile."
+        },
+        {
+          "path": "frontend/src/components/ReevesHeader.tsx",
+          "operation": "modify",
+          "description": "Change the 'Free Quote' or 'Get Free Quote' button text in the header to 'Get Conroe Site - 3 Spots Left Week'. Maintain existing button styling and responsive behavior."
+        },
+        {
+          "path": "frontend/src/components/EmotionalCloseSection.tsx",
+          "operation": "modify",
+          "description": "Update any CTA button text (e.g., 'Get Free Quote', 'Schedule Call') in this section to 'Get Conroe Site - 3 Spots Left Week'. Keep the button styling consistent with the dark forest theme."
+        },
+        {
+          "path": "frontend/src/components/houston/HoustonQuoteForm.tsx",
+          "operation": "modify",
+          "description": "Review the form submit button. If it's labeled 'Get Free Quote' or similar non-functional text, update it to 'Get Conroe Site - 3 Spots Left Week'. If it's already a functional label like 'Submit Request' or 'Submit Quote', leave it unchanged per acceptance criteria guidance."
         }
       ]
     }

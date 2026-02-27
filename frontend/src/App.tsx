@@ -1,28 +1,16 @@
-import { RouterProvider, createRouter, createRootRoute, createRoute, Outlet, Navigate } from '@tanstack/react-router';
-import { Toaster } from '@/components/ui/sonner';
-import { useEffect } from 'react';
-
-// Public pages
+import { RouterProvider, createRouter, createRoute, createRootRoute, Outlet, redirect } from '@tanstack/react-router';
+import { useInternetIdentity } from './hooks/useInternetIdentity';
 import PublicSite from './pages/PublicSite';
-import HoustonDemoPage from './pages/HoustonDemoPage';
-
-// Admin pages
 import AdminLoginPage from './components/admin/AdminLoginPage';
+import AdminLayout from './components/admin/AdminLayout';
 import AdminDashboard from './components/admin/AdminDashboard';
 import AdminLeadsPage from './components/admin/AdminLeadsPage';
 import AdminAppointmentsPage from './components/admin/AdminAppointmentsPage';
 import AdminSettingsPage from './components/admin/AdminSettingsPage';
-import ProtectedAdminRoute from './components/admin/ProtectedAdminRoute';
-import AdminLayout from './components/admin/AdminLayout';
 
 // Root route
 const rootRoute = createRootRoute({
-  component: () => (
-    <>
-      <Outlet />
-      <Toaster />
-    </>
-  ),
+  component: () => <Outlet />,
 });
 
 // Public route
@@ -32,13 +20,6 @@ const indexRoute = createRoute({
   component: PublicSite,
 });
 
-// Houston demo route
-const houstonDemoRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/houston-demo',
-  component: HoustonDemoPage,
-});
-
 // Admin login route
 const adminLoginRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -46,64 +27,51 @@ const adminLoginRoute = createRoute({
   component: AdminLoginPage,
 });
 
-// Admin layout route (protected)
-const adminRoute = createRoute({
+// Protected admin layout route
+const adminLayoutRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/admin',
-  component: () => (
-    <ProtectedAdminRoute>
-      <AdminLayout />
-    </ProtectedAdminRoute>
-  ),
+  component: AdminLayoutWrapper,
 });
 
-// Admin dashboard route
+function AdminLayoutWrapper() {
+  const { identity } = useInternetIdentity();
+  if (!identity) {
+    window.location.href = '/admin/login';
+    return null;
+  }
+  return <AdminLayout />;
+}
+
+// Admin child routes
 const adminDashboardRoute = createRoute({
-  getParentRoute: () => adminRoute,
-  path: '/dashboard',
+  getParentRoute: () => adminLayoutRoute,
+  path: '/',
   component: AdminDashboard,
 });
 
-// Admin leads route
 const adminLeadsRoute = createRoute({
-  getParentRoute: () => adminRoute,
+  getParentRoute: () => adminLayoutRoute,
   path: '/leads',
   component: AdminLeadsPage,
 });
 
-// Admin appointments route
 const adminAppointmentsRoute = createRoute({
-  getParentRoute: () => adminRoute,
+  getParentRoute: () => adminLayoutRoute,
   path: '/appointments',
   component: AdminAppointmentsPage,
 });
 
-// Admin settings route
 const adminSettingsRoute = createRoute({
-  getParentRoute: () => adminRoute,
+  getParentRoute: () => adminLayoutRoute,
   path: '/settings',
   component: AdminSettingsPage,
 });
 
-// Admin index redirect component
-function AdminIndexRedirect() {
-  return <Navigate to="/admin/dashboard" />;
-}
-
-// Admin index redirect route
-const adminIndexRoute = createRoute({
-  getParentRoute: () => adminRoute,
-  path: '/',
-  component: AdminIndexRedirect,
-});
-
-// Create route tree
 const routeTree = rootRoute.addChildren([
   indexRoute,
-  houstonDemoRoute,
   adminLoginRoute,
-  adminRoute.addChildren([
-    adminIndexRoute,
+  adminLayoutRoute.addChildren([
     adminDashboardRoute,
     adminLeadsRoute,
     adminAppointmentsRoute,
@@ -111,23 +79,14 @@ const routeTree = rootRoute.addChildren([
   ]),
 ]);
 
-// Create router
 const router = createRouter({ routeTree });
 
-// Register router for type safety
 declare module '@tanstack/react-router' {
   interface Register {
     router: typeof router;
   }
 }
 
-function App() {
-  useEffect(() => {
-    // Enable smooth scrolling
-    document.documentElement.style.scrollBehavior = 'smooth';
-  }, []);
-
+export default function App() {
   return <RouterProvider router={router} />;
 }
-
-export default App;
