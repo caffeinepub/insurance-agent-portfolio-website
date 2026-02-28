@@ -1,105 +1,119 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-27T08:44:27.716Z",
+  "generatedAt": "2026-02-27T13:20:50.343Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 5,
+    "total": 6,
     "implemented": 5,
     "items": [
       {
         "id": "REQ-1",
-        "summary": "Update all testimonial references that mention 'Karen' to display 'TX Agent J.D. - 12 quotes first month' instead. Remove the name 'Karen' from all testimonial content across every testimonial component (TestimonialsSection, HoustonTestimonialsSection, ReevesAboutSection, and any other component displaying testimonials).",
-        "status": "implemented",
+        "summary": "Fix responsive layout across the entire public-facing site (ReevesPublicSite and all its section components): all text sizes, image dimensions, spacing, and grid layouts must adapt correctly for both mobile (≤768px) and laptop (≥1024px) viewports. Ensure hero headline, hero image/agent portrait, stat row, service cards, testimonial carousel, quote form fields, and footer columns are all properly stacked and readable on mobile without horizontal overflow or clipped content.",
+        "status": "missing",
         "plannedFiles": [
-          "frontend/src/components/TestimonialsSection.tsx",
-          "frontend/src/components/houston/HoustonTestimonialsSection.tsx",
-          "frontend/src/components/ReevesAboutSection.tsx"
+          "frontend/src/pages/ReevesPublicSite.tsx",
+          "frontend/src/components/ReevesHeroSection.tsx",
+          "frontend/src/components/ReevesHeader.tsx",
+          "frontend/src/components/ReevesServicesSection.tsx",
+          "frontend/src/components/ReevesAboutSection.tsx",
+          "frontend/src/components/ReevesContactSection.tsx",
+          "frontend/src/components/ReevesFooter.tsx",
+          "frontend/src/components/ReevesWhyChooseSection.tsx",
+          "frontend/src/components/ReevesCarrierBadges.tsx"
         ],
-        "matchedFiles": [
-          "frontend/src/components/TestimonialsSection.tsx",
-          "frontend/src/components/houston/HoustonTestimonialsSection.tsx"
-        ]
+        "matchedFiles": []
       },
       {
         "id": "REQ-2",
-        "summary": "Change the hero section headline to 'Conroe Agents: Get 12+ Quotes/Month' and ensure it is the most prominent above-the-fold text in all hero components (HeroSection, HoustonHeroSection, ReevesHeroSection). The headline must be visible without scrolling on standard desktop and mobile viewports.",
+        "summary": "Add an 'Agent Login' button in the top-right corner of the ReevesHeader component. Clicking it opens a modal dialog with a username/password form. Credentials admin / conroe123 grant access to the admin dashboard. On successful login, close the modal and navigate to the admin dashboard route. Show an error message for invalid credentials. This login must be purely frontend credential-check (no Internet Identity required for this admin flow).",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/HeroSection.tsx",
-          "frontend/src/components/houston/HoustonHeroSection.tsx",
-          "frontend/src/components/ReevesHeroSection.tsx"
+          "frontend/src/components/ReevesHeader.tsx",
+          "frontend/src/components/admin/AdminLoginModal.tsx",
+          "frontend/src/hooks/useAdminAuth.ts"
         ],
         "matchedFiles": [
-          "frontend/src/components/HeroSection.tsx",
-          "frontend/src/components/houston/HoustonHeroSection.tsx"
+          "frontend/src/components/admin/AdminLoginModal.tsx",
+          "frontend/src/hooks/useAdminAuth.ts"
         ]
       },
       {
         "id": "REQ-3",
-        "summary": "Add a 'Process Proof' section in the footer area (above or integrated into the footer) that displays 3 steps as visual screenshot placeholders with labels: 'Figma Design', 'Live Preview', and 'Conroe #1'. Use arrow connectors between steps to show the progression. The section heading should communicate a proven build process.",
+        "summary": "Build a complete admin dashboard page at /admin/dashboard with a dark theme using background colors #1a1a2e and #16213e and accent green #0f3460. The dashboard must display: (1) Four stat cards — Total Leads: 127 (+15%), Quotes: 23 (18% conv rate), Calls: 45, Won: 8 ($24K revenue); (2) A leads table with columns Name, Phone, Email, Policy, Status, Date — pre-populated with at least 8 sample rows using real Conroe TX first/last names and 936-area-code phone numbers; (3) Status filter tabs: New / Called / Won with live table filtering; (4) An Export CSV button that downloads the visible leads as a CSV file; (5) A leads-per-week line chart (7 days); (6) A policy type pie chart showing Auto 45%, Home 30%, Life 15%, Commercial 10%.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/ProcessProofSection.tsx",
-          "frontend/src/components/Footer.tsx",
-          "frontend/src/components/ReevesFooter.tsx",
-          "frontend/src/components/houston/HoustonFooter.tsx",
-          "frontend/src/pages/PublicSite.tsx",
-          "frontend/src/pages/ReevesPublicSite.tsx",
-          "frontend/src/pages/HoustonDemoPage.tsx"
+          "frontend/src/components/admin/AdminDashboard.tsx",
+          "frontend/src/components/admin/LeadsTable.tsx",
+          "frontend/src/components/admin/LeadsChart.tsx",
+          "frontend/src/components/admin/PolicyPieChart.tsx",
+          "frontend/src/data/mockLeads.ts"
         ],
         "matchedFiles": [
-          "frontend/src/components/ProcessProofSection.tsx",
-          "frontend/src/components/Footer.tsx",
-          "frontend/src/components/houston/HoustonFooter.tsx"
+          "frontend/src/components/admin/AdminDashboard.tsx",
+          "frontend/src/components/admin/LeadsTable.tsx",
+          "frontend/src/components/admin/LeadsChart.tsx",
+          "frontend/src/components/admin/PolicyPieChart.tsx",
+          "frontend/src/data/mockLeads.ts"
         ]
       },
       {
         "id": "REQ-4",
-        "summary": "Replace every phone number displayed in the UI with (832) 555-1234. This includes the Header phone CTA, FloatingCallButton tel: href, ContactSection/ReevesContactSection business info, Footer/ReevesFooter/HoustonFooter contact details, StickyQuoteBar if it shows a phone, and any other component rendering a phone number. Also update the default fallback phone value in the useBusinessInfo hook.",
+        "summary": "Build the admin panel side navigation and layout shell with these sections: Dashboard (default), Leads, Policy Management, Lead Assignment, Analytics, and PDF Invoices. The layout must use the dark theme (#1a1a2e sidebar, #16213e main area, #0f3460 accent). Implement stub pages for Policy Management (list view placeholder), Lead Assignment (assign lead to agent dropdown placeholder), Analytics (extended charts placeholder), and PDF Invoices (invoice list with a 'Generate PDF' button per row that triggers a browser print/PDF of a simple invoice template).",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/hooks/useBusinessInfo.ts",
-          "frontend/src/components/Header.tsx",
-          "frontend/src/components/ReevesHeader.tsx",
-          "frontend/src/components/FloatingCallButton.tsx",
-          "frontend/src/components/ContactSection.tsx",
-          "frontend/src/components/ReevesContactSection.tsx",
-          "frontend/src/components/Footer.tsx",
-          "frontend/src/components/ReevesFooter.tsx",
-          "frontend/src/components/houston/HoustonFooter.tsx",
-          "frontend/src/components/houston/HoustonHeroSection.tsx",
-          "frontend/src/components/StickyQuoteBar.tsx"
+          "frontend/src/components/admin/AdminLayout.tsx",
+          "frontend/src/components/admin/AdminLeadsPage.tsx",
+          "frontend/src/components/admin/AdminPolicyManagementPage.tsx",
+          "frontend/src/components/admin/AdminLeadAssignmentPage.tsx",
+          "frontend/src/components/admin/AdminAnalyticsPage.tsx",
+          "frontend/src/components/admin/AdminPDFInvoicesPage.tsx",
+          "frontend/src/App.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/hooks/useBusinessInfo.ts",
-          "frontend/src/components/Header.tsx",
-          "frontend/src/components/Footer.tsx",
-          "frontend/src/components/houston/HoustonFooter.tsx",
-          "frontend/src/components/houston/HoustonHeroSection.tsx"
+          "frontend/src/components/admin/AdminLayout.tsx",
+          "frontend/src/components/admin/AdminLeadsPage.tsx",
+          "frontend/src/components/admin/AdminPolicyManagementPage.tsx",
+          "frontend/src/components/admin/AdminLeadAssignmentPage.tsx",
+          "frontend/src/components/admin/AdminAnalyticsPage.tsx",
+          "frontend/src/components/admin/AdminPDFInvoicesPage.tsx",
+          "frontend/src/App.tsx"
         ]
       },
       {
         "id": "REQ-5",
-        "summary": "Update all primary CTA quote buttons (Get Free Quote, Get Quote, Submit Quote, etc.) to display the urgency text 'Get Conroe Site - 3 Spots Left Week'. Apply this to the main CTA button in the hero section, the header 'Get Free Quote' button, and any other prominent quote/CTA buttons in HoustonHeroSection, ReevesHeroSection, HoustonQuoteForm submit button, and EmotionalCloseSection CTAs.",
+        "summary": "Make the admin panel fully responsive for mobile: replace the sidebar navigation with a hamburger menu that opens a slide-out drawer on screens ≤768px; stack the 4 stat cards vertically on mobile; make the leads table horizontally scrollable (swipeable) on small screens.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/HeroSection.tsx",
-          "frontend/src/components/ReevesHeroSection.tsx",
-          "frontend/src/components/houston/HoustonHeroSection.tsx",
-          "frontend/src/components/Header.tsx",
-          "frontend/src/components/ReevesHeader.tsx",
-          "frontend/src/components/EmotionalCloseSection.tsx",
-          "frontend/src/components/houston/HoustonQuoteForm.tsx"
+          "frontend/src/components/admin/AdminLayout.tsx",
+          "frontend/src/components/admin/AdminDashboard.tsx",
+          "frontend/src/components/admin/LeadsTable.tsx",
+          "frontend/src/components/admin/AdminHeader.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/components/HeroSection.tsx",
-          "frontend/src/components/houston/HoustonHeroSection.tsx",
-          "frontend/src/components/Header.tsx",
-          "frontend/src/components/EmotionalCloseSection.tsx"
+          "frontend/src/components/admin/AdminLayout.tsx",
+          "frontend/src/components/admin/AdminDashboard.tsx",
+          "frontend/src/components/admin/LeadsTable.tsx"
+        ]
+      },
+      {
+        "id": "REQ-6",
+        "summary": "Protect the admin routes so that unauthenticated users (not logged in via the admin/conroe123 credential check) are redirected to the home page or a login prompt when navigating directly to /admin/*. Store the admin session state in sessionStorage so it persists across page refreshes during the session but clears on tab close.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/admin/ProtectedAdminRoute.tsx",
+          "frontend/src/hooks/useAdminAuth.ts",
+          "frontend/src/components/admin/AdminLayout.tsx",
+          "frontend/src/App.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/admin/ProtectedAdminRoute.tsx",
+          "frontend/src/hooks/useAdminAuth.ts",
+          "frontend/src/components/admin/AdminLayout.tsx",
+          "frontend/src/App.tsx"
         ]
       }
     ]
@@ -107,21 +121,34 @@
   "changedFiles": [
     "build-request.json",
     "feature_evidence.json",
-    "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/public/assets/generated/conroe-number-one-screenshot.dim_600x400.png",
-    "frontend/public/assets/generated/figma-design-screenshot.dim_600x400.png",
-    "frontend/public/assets/generated/live-preview-screenshot.dim_600x400.png",
+    "frontend/src/App.tsx",
+    "frontend/src/components/AboutSection.tsx",
+    "frontend/src/components/ContactSection.tsx",
     "frontend/src/components/EmotionalCloseSection.tsx",
     "frontend/src/components/Footer.tsx",
     "frontend/src/components/Header.tsx",
     "frontend/src/components/HeroSection.tsx",
-    "frontend/src/components/ProcessProofSection.tsx",
+    "frontend/src/components/ServicesSection.tsx",
     "frontend/src/components/TestimonialsSection.tsx",
-    "frontend/src/components/houston/HoustonFooter.tsx",
-    "frontend/src/components/houston/HoustonHeroSection.tsx",
-    "frontend/src/components/houston/HoustonTestimonialsSection.tsx",
-    "frontend/src/hooks/useBusinessInfo.ts",
+    "frontend/src/components/TrustBar.tsx",
+    "frontend/src/components/WhyChooseSection.tsx",
+    "frontend/src/components/admin/AdminAnalyticsPage.tsx",
+    "frontend/src/components/admin/AdminDashboard.tsx",
+    "frontend/src/components/admin/AdminLayout.tsx",
+    "frontend/src/components/admin/AdminLeadAssignmentPage.tsx",
+    "frontend/src/components/admin/AdminLeadsPage.tsx",
+    "frontend/src/components/admin/AdminLoginModal.tsx",
+    "frontend/src/components/admin/AdminLoginPage.tsx",
+    "frontend/src/components/admin/AdminPDFInvoicesPage.tsx",
+    "frontend/src/components/admin/AdminPolicyManagementPage.tsx",
+    "frontend/src/components/admin/LeadsChart.tsx",
+    "frontend/src/components/admin/LeadsTable.tsx",
+    "frontend/src/components/admin/PolicyPieChart.tsx",
+    "frontend/src/components/admin/ProtectedAdminRoute.tsx",
+    "frontend/src/data/mockLeads.ts",
+    "frontend/src/hooks/useAdminAuth.ts",
+    "frontend/src/pages/PublicSite.tsx",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

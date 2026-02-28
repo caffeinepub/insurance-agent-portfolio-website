@@ -1,263 +1,198 @@
 import React, { useState } from 'react';
-import { Send, CheckCircle, MapPin, Phone, Mail, Loader2 } from 'lucide-react';
-import { useBusinessInfo } from '../hooks/useBusinessInfo';
+import { Phone, Mail, MapPin, Clock, Send, CheckCircle } from 'lucide-react';
 import { useSubmitQuote } from '../hooks/useQueries';
 import { CoverageType, BestTimeToCall } from '../backend';
 
 export default function ContactSection() {
-  const { phone, email, address, city, state } = useBusinessInfo();
-  const { mutate: submitQuote, isPending, isSuccess } = useSubmitQuote();
-
-  const [form, setForm] = useState({
+  const [formData, setFormData] = useState({
     name: '',
     phone: '',
     email: '',
     zipCode: '',
-    coverageType: 'auto' as CoverageType,
-    bestTimeToCall: 'anyTime' as BestTimeToCall,
+    coverageType: 'auto' as keyof typeof CoverageType,
+    bestTimeToCall: 'anyTime' as keyof typeof BestTimeToCall,
   });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
+  const [submitted, setSubmitted] = useState(false);
+  const { mutate: submitQuote, isPending } = useSubmitQuote();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    submitQuote(form);
+    submitQuote(
+      {
+        name: formData.name,
+        phone: formData.phone,
+        email: formData.email,
+        zipCode: formData.zipCode,
+        coverageType: CoverageType[formData.coverageType],
+        bestTimeToCall: BestTimeToCall[formData.bestTimeToCall],
+      },
+      {
+        onSuccess: () => setSubmitted(true),
+      }
+    );
   };
 
-  if (isSuccess) {
-    return (
-      <section id="contact" className="bg-cream py-24 lg:py-32">
-        <div className="max-w-2xl mx-auto px-4 text-center">
-          <div className="bg-white rounded-2xl border border-forest/10 p-12 shadow-forest-lg">
-            <div className="w-16 h-16 bg-forest/10 rounded-full flex items-center justify-center mx-auto mb-6">
-              <CheckCircle className="w-8 h-8 text-forest" />
-            </div>
-            <h3 className="font-display text-3xl font-bold text-charcoal mb-4">
-              We'll Be in Touch Soon!
-            </h3>
-            <p className="font-body text-charcoal-muted text-lg leading-relaxed">
-              Thank you for reaching out. Johnathan will personally review your request and
-              contact you within one business day.
-            </p>
-          </div>
-        </div>
-      </section>
-    );
-  }
-
   return (
-    <section id="contact" className="bg-cream py-24 lg:py-32">
+    <section id="contact" className="py-16 md:py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-16 items-start">
-          {/* Left: Info */}
-          <div>
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-px bg-amber" />
-              <span className="font-body text-amber text-sm font-semibold tracking-widest uppercase">
-                Get In Touch
-              </span>
-            </div>
-            <h2 className="font-display text-4xl lg:text-5xl font-bold text-charcoal leading-tight mb-6">
-              Start Your Free
-              <br />
-              <span className="italic text-forest">Consultation Today</span>
-            </h2>
-            <p className="font-body text-charcoal-muted text-lg leading-relaxed mb-10">
-              No pressure, no obligation. Just an honest conversation about your coverage needs
-              and how we can help protect what matters most.
-            </p>
+        <div className="text-center mb-10 md:mb-14">
+          <span className="inline-block px-3 py-1 rounded-full bg-forest/10 text-forest text-xs font-semibold uppercase tracking-wide mb-3">
+            Get In Touch
+          </span>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-forest-dark mb-3">
+            Get Your Free Quote Today
+          </h2>
+          <p className="text-gray-600 text-sm md:text-base max-w-2xl mx-auto">
+            Fill out the form below and Johnathan will personally reach out within 24 hours.
+          </p>
+        </div>
 
-            {/* Contact details */}
-            <div className="space-y-5 mb-10">
-              {phone && (
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 bg-forest/8 rounded-sm flex items-center justify-center border border-forest/15 flex-shrink-0">
-                    <Phone className="w-5 h-5 text-forest" />
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12">
+          {/* Contact Info */}
+          <div className="lg:col-span-2 space-y-6">
+            <div className="rounded-2xl p-5 md:p-6" style={{ background: 'linear-gradient(135deg, #1a2e1a, #0d1f0d)' }}>
+              <h3 className="text-white font-bold text-lg mb-5">Contact Information</h3>
+              <div className="space-y-4">
+                {[
+                  { icon: Phone, label: 'Phone', value: '(936) 441-2301', href: 'tel:+19364412301' },
+                  { icon: Mail, label: 'Email', value: 'john@reevesinsurance.com', href: 'mailto:john@reevesinsurance.com' },
+                  { icon: MapPin, label: 'Location', value: 'Conroe, TX 77301', href: null },
+                  { icon: Clock, label: 'Hours', value: 'Mon–Fri 8am–6pm', href: null },
+                ].map(({ icon: Icon, label, value, href }) => (
+                  <div key={label} className="flex items-start gap-3">
+                    <div className="w-9 h-9 rounded-lg bg-amber-400/10 flex items-center justify-center flex-shrink-0">
+                      <Icon className="w-4 h-4 text-amber-400" />
+                    </div>
+                    <div>
+                      <p className="text-gray-400 text-xs">{label}</p>
+                      {href ? (
+                        <a href={href} className="text-white text-sm font-medium hover:text-amber-400 transition-colors">{value}</a>
+                      ) : (
+                        <p className="text-white text-sm font-medium">{value}</p>
+                      )}
+                    </div>
                   </div>
-                  <div>
-                    <div className="font-body text-charcoal-muted text-xs uppercase tracking-wide mb-0.5">Phone</div>
-                    <a href={`tel:${phone}`} className="font-body font-semibold text-charcoal hover:text-forest transition-colors">
-                      {phone}
-                    </a>
-                  </div>
-                </div>
-              )}
-              {email && (
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 bg-forest/8 rounded-sm flex items-center justify-center border border-forest/15 flex-shrink-0">
-                    <Mail className="w-5 h-5 text-forest" />
-                  </div>
-                  <div>
-                    <div className="font-body text-charcoal-muted text-xs uppercase tracking-wide mb-0.5">Email</div>
-                    <a href={`mailto:${email}`} className="font-body font-semibold text-charcoal hover:text-forest transition-colors">
-                      {email}
-                    </a>
-                  </div>
-                </div>
-              )}
-              {(address || city) && (
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 bg-forest/8 rounded-sm flex items-center justify-center border border-forest/15 flex-shrink-0">
-                    <MapPin className="w-5 h-5 text-forest" />
-                  </div>
-                  <div>
-                    <div className="font-body text-charcoal-muted text-xs uppercase tracking-wide mb-0.5">Location</div>
-                    <span className="font-body font-semibold text-charcoal">
-                      {address || `${city}, ${state}`}
-                    </span>
-                  </div>
-                </div>
-              )}
+                ))}
+              </div>
             </div>
 
-            {/* Map */}
-            <div className="rounded-xl overflow-hidden border border-forest/10 shadow-forest-sm">
+            <div className="rounded-2xl overflow-hidden">
               <img
                 src="/assets/generated/conroe-tx-map.dim_600x400.png"
-                alt="Service area map"
-                className="w-full h-48 object-cover"
+                alt="Conroe TX Map"
+                className="w-full h-40 md:h-48 object-cover"
               />
-              <div className="bg-forest px-4 py-2.5">
-                <p className="font-body text-white/80 text-xs text-center tracking-wide">
-                  Serving Conroe, Katy, The Woodlands &amp; surrounding TX areas
-                </p>
-              </div>
             </div>
           </div>
 
-          {/* Right: Form */}
-          <div className="bg-white rounded-2xl border border-forest/10 p-8 shadow-forest-lg">
-            <h3 className="font-display text-2xl font-bold text-charcoal mb-2">
-              Request Your Free Quote
-            </h3>
-            <p className="font-body text-charcoal-muted text-sm mb-8">
-              Fill out the form and Johnathan will personally reach out within 24 hours.
-            </p>
-
-            <form onSubmit={handleSubmit} className="space-y-5">
-              {/* Name */}
-              <div>
-                <label className="block font-body text-charcoal font-semibold text-sm mb-1.5">
-                  Full Name <span className="text-amber">*</span>
-                </label>
-                <input
-                  type="text"
-                  name="name"
-                  value={form.name}
-                  onChange={handleChange}
-                  required
-                  placeholder="John Smith"
-                  className="w-full border border-forest/15 rounded-sm px-4 py-3 font-body text-charcoal text-sm placeholder:text-charcoal-muted/50 focus:outline-none focus:border-amber focus:ring-2 focus:ring-amber/20 transition-all bg-cream"
-                />
+          {/* Quote Form */}
+          <div className="lg:col-span-3">
+            {submitted ? (
+              <div className="h-full flex flex-col items-center justify-center text-center p-8 rounded-2xl bg-green-50 border border-green-200">
+                <CheckCircle className="w-16 h-16 text-green-500 mb-4" />
+                <h3 className="text-xl font-bold text-forest-dark mb-2">Quote Request Received!</h3>
+                <p className="text-gray-600 text-sm">Johnathan will contact you within 24 hours with your personalized quote.</p>
               </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1.5">Full Name *</label>
+                    <input
+                      type="text"
+                      required
+                      value={formData.name}
+                      onChange={e => setFormData(p => ({ ...p, name: e.target.value }))}
+                      placeholder="John Smith"
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-forest/30 focus:border-forest text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1.5">Phone Number *</label>
+                    <input
+                      type="tel"
+                      required
+                      value={formData.phone}
+                      onChange={e => setFormData(p => ({ ...p, phone: e.target.value }))}
+                      placeholder="(936) 555-0000"
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-forest/30 focus:border-forest text-sm"
+                    />
+                  </div>
+                </div>
 
-              {/* Phone + Email */}
-              <div className="grid sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block font-body text-charcoal font-semibold text-sm mb-1.5">
-                    Phone <span className="text-amber">*</span>
-                  </label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={form.phone}
-                    onChange={handleChange}
-                    required
-                    placeholder="(555) 000-0000"
-                    className="w-full border border-forest/15 rounded-sm px-4 py-3 font-body text-charcoal text-sm placeholder:text-charcoal-muted/50 focus:outline-none focus:border-amber focus:ring-2 focus:ring-amber/20 transition-all bg-cream"
-                  />
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1.5">Email Address *</label>
+                    <input
+                      type="email"
+                      required
+                      value={formData.email}
+                      onChange={e => setFormData(p => ({ ...p, email: e.target.value }))}
+                      placeholder="john@email.com"
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-forest/30 focus:border-forest text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1.5">ZIP Code *</label>
+                    <input
+                      type="text"
+                      required
+                      value={formData.zipCode}
+                      onChange={e => setFormData(p => ({ ...p, zipCode: e.target.value }))}
+                      placeholder="77301"
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-forest/30 focus:border-forest text-sm"
+                    />
+                  </div>
                 </div>
-                <div>
-                  <label className="block font-body text-charcoal font-semibold text-sm mb-1.5">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={form.email}
-                    onChange={handleChange}
-                    placeholder="john@email.com"
-                    className="w-full border border-forest/15 rounded-sm px-4 py-3 font-body text-charcoal text-sm placeholder:text-charcoal-muted/50 focus:outline-none focus:border-amber focus:ring-2 focus:ring-amber/20 transition-all bg-cream"
-                  />
-                </div>
-              </div>
 
-              {/* Zip + Coverage */}
-              <div className="grid sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block font-body text-charcoal font-semibold text-sm mb-1.5">
-                    ZIP Code
-                  </label>
-                  <input
-                    type="text"
-                    name="zipCode"
-                    value={form.zipCode}
-                    onChange={handleChange}
-                    placeholder="77301"
-                    className="w-full border border-forest/15 rounded-sm px-4 py-3 font-body text-charcoal text-sm placeholder:text-charcoal-muted/50 focus:outline-none focus:border-amber focus:ring-2 focus:ring-amber/20 transition-all bg-cream"
-                  />
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1.5">Coverage Type *</label>
+                    <select
+                      value={formData.coverageType}
+                      onChange={e => setFormData(p => ({ ...p, coverageType: e.target.value as keyof typeof CoverageType }))}
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-forest/30 focus:border-forest text-sm bg-white"
+                    >
+                      <option value="auto">Auto Insurance</option>
+                      <option value="home">Home Insurance</option>
+                      <option value="life">Life Insurance</option>
+                      <option value="business">Business Insurance</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1.5">Best Time to Call *</label>
+                    <select
+                      value={formData.bestTimeToCall}
+                      onChange={e => setFormData(p => ({ ...p, bestTimeToCall: e.target.value as keyof typeof BestTimeToCall }))}
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-forest/30 focus:border-forest text-sm bg-white"
+                    >
+                      <option value="morning">Morning (8am–12pm)</option>
+                      <option value="afternoon">Afternoon (12pm–5pm)</option>
+                      <option value="evening">Evening (5pm–8pm)</option>
+                      <option value="anyTime">Any Time</option>
+                    </select>
+                  </div>
                 </div>
-                <div>
-                  <label className="block font-body text-charcoal font-semibold text-sm mb-1.5">
-                    Coverage Type <span className="text-amber">*</span>
-                  </label>
-                  <select
-                    name="coverageType"
-                    value={form.coverageType}
-                    onChange={handleChange}
-                    className="w-full border border-forest/15 rounded-sm px-4 py-3 font-body text-charcoal text-sm focus:outline-none focus:border-amber focus:ring-2 focus:ring-amber/20 transition-all bg-cream"
-                  >
-                    <option value="auto">Auto</option>
-                    <option value="home">Home</option>
-                    <option value="life">Life</option>
-                    <option value="business">Business</option>
-                  </select>
-                </div>
-              </div>
 
-              {/* Best time */}
-              <div>
-                <label className="block font-body text-charcoal font-semibold text-sm mb-1.5">
-                  Best Time to Call
-                </label>
-                <select
-                  name="bestTimeToCall"
-                  value={form.bestTimeToCall}
-                  onChange={handleChange}
-                  className="w-full border border-forest/15 rounded-sm px-4 py-3 font-body text-charcoal text-sm focus:outline-none focus:border-amber focus:ring-2 focus:ring-amber/20 transition-all bg-cream"
+                <button
+                  type="submit"
+                  disabled={isPending}
+                  className="w-full flex items-center justify-center gap-2 px-6 py-4 rounded-xl font-bold text-sm md:text-base text-forest-dark bg-amber-400 hover:bg-amber-300 transition-all disabled:opacity-60 shadow-amber-glow"
                 >
-                  <option value="morning">Morning (8am–12pm)</option>
-                  <option value="afternoon">Afternoon (12pm–5pm)</option>
-                  <option value="evening">Evening (5pm–8pm)</option>
-                  <option value="anyTime">Any Time</option>
-                </select>
-              </div>
-
-              {/* Submit */}
-              <button
-                type="submit"
-                disabled={isPending}
-                className="w-full bg-amber hover:bg-amber-light disabled:opacity-60 text-forest-dark font-body font-bold text-base py-4 rounded-sm shadow-amber-glow hover:shadow-amber-glow-lg transition-all duration-200 flex items-center justify-center gap-2"
-              >
-                {isPending ? (
-                  <>
-                    <Loader2 className="w-5 h-5 animate-spin" />
-                    Submitting...
-                  </>
-                ) : (
-                  <>
-                    <Send className="w-5 h-5" />
-                    Get My Free Quote
-                  </>
-                )}
-              </button>
-
-              <p className="font-body text-charcoal-muted text-xs text-center">
-                No spam. No pressure. Just honest insurance guidance.
-              </p>
-            </form>
+                  {isPending ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-forest-dark/30 border-t-forest-dark rounded-full animate-spin" />
+                      Submitting...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-4 h-4" />
+                      Get My Free Quote
+                    </>
+                  )}
+                </button>
+              </form>
+            )}
           </div>
         </div>
       </div>

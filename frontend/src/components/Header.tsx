@@ -1,130 +1,142 @@
 import React, { useState, useEffect } from 'react';
-import { Shield, Menu, X, Phone } from 'lucide-react';
-import { useBusinessInfo } from '../hooks/useBusinessInfo';
+import { Phone, Menu, X, Shield } from 'lucide-react';
 
-export default function Header() {
-  const { businessName, phone } = useBusinessInfo();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+interface HeaderProps {
+  onAgentLogin?: () => void;
+}
+
+export default function Header({ onAgentLogin }: HeaderProps) {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const scrollTo = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    setMobileMenuOpen(false);
+  };
+
   const navLinks = [
-    { label: 'Services', href: '#services' },
-    { label: 'About', href: '#about' },
-    { label: 'Testimonials', href: '#testimonials' },
-    { label: 'Contact', href: '#contact' },
+    { label: 'About', id: 'about' },
+    { label: 'Services', id: 'services' },
+    { label: 'Why Us', id: 'why-choose' },
+    { label: 'Testimonials', id: 'testimonials' },
+    { label: 'Contact', id: 'contact' },
   ];
 
-  const displayPhone = phone || '(832) 555-1234';
-  const telPhone = displayPhone.replace(/\D/g, '');
-
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? 'bg-forest-dark/95 backdrop-blur-md shadow-forest-lg border-b border-forest-light/20'
-          : 'bg-transparent'
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
-          {/* Logo */}
-          <a href="#" className="flex items-center gap-3 group">
-            <div className="relative">
-              <div className="w-10 h-10 bg-amber rounded-sm flex items-center justify-center shadow-amber-glow group-hover:shadow-amber-glow-lg transition-shadow">
-                <Shield className="w-5 h-5 text-forest-dark" strokeWidth={2.5} />
+    <>
+      <header
+        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
+          isScrolled ? 'bg-forest-dark/95 backdrop-blur-md shadow-forest-md' : 'bg-transparent'
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16 md:h-20">
+            {/* Logo */}
+            <div className="flex items-center gap-2 flex-shrink-0">
+              <img src="/assets/generated/ris-logo.dim_200x200.png" alt="RIS Logo" className="w-8 h-8 md:w-10 md:h-10 rounded-lg object-cover" />
+              <div>
+                <p className="text-white font-bold text-sm md:text-base leading-tight">Reeves Insurance</p>
+                <p className="text-amber-400 text-xs hidden sm:block">Solutions</p>
               </div>
             </div>
-            <div className="flex flex-col">
-              <span className="font-display font-bold text-white text-lg leading-tight tracking-tight">
-                {businessName || 'Reeves Insurance'}
-              </span>
-              <span className="font-body text-amber text-xs tracking-widest uppercase">
-                Solutions
-              </span>
+
+            {/* Desktop Nav */}
+            <nav className="hidden lg:flex items-center gap-6">
+              {navLinks.map(({ label, id }) => (
+                <button
+                  key={id}
+                  onClick={() => scrollTo(id)}
+                  className="text-gray-300 hover:text-white text-sm font-medium transition-colors"
+                >
+                  {label}
+                </button>
+              ))}
+            </nav>
+
+            {/* Desktop CTAs */}
+            <div className="hidden md:flex items-center gap-2 lg:gap-3">
+              <a
+                href="tel:+19364412301"
+                className="flex items-center gap-1.5 text-amber-400 hover:text-amber-300 text-sm font-medium transition-colors"
+              >
+                <Phone className="w-4 h-4" />
+                <span className="hidden lg:inline">(936) 441-2301</span>
+              </a>
+              <button
+                onClick={() => scrollTo('contact')}
+                className="px-3 py-2 lg:px-4 rounded-lg text-xs lg:text-sm font-semibold text-forest-dark bg-amber-400 hover:bg-amber-300 transition-colors"
+              >
+                <span className="hidden lg:inline">Get Conroe Site – 3 Spots Left</span>
+                <span className="lg:hidden">Get Quote</span>
+              </button>
+              <button
+                onClick={onAgentLogin}
+                className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium text-blue-300 hover:text-white transition-all border border-blue-700 hover:border-blue-500"
+                style={{ background: 'rgba(15,52,96,0.4)' }}
+              >
+                <Shield className="w-3.5 h-3.5" />
+                <span>Agent Login</span>
+              </button>
             </div>
-          </a>
 
-          {/* Desktop nav */}
-          <nav className="hidden lg:flex items-center gap-8">
-            {navLinks.map(({ label, href }) => (
-              <a
-                key={label}
-                href={href}
-                className="relative font-body text-white/75 hover:text-white text-sm font-medium transition-colors group"
+            {/* Mobile: Agent Login + Hamburger */}
+            <div className="flex md:hidden items-center gap-2">
+              <button
+                onClick={onAgentLogin}
+                className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium text-blue-300 border border-blue-700"
+                style={{ background: 'rgba(15,52,96,0.4)' }}
               >
-                {label}
-                <span className="absolute -bottom-1 left-0 w-0 h-px bg-amber group-hover:w-full transition-all duration-300" />
-              </a>
-            ))}
-          </nav>
-
-          {/* Desktop CTAs */}
-          <div className="hidden lg:flex items-center gap-4">
-            <a
-              href={`tel:+1${telPhone}`}
-              className="flex items-center gap-2 font-body text-white/75 hover:text-amber text-sm font-medium transition-colors"
-            >
-              <Phone className="w-4 h-4" />
-              {displayPhone}
-            </a>
-            <a
-              href="#contact"
-              className="bg-amber hover:bg-amber-light text-forest-dark font-body font-bold text-sm px-5 py-2.5 rounded-sm shadow-amber-glow hover:shadow-amber-glow-lg transition-all duration-200 whitespace-nowrap"
-            >
-              Get Conroe Site - 3 Spots Left Week
-            </a>
-          </div>
-
-          {/* Mobile menu button */}
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="lg:hidden w-10 h-10 flex items-center justify-center text-white/75 hover:text-white transition-colors"
-            aria-label="Toggle menu"
-          >
-            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile menu */}
-      {isMenuOpen && (
-        <div className="lg:hidden bg-forest-dark/98 backdrop-blur-md border-t border-forest-light/20">
-          <div className="max-w-7xl mx-auto px-4 py-6 space-y-4">
-            {navLinks.map(({ label, href }) => (
-              <a
-                key={label}
-                href={href}
-                onClick={() => setIsMenuOpen(false)}
-                className="block font-body text-white/75 hover:text-amber text-base font-medium transition-colors py-2 border-b border-white/8"
+                <Shield className="w-3 h-3" />
+                <span>Agent</span>
+              </button>
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="w-9 h-9 flex items-center justify-center rounded-lg text-white hover:bg-white/10 transition-colors"
               >
-                {label}
-              </a>
-            ))}
-            <div className="pt-4 space-y-3">
-              <a
-                href={`tel:+1${telPhone}`}
-                className="flex items-center gap-2 font-body text-amber text-base font-semibold"
-              >
-                <Phone className="w-5 h-5" />
-                {displayPhone}
-              </a>
-              <a
-                href="#contact"
-                onClick={() => setIsMenuOpen(false)}
-                className="block w-full text-center bg-amber hover:bg-amber-light text-forest-dark font-body font-bold text-base px-6 py-3 rounded-sm shadow-amber-glow transition-all duration-200"
-              >
-                Get Conroe Site - 3 Spots Left Week
-              </a>
+                {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              </button>
             </div>
           </div>
         </div>
-      )}
-    </header>
+
+        {/* Mobile Menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden bg-forest-dark/98 backdrop-blur-md border-t border-white/10">
+            <div className="px-4 py-4 space-y-1">
+              {navLinks.map(({ label, id }) => (
+                <button
+                  key={id}
+                  onClick={() => scrollTo(id)}
+                  className="block w-full text-left px-3 py-2.5 text-gray-300 hover:text-white hover:bg-white/5 rounded-lg text-sm font-medium transition-colors"
+                >
+                  {label}
+                </button>
+              ))}
+              <div className="pt-3 border-t border-white/10 space-y-2">
+                <a
+                  href="tel:+19364412301"
+                  className="flex items-center gap-2 px-3 py-2.5 text-amber-400 text-sm font-medium"
+                >
+                  <Phone className="w-4 h-4" />
+                  (936) 441-2301
+                </a>
+                <button
+                  onClick={() => scrollTo('contact')}
+                  className="w-full px-4 py-2.5 rounded-lg text-sm font-semibold text-forest-dark bg-amber-400 hover:bg-amber-300 transition-colors"
+                >
+                  Get Conroe Site – 3 Spots Left
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </header>
+    </>
   );
 }

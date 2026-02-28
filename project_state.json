@@ -1,49 +1,52 @@
 {
   "schemaVersion": "1.0.0",
   "projectStateVersion": 3,
-  "summary": "Insurance lead generation / agent pitch platform for Houston/Conroe agents. Includes AI video, testimonials, carrier icons, portal button, and location section. Being optimized as a demo to sell to local insurance agents.",
-  "architectural_notes": [],
+  "summary": "Insurance demo web app for Conroe TX with a responsive frontend (hero, quote form, testimonials, footer) and a complete professional admin panel for agents.",
+  "architectural_notes": [
+    "Admin panel uses dark theme: background #1a1a2e/#16213e, accent green #0f3460",
+    "Frontend (hero, quote form, testimonials, footer) must remain unchanged",
+    "Sample data uses real Conroe TX names and 936-xxx-xxxx phone numbers"
+  ],
   "known_issues": [],
   "isFixRequest": false,
-  "imageRequirements": "## Required Images\n- Mockup screenshot of a Figma-style UI wireframe design for an insurance landing page, clean and minimal design board aesthetic (figma-design-screenshot.dim_600x400.png)\n- Mockup screenshot of a live browser preview showing an insurance agent website on a laptop screen (live-preview-screenshot.dim_600x400.png)\n- Mockup screenshot of a Google search results page showing '#1' ranking for a Conroe insurance query (conroe-number-one-screenshot.dim_600x400.png)",
   "existing_features": [
     {
-      "id": "feature-update-all-testimonial-references-that-mention-karen-to-display-tx-agent-j-d-12-quotes-first-month-instead-remove-the-name-karen-from-all-testimonial-content-across-every-testimonial-component-testimonialssection-houstontestimonialssection-reevesaboutsection-and-any-other-component-displaying-testimonials",
-      "title": "Update all testimonial references that mention 'Karen' to display 'TX Agent J.D. - 12 quotes first month' instead. Remove the name 'Karen' from all testimonial content across every testimonial component (TestimonialsSection, HoustonTestimonialsSection, ReevesAboutSection, and any other component displaying testimonials).",
-      "reqIds": [
-        "REQ-1"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-change-the-hero-section-headline-to-conroe-agents-get-12-quotes-month-and-ensure-it-is-the-most-prominent-above-the-fold-text-in-all-hero-components-herosection-houstonherosection-reevesherosection-the-headline-must-be-visible-without-scrolling-on-standard-desktop-and-mobile-viewports",
-      "title": "Change the hero section headline to 'Conroe Agents: Get 12+ Quotes/Month' and ensure it is the most prominent above-the-fold text in all hero components (HeroSection, HoustonHeroSection, ReevesHeroSection). The headline must be visible without scrolling on standard desktop and mobile viewports.",
+      "id": "feature-add-an-agent-login-button-in-the-top-right-corner-of-the-reevesheader-component-clicking-it-opens-a-modal-dialog-with-a-username-password-form-credentials-admin-conroe123-grant-access-to-the-admin-dashboard-on-successful-login-close-the-modal-and-navigate-to-the-admin-dashboard-route-show-an-error-message-for-invalid-credentials-this-login-must-be-purely-frontend-credential-check-no-internet-identity-required-for-this-admin-flow",
+      "title": "Add an 'Agent Login' button in the top-right corner of the ReevesHeader component. Clicking it opens a modal dialog with a username/password form. Credentials admin / conroe123 grant access to the admin dashboard. On successful login, close the modal and navigate to the admin dashboard route. Show an error message for invalid credentials. This login must be purely frontend credential-check (no Internet Identity required for this admin flow).",
       "reqIds": [
         "REQ-2"
       ],
       "version": 1
     },
     {
-      "id": "feature-add-a-process-proof-section-in-the-footer-area-above-or-integrated-into-the-footer-that-displays-3-steps-as-visual-screenshot-placeholders-with-labels-figma-design-live-preview-and-conroe-1-use-arrow-connectors-between-steps-to-show-the-progression-the-section-heading-should-communicate-a-proven-build-process",
-      "title": "Add a 'Process Proof' section in the footer area (above or integrated into the footer) that displays 3 steps as visual screenshot placeholders with labels: 'Figma Design', 'Live Preview', and 'Conroe #1'. Use arrow connectors between steps to show the progression. The section heading should communicate a proven build process.",
+      "id": "feature-build-a-complete-admin-dashboard-page-at-admin-dashboard-with-a-dark-theme-using-background-colors-1a1a2e-and-16213e-and-accent-green-0f3460-the-dashboard-must-display-1-four-stat-cards-total-leads-127-15-quotes-23-18-conv-rate-calls-45-won-8-24k-revenue-2-a-leads-table-with-columns-name-phone-email-policy-status-date-pre-populated-with-at-least-8-sample-rows-using-real-conroe-tx-first-last-names-and-936-area-code-phone-numbers-3-status-filter-tabs-new-called-won-with-live-table-filtering-4-an-export-csv-button-that-downloads-the-visible-leads-as-a-csv-file-5-a-leads-per-week-line-chart-7-days-6-a-policy-type-pie-chart-showing-auto-45-home-30-life-15-commercial-10",
+      "title": "Build a complete admin dashboard page at /admin/dashboard with a dark theme using background colors #1a1a2e and #16213e and accent green #0f3460. The dashboard must display: (1) Four stat cards — Total Leads: 127 (+15%), Quotes: 23 (18% conv rate), Calls: 45, Won: 8 ($24K revenue); (2) A leads table with columns Name, Phone, Email, Policy, Status, Date — pre-populated with at least 8 sample rows using real Conroe TX first/last names and 936-area-code phone numbers; (3) Status filter tabs: New / Called / Won with live table filtering; (4) An Export CSV button that downloads the visible leads as a CSV file; (5) A leads-per-week line chart (7 days); (6) A policy type pie chart showing Auto 45%, Home 30%, Life 15%, Commercial 10%.",
       "reqIds": [
         "REQ-3"
       ],
       "version": 1
     },
     {
-      "id": "feature-replace-every-phone-number-displayed-in-the-ui-with-832-555-1234-this-includes-the-header-phone-cta-floatingcallbutton-tel-href-contactsection-reevescontactsection-business-info-footer-reevesfooter-houstonfooter-contact-details-stickyquotebar-if-it-shows-a-phone-and-any-other-component-rendering-a-phone-number-also-update-the-default-fallback-phone-value-in-the-usebusinessinfo-hook",
-      "title": "Replace every phone number displayed in the UI with (832) 555-1234. This includes the Header phone CTA, FloatingCallButton tel: href, ContactSection/ReevesContactSection business info, Footer/ReevesFooter/HoustonFooter contact details, StickyQuoteBar if it shows a phone, and any other component rendering a phone number. Also update the default fallback phone value in the useBusinessInfo hook.",
+      "id": "feature-build-the-admin-panel-side-navigation-and-layout-shell-with-these-sections-dashboard-default-leads-policy-management-lead-assignment-analytics-and-pdf-invoices-the-layout-must-use-the-dark-theme-1a1a2e-sidebar-16213e-main-area-0f3460-accent-implement-stub-pages-for-policy-management-list-view-placeholder-lead-assignment-assign-lead-to-agent-dropdown-placeholder-analytics-extended-charts-placeholder-and-pdf-invoices-invoice-list-with-a-generate-pdf-button-per-row-that-triggers-a-browser-print-pdf-of-a-simple-invoice-template",
+      "title": "Build the admin panel side navigation and layout shell with these sections: Dashboard (default), Leads, Policy Management, Lead Assignment, Analytics, and PDF Invoices. The layout must use the dark theme (#1a1a2e sidebar, #16213e main area, #0f3460 accent). Implement stub pages for Policy Management (list view placeholder), Lead Assignment (assign lead to agent dropdown placeholder), Analytics (extended charts placeholder), and PDF Invoices (invoice list with a 'Generate PDF' button per row that triggers a browser print/PDF of a simple invoice template).",
       "reqIds": [
         "REQ-4"
       ],
       "version": 1
     },
     {
-      "id": "feature-update-all-primary-cta-quote-buttons-get-free-quote-get-quote-submit-quote-etc-to-display-the-urgency-text-get-conroe-site-3-spots-left-week-apply-this-to-the-main-cta-button-in-the-hero-section-the-header-get-free-quote-button-and-any-other-prominent-quote-cta-buttons-in-houstonherosection-reevesherosection-houstonquoteform-submit-button-and-emotionalclosesection-ctas",
-      "title": "Update all primary CTA quote buttons (Get Free Quote, Get Quote, Submit Quote, etc.) to display the urgency text 'Get Conroe Site - 3 Spots Left Week'. Apply this to the main CTA button in the hero section, the header 'Get Free Quote' button, and any other prominent quote/CTA buttons in HoustonHeroSection, ReevesHeroSection, HoustonQuoteForm submit button, and EmotionalCloseSection CTAs.",
+      "id": "feature-make-the-admin-panel-fully-responsive-for-mobile-replace-the-sidebar-navigation-with-a-hamburger-menu-that-opens-a-slide-out-drawer-on-screens-768px-stack-the-4-stat-cards-vertically-on-mobile-make-the-leads-table-horizontally-scrollable-swipeable-on-small-screens",
+      "title": "Make the admin panel fully responsive for mobile: replace the sidebar navigation with a hamburger menu that opens a slide-out drawer on screens ≤768px; stack the 4 stat cards vertically on mobile; make the leads table horizontally scrollable (swipeable) on small screens.",
       "reqIds": [
         "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-protect-the-admin-routes-so-that-unauthenticated-users-not-logged-in-via-the-admin-conroe123-credential-check-are-redirected-to-the-home-page-or-a-login-prompt-when-navigating-directly-to-admin-store-the-admin-session-state-in-sessionstorage-so-it-persists-across-page-refreshes-during-the-session-but-clears-on-tab-close",
+      "title": "Protect the admin routes so that unauthenticated users (not logged in via the admin/conroe123 credential check) are redirected to the home page or a login prompt when navigating directly to /admin/*. Store the admin session state in sessionStorage so it persists across page refreshes during the session but clears on tab close.",
+      "reqIds": [
+        "REQ-6"
       ],
       "version": 1
     }
@@ -51,37 +54,45 @@
   "new_feature_requests": [
     {
       "id": "AR-1",
-      "summary": "Update testimonial to 'TX Agent J.D. - 12 quotes first month' and remove Karen name",
+      "summary": "Responsive layout fix: ensure all text and images adjust properly for both mobile and laptop viewports",
       "reqIds": [],
       "status": "pending"
     },
     {
       "id": "AR-2",
-      "summary": "Change hero headline to 'Conroe Agents: Get 12+ Quotes/Month' above fold",
+      "summary": "Admin panel with Agent Login button (top-right), modal login (admin/conroe123), dark dashboard theme (#1a1a2e/#16213e + green #0f3460)",
       "reqIds": [],
       "status": "pending"
     },
     {
       "id": "AR-3",
-      "summary": "Add process proof section in footer with 3 screenshots: 'Figma Design → Live Preview → Conroe #1'",
+      "summary": "Dashboard: 4 stat cards (Total Leads 127, Quotes 23, Calls 45, Won 8/$24K), leads table with Name/Phone/Email/Policy/Status/Date, filters (New/Called/Won), Export CSV, leads/week line chart and policy type pie chart",
       "reqIds": [],
       "status": "pending"
     },
     {
       "id": "AR-4",
-      "summary": "Replace all phone numbers with US number (832) 555-1234 (Google Voice)",
+      "summary": "Agent features: policy management, lead assignment, analytics, PDF invoices",
       "reqIds": [],
       "status": "pending"
     },
     {
       "id": "AR-5",
-      "summary": "Update CTA quote button text to 'Get Conroe Site - 3 Spots Left Week' for urgency",
+      "summary": "Admin mobile UX: hamburger menu, stacked cards, swipeable table",
       "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "Fix responsive layout across the entire public-facing site (ReevesPublicSite and all its section components): all text sizes, image dimensions, spacing, and grid layouts must adapt correctly for both mobile (≤768px) and laptop (≥1024px) viewports. Ensure hero headline, hero image/agent portrait, stat row, service cards, testimonial carousel, quote form fields, and footer columns are all properly stacked and readable on mobile without horizontal overflow or clipped content.",
+      "reqIds": [
+        "REQ-1"
+      ],
       "status": "pending"
     }
   ],
   "gameProjectType": "none",
-  "projectName": "Conroe Agent Demo",
+  "projectName": "Conroe TX Insurance Demo",
   "clarification_mode": "instant",
   "clarification_rounds": 0
 }

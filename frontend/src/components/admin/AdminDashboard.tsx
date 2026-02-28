@@ -1,100 +1,96 @@
 import React from 'react';
-import { useGetAllLeads, useGetAllAppointments } from '../../hooks/useAdminQueries';
-import { Users, FileText, TrendingUp, Clock } from 'lucide-react';
+import { TrendingUp, Phone, Award, Users } from 'lucide-react';
+import LeadsChart from './LeadsChart';
+import PolicyPieChart from './PolicyPieChart';
+import LeadsTable from './LeadsTable';
+
+const statCards = [
+  {
+    label: 'Total Leads',
+    value: '127',
+    trend: '+15%',
+    trendUp: true,
+    sub: 'This month',
+    icon: Users,
+    color: '#3b82f6',
+  },
+  {
+    label: 'Quotes Sent',
+    value: '23',
+    trend: '18% conv.',
+    trendUp: true,
+    sub: 'Conversion rate',
+    icon: TrendingUp,
+    color: '#10b981',
+  },
+  {
+    label: 'Calls Made',
+    value: '45',
+    trend: '+8 this week',
+    trendUp: true,
+    sub: 'Follow-ups',
+    icon: Phone,
+    color: '#f59e0b',
+  },
+  {
+    label: 'Policies Won',
+    value: '8',
+    trend: '$24K revenue',
+    trendUp: true,
+    sub: 'This month',
+    icon: Award,
+    color: '#8b5cf6',
+  },
+];
 
 export default function AdminDashboard() {
-  const { data: leads = [], isLoading: leadsLoading } = useGetAllLeads();
-  const { data: appointments = [], isLoading: appointmentsLoading } = useGetAllAppointments();
-
-  const stats = [
-    {
-      label: 'Total Leads',
-      value: leads.length,
-      icon: Users,
-      color: 'text-blue-600',
-      bg: 'bg-blue-50',
-    },
-    {
-      label: 'Quote Submissions',
-      value: appointments.length,
-      icon: FileText,
-      color: 'text-green-600',
-      bg: 'bg-green-50',
-    },
-    {
-      label: 'This Month',
-      value: leads.filter(l => {
-        const ts = Number(l.timestamp) / 1_000_000;
-        const now = Date.now();
-        const monthAgo = now - 30 * 24 * 60 * 60 * 1000;
-        return ts > monthAgo;
-      }).length,
-      icon: TrendingUp,
-      color: 'text-yellow-600',
-      bg: 'bg-yellow-50',
-    },
-    {
-      label: 'Pending Review',
-      value: leads.length,
-      icon: Clock,
-      color: 'text-purple-600',
-      bg: 'bg-purple-50',
-    },
-  ];
-
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Dashboard</h1>
-
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        {stats.map((stat) => {
-          const Icon = stat.icon;
-          return (
-            <div key={stat.label} className="bg-white rounded-lg shadow p-5 flex items-center gap-4">
-              <div className={`${stat.bg} ${stat.color} p-3 rounded-full`}>
-                <Icon size={22} />
-              </div>
-              <div>
-                <p className="text-sm text-gray-500">{stat.label}</p>
-                <p className="text-2xl font-bold text-gray-900">
-                  {leadsLoading || appointmentsLoading ? '...' : stat.value}
-                </p>
-              </div>
-            </div>
-          );
-        })}
+    <div className="space-y-6">
+      <div>
+        <h2 className="text-xl md:text-2xl font-bold text-white">Dashboard Overview</h2>
+        <p className="text-gray-400 text-sm mt-1">Welcome back — here's what's happening today.</p>
       </div>
 
-      {/* Recent Submissions */}
-      <div className="bg-white rounded-lg shadow">
-        <div className="px-6 py-4 border-b border-gray-200">
-          <h2 className="text-lg font-semibold text-gray-900">Recent Quote Submissions</h2>
-        </div>
-        <div className="divide-y divide-gray-100">
-          {leadsLoading ? (
-            <div className="px-6 py-8 text-center text-gray-400">Loading...</div>
-          ) : leads.length === 0 ? (
-            <div className="px-6 py-8 text-center text-gray-400">No submissions yet.</div>
-          ) : (
-            leads.slice(0, 5).map((lead) => (
-              <div key={String(lead.id)} className="px-6 py-4 flex items-center justify-between">
-                <div>
-                  <p className="font-medium text-gray-900">{lead.name}</p>
-                  <p className="text-sm text-gray-500">{lead.email} · {lead.phone}</p>
-                </div>
-                <div className="text-right">
-                  <span className="inline-block px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-700 capitalize">
-                    {String(lead.coverageType)}
-                  </span>
-                  <p className="text-xs text-gray-400 mt-1">
-                    {new Date(Number(lead.timestamp) / 1_000_000).toLocaleDateString()}
-                  </p>
-                </div>
+      {/* Stat Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {statCards.map(({ label, value, trend, trendUp, sub, icon: Icon, color }) => (
+          <div
+            key={label}
+            className="rounded-xl p-4 md:p-5 flex flex-col gap-3"
+            style={{ background: '#1a1a2e', border: '1px solid #0f3460' }}
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-gray-400 text-xs font-medium uppercase tracking-wide">{label}</span>
+              <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: color + '22' }}>
+                <Icon className="w-4 h-4" style={{ color }} />
               </div>
-            ))
-          )}
+            </div>
+            <div>
+              <p className="text-3xl font-bold text-white">{value}</p>
+              <p className="text-xs text-gray-500 mt-0.5">{sub}</p>
+            </div>
+            <div className={`flex items-center gap-1 text-xs font-medium ${trendUp ? 'text-green-400' : 'text-red-400'}`}>
+              <TrendingUp className="w-3 h-3" />
+              {trend}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Charts Row */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div className="lg:col-span-2">
+          <LeadsChart />
         </div>
+        <div>
+          <PolicyPieChart />
+        </div>
+      </div>
+
+      {/* Leads Table */}
+      <div>
+        <h3 className="text-lg font-semibold text-white mb-3">Recent Leads</h3>
+        <LeadsTable compact />
       </div>
     </div>
   );

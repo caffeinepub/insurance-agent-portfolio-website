@@ -1,115 +1,128 @@
 import React, { useState } from 'react';
-import { Outlet, useNavigate, useLocation } from '@tanstack/react-router';
-import { useInternetIdentity } from '../../hooks/useInternetIdentity';
-import { useQueryClient } from '@tanstack/react-query';
+import { Outlet, useRouter } from '@tanstack/react-router';
+import { Link, useRouterState } from '@tanstack/react-router';
 import {
-  LayoutDashboard,
-  Users,
-  Calendar,
-  Settings,
-  LogOut,
-  Menu,
-  X,
-  Shield,
+  LayoutDashboard, Users, FileText, UserCheck, BarChart2, Receipt,
+  Menu, X, LogOut, Shield, ChevronRight
 } from 'lucide-react';
+import { useAdminAuth } from '../../hooks/useAdminAuth';
 
 const navItems = [
-  { label: 'Dashboard', path: '/admin', icon: LayoutDashboard },
-  { label: 'Leads', path: '/admin/leads', icon: Users },
-  { label: 'Appointments', path: '/admin/appointments', icon: Calendar },
-  { label: 'Settings', path: '/admin/settings', icon: Settings },
+  { path: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { path: '/admin/leads', label: 'Leads', icon: Users },
+  { path: '/admin/policy-management', label: 'Policy Management', icon: FileText },
+  { path: '/admin/lead-assignment', label: 'Lead Assignment', icon: UserCheck },
+  { path: '/admin/analytics', label: 'Analytics', icon: BarChart2 },
+  { path: '/admin/pdf-invoices', label: 'PDF Invoices', icon: Receipt },
 ];
 
 export default function AdminLayout() {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { clear, identity } = useInternetIdentity();
-  const queryClient = useQueryClient();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const { logout } = useAdminAuth();
+  const routerState = useRouterState();
+  const currentPath = routerState.location.pathname;
 
-  const handleLogout = async () => {
-    await clear();
-    queryClient.clear();
-    navigate({ to: '/admin/login' });
-  };
+  const SidebarContent = () => (
+    <div className="flex flex-col h-full">
+      {/* Logo */}
+      <div className="px-6 py-5 border-b" style={{ borderColor: '#0f3460' }}>
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: '#0f3460' }}>
+            <Shield className="w-5 h-5 text-green-400" />
+          </div>
+          <div>
+            <p className="text-white font-bold text-sm leading-tight">Reeves Insurance</p>
+            <p className="text-blue-400 text-xs">Agent Portal</p>
+          </div>
+        </div>
+      </div>
 
-  const principal = identity?.getPrincipal().toString() ?? '';
-  const shortPrincipal = principal ? `${principal.slice(0, 8)}...` : 'Admin';
+      {/* Nav */}
+      <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+        {navItems.map(({ path, label, icon: Icon }) => {
+          const isActive = currentPath === path || currentPath.startsWith(path + '/');
+          return (
+            <Link
+              key={path}
+              to={path}
+              onClick={() => setMobileOpen(false)}
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all group ${
+                isActive ? 'text-white' : 'text-gray-400 hover:text-white hover:bg-white/5'
+              }`}
+              style={isActive ? { background: '#0f3460' } : {}}
+            >
+              <Icon className={`w-4 h-4 flex-shrink-0 ${isActive ? 'text-green-400' : 'text-gray-500 group-hover:text-gray-300'}`} />
+              <span>{label}</span>
+              {isActive && <ChevronRight className="w-3 h-3 ml-auto text-green-400" />}
+            </Link>
+          );
+        })}
+      </nav>
+
+      {/* Logout */}
+      <div className="px-3 py-4 border-t" style={{ borderColor: '#0f3460' }}>
+        <button
+          onClick={logout}
+          className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-400 hover:text-red-400 hover:bg-red-900/20 transition-all w-full"
+        >
+          <LogOut className="w-4 h-4" />
+          <span>Logout</span>
+        </button>
+      </div>
+    </div>
+  );
 
   return (
-    <div className="flex h-screen bg-gray-100">
-      {/* Mobile overlay */}
-      {sidebarOpen && (
-        <div
-          className="fixed inset-0 bg-black/50 z-20 lg:hidden"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
-
-      {/* Sidebar */}
-      <aside
-        className={`fixed lg:static inset-y-0 left-0 z-30 w-64 bg-white shadow-lg transform transition-transform duration-200 ${
-          sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
-        }`}
-      >
-        <div className="flex items-center gap-2 px-6 py-5 border-b border-gray-200">
-          <Shield size={22} className="text-blue-600" />
-          <span className="font-bold text-gray-900">Admin Panel</span>
-        </div>
-        <nav className="p-4 space-y-1">
-          {navItems.map(item => {
-            const Icon = item.icon;
-            const isActive = location.pathname === item.path;
-            return (
-              <button
-                key={item.path}
-                onClick={() => {
-                  navigate({ to: item.path });
-                  setSidebarOpen(false);
-                }}
-                className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                  isActive
-                    ? 'bg-blue-50 text-blue-700'
-                    : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
-                }`}
-              >
-                <Icon size={18} />
-                {item.label}
-              </button>
-            );
-          })}
-        </nav>
-        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200">
-          <button
-            onClick={handleLogout}
-            className="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50 transition-colors"
-          >
-            <LogOut size={18} />
-            Logout
-          </button>
-        </div>
+    <div className="flex h-screen overflow-hidden" style={{ background: '#1a1a2e' }}>
+      {/* Desktop Sidebar */}
+      <aside className="hidden md:flex flex-col w-56 flex-shrink-0" style={{ background: '#1a1a2e', borderRight: '1px solid #0f3460' }}>
+        <SidebarContent />
       </aside>
 
-      {/* Main content */}
-      <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Header */}
-        <header className="bg-white shadow-sm px-6 py-4 flex items-center justify-between">
-          <button
-            className="lg:hidden text-gray-600 hover:text-gray-900"
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-          >
-            {sidebarOpen ? <X size={22} /> : <Menu size={22} />}
-          </button>
-          <div className="flex items-center gap-2 ml-auto">
-            <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
-              <Shield size={16} className="text-blue-600" />
+      {/* Mobile Drawer Overlay */}
+      {mobileOpen && (
+        <div className="fixed inset-0 z-40 md:hidden">
+          <div className="absolute inset-0 bg-black/60" onClick={() => setMobileOpen(false)} />
+          <aside className="absolute left-0 top-0 h-full w-64 z-50 flex flex-col" style={{ background: '#1a1a2e', borderRight: '1px solid #0f3460' }}>
+            <SidebarContent />
+          </aside>
+        </div>
+      )}
+
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+        {/* Top Header */}
+        <header className="flex items-center justify-between px-4 md:px-6 py-3 flex-shrink-0" style={{ background: '#16213e', borderBottom: '1px solid #0f3460' }}>
+          <div className="flex items-center gap-3">
+            <button
+              className="md:hidden w-9 h-9 flex items-center justify-center rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
+              onClick={() => setMobileOpen(true)}
+            >
+              <Menu className="w-5 h-5" />
+            </button>
+            <div>
+              <h1 className="text-white font-semibold text-sm md:text-base">
+                {navItems.find(n => currentPath.startsWith(n.path))?.label || 'Admin Panel'}
+              </h1>
+              <p className="text-gray-500 text-xs hidden md:block">Reeves Insurance Solutions — Conroe, TX</p>
             </div>
-            <span className="text-sm text-gray-600 hidden sm:block">{shortPrincipal}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full text-xs text-green-400" style={{ background: '#0f3460' }}>
+              <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+              Admin
+            </div>
+            <button
+              onClick={logout}
+              className="md:hidden w-9 h-9 flex items-center justify-center rounded-lg text-gray-400 hover:text-red-400 transition-colors"
+            >
+              <LogOut className="w-4 h-4" />
+            </button>
           </div>
         </header>
 
-        {/* Page content */}
-        <main className="flex-1 overflow-y-auto">
+        {/* Page Content */}
+        <main className="flex-1 overflow-y-auto p-4 md:p-6" style={{ background: '#16213e' }}>
           <Outlet />
         </main>
       </div>

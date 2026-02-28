@@ -1,121 +1,151 @@
 {
   "kind": "build_request",
-  "title": "5 Demo Polish Changes: Testimonial, Headline, Process Proof, Phone, CTA Urgency",
-  "projectName": "Conroe Agent Demo",
+  "title": "Responsive layout fix + complete professional admin panel",
+  "projectName": "Reeves Insurance Admin",
   "priority": "high",
   "requirements": [
     {
       "id": "REQ-1",
-      "text": "Update all testimonial references that mention 'Karen' to display 'TX Agent J.D. - 12 quotes first month' instead. Remove the name 'Karen' from all testimonial content across every testimonial component (TestimonialsSection, HoustonTestimonialsSection, ReevesAboutSection, and any other component displaying testimonials).",
+      "text": "Fix responsive layout across the entire public-facing site (ReevesPublicSite and all its section components): all text sizes, image dimensions, spacing, and grid layouts must adapt correctly for both mobile (≤768px) and laptop (≥1024px) viewports. Ensure hero headline, hero image/agent portrait, stat row, service cards, testimonial carousel, quote form fields, and footer columns are all properly stacked and readable on mobile without horizontal overflow or clipped content.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-latest"
+          "msg-5"
         ],
         "quotes": [
-          "Testimonial: \"TX Agent J.D. - 12 quotes first month\" (remove Karen name)"
+          "adjust them properly for both mobile and laptop all text and image should be adjusted properly for both device"
         ]
       },
       "acceptanceCriteria": [
-        "No instance of the name 'Karen' appears anywhere in the rendered UI",
-        "At least one testimonial displays 'TX Agent J.D. - 12 quotes first month' as the attribution",
-        "All testimonial carousel/grid components are updated consistently"
+        "No horizontal scroll on any public page at 375px viewport width",
+        "Hero image and headline are fully visible and readable on mobile",
+        "Quote form fields stack vertically and are full-width on mobile",
+        "Testimonial carousel, service cards, and footer all display correctly at both 375px and 1280px widths",
+        "All font sizes use responsive Tailwind classes (text-sm → text-xl scaling)"
       ]
     },
     {
       "id": "REQ-2",
-      "text": "Change the hero section headline to 'Conroe Agents: Get 12+ Quotes/Month' and ensure it is the most prominent above-the-fold text in all hero components (HeroSection, HoustonHeroSection, ReevesHeroSection). The headline must be visible without scrolling on standard desktop and mobile viewports.",
+      "text": "Add an 'Agent Login' button in the top-right corner of the ReevesHeader component. Clicking it opens a modal dialog with a username/password form. Credentials admin / conroe123 grant access to the admin dashboard. On successful login, close the modal and navigate to the admin dashboard route. Show an error message for invalid credentials. This login must be purely frontend credential-check (no Internet Identity required for this admin flow).",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-latest"
+          "msg-5"
         ],
         "quotes": [
-          "Hero Headline: \"Conroe Agents: Get 12+ Quotes/Month\" (above fold)"
+          "ADMIN LOGIN (Top-right): \"Agent Login\" button → Modal",
+          "Username: admin | Password: conroe123 → Dark dashboard"
         ]
       },
       "acceptanceCriteria": [
-        "The headline 'Conroe Agents: Get 12+ Quotes/Month' is visible above the fold on desktop (1280px) and mobile (375px) without scrolling",
-        "The headline is the largest/most prominent text element in the hero section",
-        "All hero components display this updated headline"
+        "'Agent Login' button visible in header top-right on all screen sizes",
+        "Clicking button opens a centered modal overlay with username and password fields",
+        "Entering admin / conroe123 and submitting navigates to /admin/dashboard",
+        "Incorrect credentials display 'Invalid credentials' error inside the modal",
+        "Modal can be dismissed by clicking outside or an X button"
       ]
     },
     {
       "id": "REQ-3",
-      "text": "Add a 'Process Proof' section in the footer area (above or integrated into the footer) that displays 3 steps as visual screenshot placeholders with labels: 'Figma Design', 'Live Preview', and 'Conroe #1'. Use arrow connectors between steps to show the progression. The section heading should communicate a proven build process.",
+      "text": "Build a complete admin dashboard page at /admin/dashboard with a dark theme using background colors #1a1a2e and #16213e and accent green #0f3460. The dashboard must display: (1) Four stat cards — Total Leads: 127 (+15%), Quotes: 23 (18% conv rate), Calls: 45, Won: 8 ($24K revenue); (2) A leads table with columns Name, Phone, Email, Policy, Status, Date — pre-populated with at least 8 sample rows using real Conroe TX first/last names and 936-area-code phone numbers; (3) Status filter tabs: New / Called / Won with live table filtering; (4) An Export CSV button that downloads the visible leads as a CSV file; (5) A leads-per-week line chart (7 days); (6) A policy type pie chart showing Auto 45%, Home 30%, Life 15%, Commercial 10%.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-latest"
+          "msg-5"
         ],
         "quotes": [
-          "Process Proof: Add 3 screenshots footer: \"Figma Design → Live Preview → Conroe #1\""
+          "[4 Cards]: Total Leads: 127 (+15%) | Quotes: 23 (18% conv) | Calls: 45 | Won: 8 ($24K)",
+          "[Leads Table]: Name | Phone | Email | Policy | Status | Date",
+          "[Filters]: New/called/won | Export CSV",
+          "[Charts]: Leads/week line + Policy pie (Auto45% Home30% Life15% Comm10%)"
         ]
       },
       "acceptanceCriteria": [
-        "A process proof section appears above or within the footer area on all public-facing pages",
-        "Three step cards are displayed labeled 'Figma Design', 'Live Preview', and 'Conroe #1'",
-        "Arrows or connectors visually link the three steps in order",
-        "Each step includes a screenshot placeholder image or representative visual",
-        "Section is responsive on mobile (stacks vertically) and desktop (horizontal row)"
+        "Dashboard page renders at /admin/dashboard with #1a1a2e/#16213e dark background",
+        "All 4 stat cards visible with correct values and trend indicators",
+        "Leads table shows at least 8 rows with Conroe TX names and 936-xxx-xxxx phone numbers",
+        "Filtering by New/Called/Won correctly shows only matching rows",
+        "Export CSV button downloads a CSV file containing the filtered leads data",
+        "Line chart renders leads per day for the past 7 days",
+        "Pie chart renders with correct percentage segments and legend labels"
       ]
     },
     {
       "id": "REQ-4",
-      "text": "Replace every phone number displayed in the UI with (832) 555-1234. This includes the Header phone CTA, FloatingCallButton tel: href, ContactSection/ReevesContactSection business info, Footer/ReevesFooter/HoustonFooter contact details, StickyQuoteBar if it shows a phone, and any other component rendering a phone number. Also update the default fallback phone value in the useBusinessInfo hook.",
+      "text": "Build the admin panel side navigation and layout shell with these sections: Dashboard (default), Leads, Policy Management, Lead Assignment, Analytics, and PDF Invoices. The layout must use the dark theme (#1a1a2e sidebar, #16213e main area, #0f3460 accent). Implement stub pages for Policy Management (list view placeholder), Lead Assignment (assign lead to agent dropdown placeholder), Analytics (extended charts placeholder), and PDF Invoices (invoice list with a 'Generate PDF' button per row that triggers a browser print/PDF of a simple invoice template).",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-latest"
+          "msg-5"
         ],
         "quotes": [
-          "US Phone: (832) 555-1234 everywhere (Google Voice)"
+          "AGENT FEATURES: Policy management | Lead assignment | Analytics | PDF invoices"
         ]
       },
       "acceptanceCriteria": [
-        "No phone number other than (832) 555-1234 appears anywhere in the rendered UI",
-        "The FloatingCallButton tel: href points to tel:+18325551234",
-        "Header, footer, and contact section all display (832) 555-1234",
-        "The useBusinessInfo hook default fallback phone is set to (832) 555-1234"
+        "Sidebar navigation includes all 6 sections with active-state highlight using #0f3460",
+        "Policy Management page renders with a placeholder list",
+        "Lead Assignment page renders with a lead list and an agent assignment dropdown per row",
+        "Analytics page renders extended chart placeholders",
+        "PDF Invoices page lists invoices and each row has a 'Generate PDF' button that opens a printable invoice in a new tab or triggers window.print()"
       ]
     },
     {
       "id": "REQ-5",
-      "text": "Update all primary CTA quote buttons (Get Free Quote, Get Quote, Submit Quote, etc.) to display the urgency text 'Get Conroe Site - 3 Spots Left Week'. Apply this to the main CTA button in the hero section, the header 'Get Free Quote' button, and any other prominent quote/CTA buttons in HoustonHeroSection, ReevesHeroSection, HoustonQuoteForm submit button, and EmotionalCloseSection CTAs.",
+      "text": "Make the admin panel fully responsive for mobile: replace the sidebar navigation with a hamburger menu that opens a slide-out drawer on screens ≤768px; stack the 4 stat cards vertically on mobile; make the leads table horizontally scrollable (swipeable) on small screens.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-latest"
+          "msg-5"
         ],
         "quotes": [
-          "CTA Urgency: Quote button → \"Get Conroe Site - 3 Spots Left Week\""
+          "MOBILE: Hamburger menu | Stacked cards | Swipe table"
         ]
       },
       "acceptanceCriteria": [
-        "The primary CTA button in the hero section reads 'Get Conroe Site - 3 Spots Left Week'",
-        "The header 'Get Free Quote' button is updated to 'Get Conroe Site - 3 Spots Left Week'",
-        "All other prominent quote/CTA buttons display the urgency text",
-        "Form submit buttons may retain functional labels (e.g., 'Submit Request') but top-of-page CTA buttons show the urgency text"
+        "At 375px viewport, sidebar is hidden and a hamburger icon appears in the admin header",
+        "Tapping hamburger opens a full-height slide-out drawer with all nav links",
+        "Stat cards stack in a single column on mobile",
+        "Leads table is horizontally scrollable without clipping on mobile",
+        "All admin text and buttons remain readable and tappable on mobile"
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "text": "Protect the admin routes so that unauthenticated users (not logged in via the admin/conroe123 credential check) are redirected to the home page or a login prompt when navigating directly to /admin/*. Store the admin session state in sessionStorage so it persists across page refreshes during the session but clears on tab close.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-5"
+        ],
+        "quotes": [
+          "Username: admin | Password: conroe123 → Dark dashboard"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Navigating directly to /admin/dashboard without being logged in redirects to the public home page",
+        "After successful login, refreshing the admin dashboard keeps the user logged in",
+        "Closing the browser tab and reopening clears the admin session",
+        "A logout button in the admin header clears session and redirects to home"
       ]
     }
   ],
   "constraints": [
-    "Do not modify any backend logic or data models — all changes are frontend-only",
-    "Do not alter immutable paths: frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, frontend/src/components/ui",
-    "Preserve all existing admin panel functionality and routes"
+    "KEEP ALL PUBLIC FRONTEND IDENTICAL — hero section, quote form, testimonials, and footer must not change in content or structure",
+    "Admin dark theme must strictly use #1a1a2e, #16213e, and #0f3460 as specified",
+    "Do not modify files under frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, or frontend/src/components/ui",
+    "Admin login must use credential check (admin / conroe123) — do not require Internet Identity for this flow",
+    "Sample leads must use real Conroe TX names and 936-area-code phone numbers"
   ],
   "nonGoals": [
-    "Changing the overall visual theme or color palette",
-    "Adding new backend endpoints or modifying the Motoko actor",
-    "Creating a real Google Maps or Calendly integration",
-    "Changing the admin dashboard or lead management features"
+    "Changing any content, copy, or visual design of the public-facing landing page sections",
+    "Integrating a real backend database for admin leads data (static/mock data is acceptable)",
+    "Real PDF generation library — browser print dialog is sufficient for PDF invoices",
+    "Internet Identity authentication for the admin login modal",
+    "Real-time data updates or WebSocket integration"
   ],
   "imageRequirements": {
-    "required": [
-      "Mockup screenshot of a Figma-style UI wireframe design for an insurance landing page, clean and minimal design board aesthetic (figma-design-screenshot.dim_600x400.png)",
-      "Mockup screenshot of a live browser preview showing an insurance agent website on a laptop screen (live-preview-screenshot.dim_600x400.png)",
-      "Mockup screenshot of a Google search results page showing '#1' ranking for a Conroe insurance query (conroe-number-one-screenshot.dim_600x400.png)"
-    ],
+    "required": [],
     "edits": []
   }
 }

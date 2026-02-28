@@ -1,59 +1,71 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-27T08:44:27.711Z",
-  "summary": "The diff implements all 5 requirements with good coverage. REQ-1 through REQ-5 are addressed across the modified files. Minor gaps exist around ReevesHeroSection/ReevesAboutSection/ReevesFooter components (not shown in diff) and some specific AC items that cannot be fully verified from truncated diffs, but overall the implementation is comprehensive.",
+  "generatedAt": "2026-02-27T13:20:50.338Z",
+  "summary": "The diff implements the vast majority of all 6 requirements. REQ-1 through REQ-6 are all substantially addressed. Minor gaps exist around the dashboard status filter tabs being hidden in compact mode, and some hallucinated extras beyond the spec. Overall coverage is very high.",
   "missing_requirements": [
     {
-      "id": "REQ-1",
-      "requirement": "Remove 'Karen' from ReevesAboutSection and any other components displaying testimonials",
-      "reason": "The diff shows TestimonialsSection and HoustonTestimonialsSection updated, but ReevesAboutSection is not present in the diff. It was explicitly called out in the requirement.",
-      "evidence": []
-    },
-    {
-      "id": "REQ-2",
-      "requirement": "Update ReevesHeroSection headline to 'Conroe Agents: Get 12+ Quotes/Month'",
-      "reason": "HeroSection and HoustonHeroSection are updated in the diff, but ReevesHeroSection is not present in the diff files. The requirement explicitly lists all three hero components.",
-      "evidence": []
-    },
-    {
       "id": "REQ-3",
-      "requirement": "Process Proof section appears on all public-facing pages including Reeves variant",
-      "reason": "ProcessProofSection is integrated into Footer.tsx and HoustonFooter.tsx, but ReevesFooter is not shown in the diff. If a separate Reeves variant page exists without this footer integration, that page would be missing the section.",
+      "requirement": "Dashboard page must show status filter tabs (New / Called / Won) with live table filtering directly on the /admin/dashboard page",
+      "reason": "The AdminDashboard renders LeadsTable with compact=true, which hides the toolbar including filter tabs and Export CSV button per the LeadsTable code. Filter tabs and Export CSV are only accessible from AdminLeadsPage, not the /admin/dashboard view.",
       "evidence": [
-        "frontend/src/components/Footer.tsx",
-        "frontend/src/components/houston/HoustonFooter.tsx"
+        "frontend/src/components/admin/AdminDashboard.tsx",
+        "frontend/src/components/admin/LeadsTable.tsx"
       ]
-    },
-    {
-      "id": "REQ-4",
-      "requirement": "Update FloatingCallButton tel: href to tel:+18325551234 and update ContactSection/ReevesContactSection phone",
-      "reason": "The diff does not show FloatingCallButton, ContactSection, or ReevesContactSection being modified. The useBusinessInfo hook default is updated, but direct hardcoded values in these components are not confirmed changed.",
-      "evidence": [
-        "frontend/src/hooks/useBusinessInfo.ts"
-      ]
-    },
-    {
-      "id": "REQ-5",
-      "requirement": "Update ReevesHeroSection CTA button and HoustonQuoteForm submit button to urgency text",
-      "reason": "ReevesHeroSection and HoustonQuoteForm are not present in the diff. The requirement explicitly called out these components.",
-      "evidence": []
     }
   ],
-  "hallucinated_features": [],
-  "confidence": 0.72,
+  "hallucinated_features": [
+    {
+      "description": "Free-text search input field in the leads table toolbar",
+      "reason": "The build request only specifies status filter tabs (New/Called/Won) and Export CSV. The diff adds a free-text search box in the LeadsTable toolbar that was not requested.",
+      "evidence": [
+        "frontend/src/components/admin/LeadsTable.tsx"
+      ]
+    },
+    {
+      "description": "Toast notification system in Lead Assignment page for assignment confirmations",
+      "reason": "The spec only requests an agent assignment dropdown per lead row. The diff adds a toast notification system showing confirmation messages when a lead is assigned, which was not requested.",
+      "evidence": [
+        "frontend/src/components/admin/AdminLeadAssignmentPage.tsx"
+      ]
+    },
+    {
+      "description": "New Policy action button on the Policy Management page",
+      "reason": "The spec only asks for a placeholder list view for Policy Management. The diff adds a New Policy button in the header which was not requested.",
+      "evidence": [
+        "frontend/src/components/admin/AdminPolicyManagementPage.tsx"
+      ]
+    }
+  ],
+  "confidence": 0.82,
   "changed_files": [
-    "frontend-file-summaries.txt",
+    "frontend/src/App.tsx",
+    "frontend/src/components/AboutSection.tsx",
+    "frontend/src/components/ContactSection.tsx",
     "frontend/src/components/EmotionalCloseSection.tsx",
     "frontend/src/components/Footer.tsx",
     "frontend/src/components/Header.tsx",
     "frontend/src/components/HeroSection.tsx",
-    "frontend/src/components/ProcessProofSection.tsx",
+    "frontend/src/components/ServicesSection.tsx",
     "frontend/src/components/TestimonialsSection.tsx",
-    "frontend/src/components/houston/HoustonFooter.tsx",
-    "frontend/src/components/houston/HoustonHeroSection.tsx",
-    "frontend/src/components/houston/HoustonTestimonialsSection.tsx",
-    "frontend/src/hooks/useBusinessInfo.ts",
+    "frontend/src/components/TrustBar.tsx",
+    "frontend/src/components/WhyChooseSection.tsx",
+    "frontend/src/components/admin/AdminAnalyticsPage.tsx",
+    "frontend/src/components/admin/AdminDashboard.tsx",
+    "frontend/src/components/admin/AdminLayout.tsx",
+    "frontend/src/components/admin/AdminLeadAssignmentPage.tsx",
+    "frontend/src/components/admin/AdminLeadsPage.tsx",
+    "frontend/src/components/admin/AdminLoginModal.tsx",
+    "frontend/src/components/admin/AdminLoginPage.tsx",
+    "frontend/src/components/admin/AdminPDFInvoicesPage.tsx",
+    "frontend/src/components/admin/AdminPolicyManagementPage.tsx",
+    "frontend/src/components/admin/LeadsChart.tsx",
+    "frontend/src/components/admin/LeadsTable.tsx",
+    "frontend/src/components/admin/PolicyPieChart.tsx",
+    "frontend/src/components/admin/ProtectedAdminRoute.tsx",
+    "frontend/src/data/mockLeads.ts",
+    "frontend/src/hooks/useAdminAuth.ts",
+    "frontend/src/pages/PublicSite.tsx",
     "project_state.json"
   ]
 }

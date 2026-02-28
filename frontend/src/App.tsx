@@ -1,52 +1,38 @@
-import { RouterProvider, createRouter, createRoute, createRootRoute, Outlet, redirect } from '@tanstack/react-router';
-import { useInternetIdentity } from './hooks/useInternetIdentity';
+import { RouterProvider, createRouter, createRoute, createRootRoute, Outlet, Navigate } from '@tanstack/react-router';
 import PublicSite from './pages/PublicSite';
-import AdminLoginPage from './components/admin/AdminLoginPage';
-import AdminLayout from './components/admin/AdminLayout';
 import AdminDashboard from './components/admin/AdminDashboard';
+import AdminLayout from './components/admin/AdminLayout';
 import AdminLeadsPage from './components/admin/AdminLeadsPage';
-import AdminAppointmentsPage from './components/admin/AdminAppointmentsPage';
-import AdminSettingsPage from './components/admin/AdminSettingsPage';
+import AdminPolicyManagementPage from './components/admin/AdminPolicyManagementPage';
+import AdminLeadAssignmentPage from './components/admin/AdminLeadAssignmentPage';
+import AdminAnalyticsPage from './components/admin/AdminAnalyticsPage';
+import AdminPDFInvoicesPage from './components/admin/AdminPDFInvoicesPage';
 
-// Root route
-const rootRoute = createRootRoute({
-  component: () => <Outlet />,
-});
+function ProtectedAdminRoute() {
+  const isAuthenticated = sessionStorage.getItem('adminAuthenticated') === 'true';
+  if (!isAuthenticated) {
+    return <Navigate to="/" />;
+  }
+  return <AdminLayout />;
+}
 
-// Public route
+const rootRoute = createRootRoute({ component: Outlet });
+
 const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/',
   component: PublicSite,
 });
 
-// Admin login route
-const adminLoginRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/admin/login',
-  component: AdminLoginPage,
-});
-
-// Protected admin layout route
 const adminLayoutRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/admin',
-  component: AdminLayoutWrapper,
+  component: ProtectedAdminRoute,
 });
 
-function AdminLayoutWrapper() {
-  const { identity } = useInternetIdentity();
-  if (!identity) {
-    window.location.href = '/admin/login';
-    return null;
-  }
-  return <AdminLayout />;
-}
-
-// Admin child routes
 const adminDashboardRoute = createRoute({
   getParentRoute: () => adminLayoutRoute,
-  path: '/',
+  path: '/dashboard',
   component: AdminDashboard,
 });
 
@@ -56,26 +42,39 @@ const adminLeadsRoute = createRoute({
   component: AdminLeadsPage,
 });
 
-const adminAppointmentsRoute = createRoute({
+const adminPolicyRoute = createRoute({
   getParentRoute: () => adminLayoutRoute,
-  path: '/appointments',
-  component: AdminAppointmentsPage,
+  path: '/policy-management',
+  component: AdminPolicyManagementPage,
 });
 
-const adminSettingsRoute = createRoute({
+const adminLeadAssignmentRoute = createRoute({
   getParentRoute: () => adminLayoutRoute,
-  path: '/settings',
-  component: AdminSettingsPage,
+  path: '/lead-assignment',
+  component: AdminLeadAssignmentPage,
+});
+
+const adminAnalyticsRoute = createRoute({
+  getParentRoute: () => adminLayoutRoute,
+  path: '/analytics',
+  component: AdminAnalyticsPage,
+});
+
+const adminPDFInvoicesRoute = createRoute({
+  getParentRoute: () => adminLayoutRoute,
+  path: '/pdf-invoices',
+  component: AdminPDFInvoicesPage,
 });
 
 const routeTree = rootRoute.addChildren([
   indexRoute,
-  adminLoginRoute,
   adminLayoutRoute.addChildren([
     adminDashboardRoute,
     adminLeadsRoute,
-    adminAppointmentsRoute,
-    adminSettingsRoute,
+    adminPolicyRoute,
+    adminLeadAssignmentRoute,
+    adminAnalyticsRoute,
+    adminPDFInvoicesRoute,
   ]),
 ]);
 

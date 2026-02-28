@@ -1,219 +1,244 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "5 Demo Polish Changes: Testimonial, Headline, Process Proof, Phone, CTA Urgency",
+  "title": "Responsive layout fix + complete professional admin panel",
   "requirements": [
     {
       "id": "REQ-1",
-      "summary": "Update all testimonial references from 'Karen' to 'TX Agent J.D. - 12 quotes first month'",
+      "summary": "Fix responsive layout across the entire public-facing site for mobile (≤768px) and laptop (≥1024px) viewports",
       "acceptanceCriteria": [
-        "No instance of the name 'Karen' appears anywhere in the rendered UI",
-        "At least one testimonial displays 'TX Agent J.D. - 12 quotes first month' as the attribution",
-        "All testimonial carousel/grid components are updated consistently"
+        "No horizontal scroll on any public page at 375px viewport width",
+        "Hero image and headline are fully visible and readable on mobile",
+        "Quote form fields stack vertically and are full-width on mobile",
+        "Testimonial carousel, service cards, and footer all display correctly at both 375px and 1280px widths",
+        "All font sizes use responsive Tailwind classes (text-sm → text-xl scaling)"
       ],
       "file_operations": [
         {
-          "path": "frontend/src/components/TestimonialsSection.tsx",
+          "path": "frontend/src/pages/ReevesPublicSite.tsx",
           "operation": "modify",
-          "description": "Replace all testimonial content mentioning 'Karen' with 'TX Agent J.D. - 12 quotes first month' attribution. Update the testimonial text and name fields in the testimonials array to remove any reference to Karen and display the new attribution consistently."
+          "description": "Ensure the main container and all section wrappers use responsive Tailwind utilities (px-4 md:px-8, max-w-7xl mx-auto) to prevent horizontal overflow on mobile."
         },
         {
-          "path": "frontend/src/components/houston/HoustonTestimonialsSection.tsx",
+          "path": "frontend/src/components/ReevesHeroSection.tsx",
           "operation": "modify",
-          "description": "Replace all testimonial content mentioning 'Karen' with 'TX Agent J.D. - 12 quotes first month' attribution. Update the testimonial cards to display the new attribution text instead of any Karen references."
+          "description": "Make the hero section fully responsive: apply responsive text sizing (text-3xl md:text-5xl lg:text-6xl for headline), ensure agent portrait/hero image scales properly (max-w-full h-auto), and stack trust stats vertically on mobile using flex-col md:flex-row."
+        },
+        {
+          "path": "frontend/src/components/ReevesHeader.tsx",
+          "operation": "modify",
+          "description": "Ensure the header adapts correctly on mobile: logo and CTA buttons should remain visible and properly sized, and the mobile menu should open without layout issues."
+        },
+        {
+          "path": "frontend/src/components/ReevesServicesSection.tsx",
+          "operation": "modify",
+          "description": "Update service cards grid to stack on mobile (grid-cols-1 md:grid-cols-2 lg:grid-cols-3), ensure card text uses responsive font sizes, and add proper spacing (gap-4 md:gap-6)."
         },
         {
           "path": "frontend/src/components/ReevesAboutSection.tsx",
           "operation": "modify",
-          "description": "Update the testimonial carousel data to replace any 'Karen' references with 'TX Agent J.D. - 12 quotes first month' attribution. Ensure the carousel displays the updated testimonial consistently across all slides."
+          "description": "Make testimonial carousel and agent bio responsive: stack content vertically on mobile, ensure carousel controls are touch-friendly and visible, and apply responsive text sizing."
+        },
+        {
+          "path": "frontend/src/components/ReevesContactSection.tsx",
+          "operation": "modify",
+          "description": "Ensure the quote form fields stack vertically on mobile (w-full), use full-width inputs, apply responsive padding and spacing, and keep submit button accessible and sized appropriately for touch targets."
+        },
+        {
+          "path": "frontend/src/components/ReevesFooter.tsx",
+          "operation": "modify",
+          "description": "Update footer columns to stack vertically on mobile (flex-col md:flex-row or grid-cols-1 md:grid-cols-3), ensure social icons and contact info remain readable, and add proper vertical spacing."
+        },
+        {
+          "path": "frontend/src/components/ReevesWhyChooseSection.tsx",
+          "operation": "modify",
+          "description": "Make the four value-prop cards stack on mobile (grid-cols-1 md:grid-cols-2 lg:grid-cols-4), ensure icons and text scale correctly, and apply responsive padding."
+        },
+        {
+          "path": "frontend/src/components/ReevesCarrierBadges.tsx",
+          "operation": "modify",
+          "description": "Update carrier badge grid to display 2 columns on mobile and 4 on desktop (grid-cols-2 md:grid-cols-4), ensure badges remain square and legible at all sizes."
         }
       ]
     },
     {
       "id": "REQ-2",
-      "summary": "Change hero section headline to 'Conroe Agents: Get 12+ Quotes/Month' across all hero components",
+      "summary": "Add 'Agent Login' button in ReevesHeader that opens a modal with frontend credential check (admin / conroe123) and navigates to admin dashboard on success",
       "acceptanceCriteria": [
-        "The headline 'Conroe Agents: Get 12+ Quotes/Month' is visible above the fold on desktop (1280px) and mobile (375px) without scrolling",
-        "The headline is the largest/most prominent text element in the hero section",
-        "All hero components display this updated headline"
+        "'Agent Login' button visible in header top-right on all screen sizes",
+        "Clicking button opens a centered modal overlay with username and password fields",
+        "Entering admin / conroe123 and submitting navigates to /admin/dashboard",
+        "Incorrect credentials display 'Invalid credentials' error inside the modal",
+        "Modal can be dismissed by clicking outside or an X button"
       ],
       "file_operations": [
         {
-          "path": "frontend/src/components/HeroSection.tsx",
+          "path": "frontend/src/components/ReevesHeader.tsx",
           "operation": "modify",
-          "description": "Replace the existing hero headline with 'Conroe Agents: Get 12+ Quotes/Month'. Ensure the headline uses the largest text size (text-5xl or larger on desktop, text-4xl on mobile) and is positioned prominently above the fold with sufficient contrast and spacing."
+          "description": "Add an 'Agent Login' button in the top-right corner next to the phone CTA. On click, open the AdminLoginModal. Ensure the button is visible and accessible on both mobile and desktop."
         },
         {
-          "path": "frontend/src/components/houston/HoustonHeroSection.tsx",
-          "operation": "modify",
-          "description": "Update the hero headline to 'Conroe Agents: Get 12+ Quotes/Month'. Ensure it is the most prominent text element, visible above the fold on both desktop and mobile viewports, using the largest available text scale."
+          "path": "frontend/src/components/admin/AdminLoginModal.tsx",
+          "operation": "create",
+          "description": "Create a modal component with username and password inputs. On form submit, check if credentials match admin / conroe123 (frontend check only). Store success state in sessionStorage as 'adminAuthenticated'. On success, close modal and use TanStack Router to navigate to /admin/dashboard. On failure, display 'Invalid credentials' error. Include an X button and outside-click handler to close the modal."
         },
         {
-          "path": "frontend/src/components/ReevesHeroSection.tsx",
-          "operation": "modify",
-          "description": "Change the main headline to 'Conroe Agents: Get 12+ Quotes/Month'. Position it as the primary above-the-fold element with appropriate font sizing (text-5xl or text-6xl on desktop, text-4xl on mobile) to ensure maximum prominence and visibility without scrolling."
+          "path": "frontend/src/hooks/useAdminAuth.ts",
+          "operation": "create",
+          "description": "Create a custom hook that provides login, logout, and isAuthenticated functions. Login checks credentials and sets sessionStorage 'adminAuthenticated' to 'true'. Logout clears sessionStorage. isAuthenticated reads from sessionStorage and returns a boolean. This hook is used by AdminLoginModal and ProtectedAdminRoute."
         }
       ]
     },
     {
       "id": "REQ-3",
-      "summary": "Add a 'Process Proof' section in the footer area displaying 3 steps with generated screenshots and arrow connectors",
+      "summary": "Build a complete admin dashboard page at /admin/dashboard with dark theme (#1a1a2e, #16213e, #0f3460), stat cards, leads table with filtering, Export CSV, and charts",
       "acceptanceCriteria": [
-        "A process proof section appears above or within the footer area on all public-facing pages",
-        "Three step cards are displayed labeled 'Figma Design', 'Live Preview', and 'Conroe #1'",
-        "Arrows or connectors visually link the three steps in order",
-        "Each step includes a screenshot placeholder image or representative visual",
-        "Section is responsive on mobile (stacks vertically) and desktop (horizontal row)"
+        "Dashboard page renders at /admin/dashboard with #1a1a2e/#16213e dark background",
+        "All 4 stat cards visible with correct values and trend indicators",
+        "Leads table shows at least 8 rows with Conroe TX names and 936-xxx-xxxx phone numbers",
+        "Filtering by New/Called/Won correctly shows only matching rows",
+        "Export CSV button downloads a CSV file containing the filtered leads data",
+        "Line chart renders leads per day for the past 7 days",
+        "Pie chart renders with correct percentage segments and legend labels"
       ],
       "file_operations": [
         {
-          "path": "frontend/src/components/ProcessProofSection.tsx",
+          "path": "frontend/src/components/admin/AdminDashboard.tsx",
+          "operation": "modify",
+          "description": "Replace existing dashboard content with a complete dark-themed layout using #1a1a2e background. Render 4 stat cards (Total Leads: 127 +15%, Quotes: 23 18% conv, Calls: 45, Won: 8 $24K) at the top using responsive grid. Below, render the LeadsTable component, LeadsChart, and PolicyPieChart components. Apply dark theme colors (#16213e for cards, #0f3460 for accents) throughout."
+        },
+        {
+          "path": "frontend/src/components/admin/LeadsTable.tsx",
           "operation": "create",
-          "description": "Create a new ProcessProofSection component that displays three process steps with labels 'Figma Design', 'Live Preview', and 'Conroe #1'. Each step includes a screenshot image from the generated assets: frontend/public/assets/generated/figma-design-screenshot.dim_600x400.png, frontend/public/assets/generated/live-preview-screenshot.dim_600x400.png, and frontend/public/assets/generated/conroe-number-one-screenshot.dim_600x400.png. Add arrow connectors (→) between steps using SVG or Unicode characters. Use a flex layout that displays horizontally on desktop (flex-row with justify-center and gap) and stacks vertically on mobile (flex-col). Include a section heading like 'Our Proven Build Process' or 'From Design to #1 Ranking'. Apply consistent styling with the site theme (forest/amber palette)."
+          "description": "Create a leads table component displaying columns: Name, Phone, Email, Policy, Status, Date. Pre-populate with at least 8 sample leads using Conroe TX first/last names (e.g., James Anderson, Maria Rodriguez) and 936-xxx-xxxx phone numbers. Include status filter tabs (New, Called, Won) that filter visible rows. Add an 'Export CSV' button that generates and downloads a CSV of the currently filtered data. Use dark theme colors and ensure table is horizontally scrollable on mobile."
         },
         {
-          "path": "frontend/src/components/Footer.tsx",
-          "operation": "modify",
-          "description": "Import and integrate the ProcessProofSection component above the existing footer content. Place it immediately before the footer's main container so it appears in the footer area but remains visually distinct. Ensure proper spacing and background styling."
+          "path": "frontend/src/components/admin/LeadsChart.tsx",
+          "operation": "create",
+          "description": "Create a line chart component showing leads per day for the past 7 days using a charting library (e.g., recharts). Use mock data (e.g., [18, 22, 19, 25, 21, 23, 24] leads per day). Apply dark theme colors (#1a1a2e background, #0f3460 line color, white text). Ensure chart is responsive."
         },
         {
-          "path": "frontend/src/components/ReevesFooter.tsx",
-          "operation": "modify",
-          "description": "Import and integrate the ProcessProofSection component above the existing footer content. Position it before the main footer container to display in the footer area with appropriate spacing and styling consistent with the Reeves brand palette."
+          "path": "frontend/src/components/admin/PolicyPieChart.tsx",
+          "operation": "create",
+          "description": "Create a pie chart component displaying policy type breakdown: Auto 45%, Home 30%, Life 15%, Commercial 10%. Use a charting library (e.g., recharts). Apply dark theme colors and include a legend. Ensure chart is responsive and readable on mobile."
         },
         {
-          "path": "frontend/src/components/houston/HoustonFooter.tsx",
-          "operation": "modify",
-          "description": "Import and integrate the ProcessProofSection component above the existing footer content. Place it before the main footer sections with proper spacing to ensure it appears in the footer area on the Houston landing page."
-        },
-        {
-          "path": "frontend/src/pages/PublicSite.tsx",
-          "operation": "modify",
-          "description": "Verify that the Footer component is rendered at the bottom of the page layout, ensuring the integrated ProcessProofSection will appear consistently on the public site."
-        },
-        {
-          "path": "frontend/src/pages/ReevesPublicSite.tsx",
-          "operation": "modify",
-          "description": "Verify that the ReevesFooter component is rendered at the bottom of the page layout, ensuring the integrated ProcessProofSection will appear consistently on the Reeves site."
-        },
-        {
-          "path": "frontend/src/pages/HoustonDemoPage.tsx",
-          "operation": "modify",
-          "description": "Verify that the HoustonFooter component is rendered at the bottom of the page, ensuring the integrated ProcessProofSection will appear consistently on the Houston demo page."
+          "path": "frontend/src/data/mockLeads.ts",
+          "operation": "create",
+          "description": "Export an array of at least 8 mock lead objects with fields: name (Conroe TX names), phone (936-xxx-xxxx), email, policy (Auto/Home/Life/Commercial), status (New/Called/Won), date (recent dates). This data is imported and used by LeadsTable."
         }
       ]
     },
     {
       "id": "REQ-4",
-      "summary": "Replace all phone numbers displayed in the UI with (832) 555-1234",
+      "summary": "Build admin panel side navigation and layout shell with Dashboard, Leads, Policy Management, Lead Assignment, Analytics, PDF Invoices sections and stub pages",
       "acceptanceCriteria": [
-        "No phone number other than (832) 555-1234 appears anywhere in the rendered UI",
-        "The FloatingCallButton tel: href points to tel:+18325551234",
-        "Header, footer, and contact section all display (832) 555-1234",
-        "The useBusinessInfo hook default fallback phone is set to (832) 555-1234"
+        "Sidebar navigation includes all 6 sections with active-state highlight using #0f3460",
+        "Policy Management page renders with a placeholder list",
+        "Lead Assignment page renders with a lead list and an agent assignment dropdown per row",
+        "Analytics page renders extended chart placeholders",
+        "PDF Invoices page lists invoices and each row has a 'Generate PDF' button that opens a printable invoice in a new tab or triggers window.print()"
       ],
       "file_operations": [
         {
-          "path": "frontend/src/hooks/useBusinessInfo.ts",
+          "path": "frontend/src/components/admin/AdminLayout.tsx",
           "operation": "modify",
-          "description": "Update the default fallback phone value in the useBusinessInfo hook aggregation logic to '(832) 555-1234'. Ensure this fallback is used when business info is unavailable or loading."
+          "description": "Update AdminLayout to render a full-height dark sidebar (#1a1a2e) with navigation links: Dashboard, Leads, Policy Management, Lead Assignment, Analytics, PDF Invoices. Highlight active route with #0f3460 background. The main content area uses #16213e background. Include a header with admin branding and a logout button (using useAdminAuth hook). Render child routes via Outlet."
         },
         {
-          "path": "frontend/src/components/Header.tsx",
+          "path": "frontend/src/components/admin/AdminLeadsPage.tsx",
           "operation": "modify",
-          "description": "Replace any hardcoded phone number with (832) 555-1234 or ensure the component uses the useBusinessInfo hook which now defaults to (832) 555-1234. Update the phone CTA button href to tel:+18325551234 and display text to (832) 555-1234."
+          "description": "Update AdminLeadsPage to render the full LeadsTable component (created in REQ-3) with search, filtering, and export functionality. Ensure dark theme colors are applied."
         },
         {
-          "path": "frontend/src/components/ReevesHeader.tsx",
-          "operation": "modify",
-          "description": "Replace any hardcoded phone number with (832) 555-1234 or verify the component uses the useBusinessInfo hook. Update the phone CTA href to tel:+18325551234 and display text to (832) 555-1234."
+          "path": "frontend/src/components/admin/AdminPolicyManagementPage.tsx",
+          "operation": "create",
+          "description": "Create a stub page displaying a placeholder message 'Policy Management - Coming Soon' and a mock table layout with columns: Policy ID, Client, Type, Status. Use dark theme colors."
         },
         {
-          "path": "frontend/src/components/FloatingCallButton.tsx",
-          "operation": "modify",
-          "description": "Update the tel: href to 'tel:+18325551234' (removing spaces and formatting). If the component displays the phone number visually, update it to '(832) 555-1234'. Ensure the button uses the useBusinessInfo hook or hardcodes the new phone number."
+          "path": "frontend/src/components/admin/AdminLeadAssignmentPage.tsx",
+          "operation": "create",
+          "description": "Create a stub page displaying a list of leads (can reuse mockLeads data) with an 'Assign Agent' dropdown per row. Dropdowns show mock agent names (e.g., Agent A, Agent B). On selection, show a toast message confirming assignment (no backend call). Use dark theme colors."
         },
         {
-          "path": "frontend/src/components/ContactSection.tsx",
-          "operation": "modify",
-          "description": "Replace any hardcoded phone number in the business info display with (832) 555-1234 or verify the component uses the useBusinessInfo hook which now defaults to (832) 555-1234. Update tel: links to tel:+18325551234."
+          "path": "frontend/src/components/admin/AdminAnalyticsPage.tsx",
+          "operation": "create",
+          "description": "Create a stub page with placeholder chart titles: 'Lead Conversion Funnel', 'Revenue by Policy Type', 'Monthly Trends'. Show empty chart containers or static placeholder text. Use dark theme colors."
         },
         {
-          "path": "frontend/src/components/ReevesContactSection.tsx",
-          "operation": "modify",
-          "description": "Replace any hardcoded phone number in the contact info with (832) 555-1234 or verify it uses the useBusinessInfo hook. Update tel: links to tel:+18325551234."
+          "path": "frontend/src/components/admin/AdminPDFInvoicesPage.tsx",
+          "operation": "create",
+          "description": "Create a page displaying a table of mock invoices (Invoice ID, Client, Amount, Date). Each row has a 'Generate PDF' button. On click, open a new browser tab with a printable invoice template (simple HTML styled for print) or trigger window.print() on a hidden invoice element. Use dark theme colors."
         },
         {
-          "path": "frontend/src/components/Footer.tsx",
+          "path": "frontend/src/App.tsx",
           "operation": "modify",
-          "description": "Replace any hardcoded phone number in the contact details section with (832) 555-1234 or verify the component uses the useBusinessInfo hook. Update tel: links to tel:+18325551234."
-        },
-        {
-          "path": "frontend/src/components/ReevesFooter.tsx",
-          "operation": "modify",
-          "description": "Replace any hardcoded phone number in the footer contact info with (832) 555-1234 or verify it uses the useBusinessInfo hook. Update tel: links to tel:+18325551234."
-        },
-        {
-          "path": "frontend/src/components/houston/HoustonFooter.tsx",
-          "operation": "modify",
-          "description": "Replace any hardcoded phone number in the footer with (832) 555-1234 or verify it uses the useBusinessInfo hook. Update tel: links to tel:+18325551234."
-        },
-        {
-          "path": "frontend/src/components/houston/HoustonHeroSection.tsx",
-          "operation": "modify",
-          "description": "Replace any hardcoded phone number in the Call Now button or hero contact info with (832) 555-1234. Update tel: href to tel:+18325551234."
-        },
-        {
-          "path": "frontend/src/components/StickyQuoteBar.tsx",
-          "operation": "modify",
-          "description": "If this component displays a phone number, replace it with (832) 555-1234 and update any tel: links to tel:+18325551234. Otherwise, verify no phone number is displayed."
+          "description": "Add new child routes under the /admin layout: /admin/policy-management, /admin/lead-assignment, /admin/analytics, /admin/pdf-invoices. Wire them to the corresponding page components. Ensure all routes are protected by the ProtectedAdminRoute guard."
         }
       ]
     },
     {
       "id": "REQ-5",
-      "summary": "Update all primary CTA quote buttons to display 'Get Conroe Site - 3 Spots Left Week' urgency text",
+      "summary": "Make the admin panel fully responsive for mobile: hamburger menu, stacked stat cards, swipeable table",
       "acceptanceCriteria": [
-        "The primary CTA button in the hero section reads 'Get Conroe Site - 3 Spots Left Week'",
-        "The header 'Get Free Quote' button is updated to 'Get Conroe Site - 3 Spots Left Week'",
-        "All other prominent quote/CTA buttons display the urgency text",
-        "Form submit buttons may retain functional labels (e.g., 'Submit Request') but top-of-page CTA buttons show the urgency text"
+        "At 375px viewport, sidebar is hidden and a hamburger icon appears in the admin header",
+        "Tapping hamburger opens a full-height slide-out drawer with all nav links",
+        "Stat cards stack in a single column on mobile",
+        "Leads table is horizontally scrollable without clipping on mobile",
+        "All admin text and buttons remain readable and tappable on mobile"
       ],
       "file_operations": [
         {
-          "path": "frontend/src/components/HeroSection.tsx",
+          "path": "frontend/src/components/admin/AdminLayout.tsx",
           "operation": "modify",
-          "description": "Update the primary CTA button text from 'Get Free Quote' or similar to 'Get Conroe Site - 3 Spots Left Week'. Ensure the button remains visually prominent with appropriate styling for the urgency message."
+          "description": "Add responsive behavior: hide the sidebar on screens ≤768px using md:block hidden. Add a hamburger menu icon in the admin header (visible only on mobile). On click, toggle a slide-out drawer overlay that displays the same navigation links. Use Tailwind transition utilities for smooth open/close animation. Ensure drawer can be closed by clicking outside or a close button."
         },
         {
-          "path": "frontend/src/components/ReevesHeroSection.tsx",
+          "path": "frontend/src/components/admin/AdminDashboard.tsx",
           "operation": "modify",
-          "description": "Change the main CTA button text to 'Get Conroe Site - 3 Spots Left Week'. Keep the button styling prominent and ensure it links to the quote/contact section."
+          "description": "Ensure the 4 stat cards use a responsive grid: grid-cols-1 md:grid-cols-2 lg:grid-cols-4. This stacks cards vertically on mobile and displays them in a row on larger screens."
         },
         {
-          "path": "frontend/src/components/houston/HoustonHeroSection.tsx",
+          "path": "frontend/src/components/admin/LeadsTable.tsx",
           "operation": "modify",
-          "description": "Update the 'Get Free Quote' button text to 'Get Conroe Site - 3 Spots Left Week'. Maintain the existing button styling and functionality."
+          "description": "Wrap the table in a container with overflow-x-auto to enable horizontal scrolling on mobile. Ensure the table maintains a minimum width so all columns remain visible and swipeable. Add touch-friendly padding and ensure text remains legible at small sizes."
         },
         {
-          "path": "frontend/src/components/Header.tsx",
+          "path": "frontend/src/components/admin/AdminHeader.tsx",
+          "operation": "create",
+          "description": "Create a reusable AdminHeader component that includes the hamburger menu icon (visible on mobile), admin branding, and a logout button. The hamburger icon toggles the mobile drawer state in AdminLayout. Use dark theme colors and ensure all elements are touch-friendly."
+        }
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "summary": "Protect admin routes with authentication guard that redirects unauthenticated users and persists session in sessionStorage",
+      "acceptanceCriteria": [
+        "Navigating directly to /admin/dashboard without being logged in redirects to the public home page",
+        "After successful login, refreshing the admin dashboard keeps the user logged in",
+        "Closing the browser tab and reopening clears the admin session",
+        "A logout button in the admin header clears session and redirects to home"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/admin/ProtectedAdminRoute.tsx",
           "operation": "modify",
-          "description": "Replace the 'Get Free Quote' button text in the header navigation with 'Get Conroe Site - 3 Spots Left Week'. Ensure the button remains styled appropriately for the header and is responsive on mobile."
+          "description": "Update ProtectedAdminRoute to use the useAdminAuth hook. Check if isAuthenticated is true. If not, redirect to the public home page (/) using TanStack Router's Navigate component. If authenticated, render the Outlet to display child routes. Show a loading spinner while checking auth state."
         },
         {
-          "path": "frontend/src/components/ReevesHeader.tsx",
+          "path": "frontend/src/hooks/useAdminAuth.ts",
           "operation": "modify",
-          "description": "Change the 'Free Quote' or 'Get Free Quote' button text in the header to 'Get Conroe Site - 3 Spots Left Week'. Maintain existing button styling and responsive behavior."
+          "description": "Ensure the hook reads 'adminAuthenticated' from sessionStorage on mount and provides a logout function that clears sessionStorage and redirects to home. SessionStorage automatically clears when the browser tab is closed, meeting the requirement."
         },
         {
-          "path": "frontend/src/components/EmotionalCloseSection.tsx",
+          "path": "frontend/src/components/admin/AdminLayout.tsx",
           "operation": "modify",
-          "description": "Update any CTA button text (e.g., 'Get Free Quote', 'Schedule Call') in this section to 'Get Conroe Site - 3 Spots Left Week'. Keep the button styling consistent with the dark forest theme."
+          "description": "Add a logout button in the admin header that calls the logout function from useAdminAuth. On logout, clear sessionStorage and navigate to the public home page using TanStack Router."
         },
         {
-          "path": "frontend/src/components/houston/HoustonQuoteForm.tsx",
+          "path": "frontend/src/App.tsx",
           "operation": "modify",
-          "description": "Review the form submit button. If it's labeled 'Get Free Quote' or similar non-functional text, update it to 'Get Conroe Site - 3 Spots Left Week'. If it's already a functional label like 'Submit Request' or 'Submit Quote', leave it unchanged per acceptance criteria guidance."
+          "description": "Ensure all /admin/* routes are children of the ProtectedAdminRoute layout route so the authentication guard applies to all admin pages."
         }
       ]
     }
