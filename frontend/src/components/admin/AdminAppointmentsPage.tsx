@@ -1,5 +1,6 @@
 import React from 'react';
 import { useGetAllAppointments } from '../../hooks/useAdminQueries';
+import type { PersistentQuoteSubmission } from '../../hooks/useAdminQueries';
 
 export default function AdminAppointmentsPage() {
   const { data: submissions = [], isLoading } = useGetAllAppointments();
@@ -15,7 +16,7 @@ export default function AdminAppointmentsPage() {
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Phone</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Coverage</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Best Time</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">City</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
             </tr>
           </thead>
@@ -29,17 +30,17 @@ export default function AdminAppointmentsPage() {
                 <td colSpan={5} className="px-6 py-8 text-center text-gray-400">No submissions yet.</td>
               </tr>
             ) : (
-              submissions.map(sub => (
-                <tr key={String(sub.id)} className="hover:bg-gray-50">
+              submissions.map((sub: PersistentQuoteSubmission, index: number) => (
+                <tr key={index} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">{sub.name}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{sub.phone}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-700 capitalize">
-                      {String(sub.coverageType)}
+                      {sub.coverageType}
                     </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 capitalize">
-                    {String(sub.bestTimeToCall)}
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {sub.city}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {new Date(Number(sub.timestamp) / 1_000_000).toLocaleDateString()}

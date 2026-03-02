@@ -92,6 +92,15 @@ export class ExternalBlob {
 export interface _CaffeineStorageRefillInformation {
     proposed_top_up_amount?: bigint;
 }
+export interface PersistentQuoteSubmission {
+    city: string;
+    name: string;
+    email: string;
+    message: string;
+    timestamp: bigint;
+    phone: string;
+    coverageType: string;
+}
 export interface BusinessInfo {
     whatsapp: string;
     licensedStates: Array<string>;
@@ -103,16 +112,6 @@ export interface _CaffeineStorageCreateCertificateResult {
     method: string;
     blob_hash: string;
 }
-export interface QuoteSubmission {
-    id: bigint;
-    bestTimeToCall: BestTimeToCall;
-    name: string;
-    email: string;
-    zipCode: string;
-    timestamp: bigint;
-    phone: string;
-    coverageType: CoverageType;
-}
 export interface UserProfile {
     name: string;
     email: string;
@@ -120,18 +119,6 @@ export interface UserProfile {
 export interface _CaffeineStorageRefillResult {
     success?: boolean;
     topped_up_amount?: bigint;
-}
-export enum BestTimeToCall {
-    morning = "morning",
-    evening = "evening",
-    anyTime = "anyTime",
-    afternoon = "afternoon"
-}
-export enum CoverageType {
-    auto = "auto",
-    home = "home",
-    life = "life",
-    business = "business"
 }
 export enum UserRole {
     admin = "admin",
@@ -153,15 +140,15 @@ export interface backendInterface {
     }>;
     getCallerUserProfile(): Promise<UserProfile | null>;
     getCallerUserRole(): Promise<UserRole>;
-    getQuoteById(id: bigint): Promise<QuoteSubmission>;
-    getQuoteSubmissions(): Promise<Array<QuoteSubmission>>;
+    getQuoteByIndex(index: bigint): Promise<PersistentQuoteSubmission>;
+    getQuotes(): Promise<Array<PersistentQuoteSubmission>>;
     getUserProfile(user: Principal): Promise<UserProfile | null>;
     isCallerAdmin(): Promise<boolean>;
-    saveCallerUserProfile(profile: UserProfile): Promise<void>;
-    submitQuote(name: string, phone: string, email: string, zipCode: string, coverageType: CoverageType, bestTimeToCall: BestTimeToCall): Promise<bigint>;
+    saveCallerUserProfile(_profile: UserProfile): Promise<void>;
+    submitQuote(quote: PersistentQuoteSubmission): Promise<void>;
     updateBusinessInfo(name: string, info: BusinessInfo): Promise<void>;
 }
-import type { BestTimeToCall as _BestTimeToCall, CoverageType as _CoverageType, QuoteSubmission as _QuoteSubmission, UserProfile as _UserProfile, UserRole as _UserRole, _CaffeineStorageRefillInformation as __CaffeineStorageRefillInformation, _CaffeineStorageRefillResult as __CaffeineStorageRefillResult } from "./declarations/backend.did.d.ts";
+import type { UserProfile as _UserProfile, UserRole as _UserRole, _CaffeineStorageRefillInformation as __CaffeineStorageRefillInformation, _CaffeineStorageRefillResult as __CaffeineStorageRefillResult } from "./declarations/backend.did.d.ts";
 export class Backend implements backendInterface {
     constructor(private actor: ActorSubclass<_SERVICE>, private _uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, private _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, private processError?: (error: unknown) => never){}
     async _caffeineStorageBlobIsLive(arg0: Uint8Array): Promise<boolean> {
@@ -321,32 +308,32 @@ export class Backend implements backendInterface {
             return from_candid_UserRole_n11(this._uploadFile, this._downloadFile, result);
         }
     }
-    async getQuoteById(arg0: bigint): Promise<QuoteSubmission> {
+    async getQuoteByIndex(arg0: bigint): Promise<PersistentQuoteSubmission> {
         if (this.processError) {
             try {
-                const result = await this.actor.getQuoteById(arg0);
-                return from_candid_QuoteSubmission_n13(this._uploadFile, this._downloadFile, result);
+                const result = await this.actor.getQuoteByIndex(arg0);
+                return result;
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
-            const result = await this.actor.getQuoteById(arg0);
-            return from_candid_QuoteSubmission_n13(this._uploadFile, this._downloadFile, result);
+            const result = await this.actor.getQuoteByIndex(arg0);
+            return result;
         }
     }
-    async getQuoteSubmissions(): Promise<Array<QuoteSubmission>> {
+    async getQuotes(): Promise<Array<PersistentQuoteSubmission>> {
         if (this.processError) {
             try {
-                const result = await this.actor.getQuoteSubmissions();
-                return from_candid_vec_n19(this._uploadFile, this._downloadFile, result);
+                const result = await this.actor.getQuotes();
+                return result;
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
-            const result = await this.actor.getQuoteSubmissions();
-            return from_candid_vec_n19(this._uploadFile, this._downloadFile, result);
+            const result = await this.actor.getQuotes();
+            return result;
         }
     }
     async getUserProfile(arg0: Principal): Promise<UserProfile | null> {
@@ -391,17 +378,17 @@ export class Backend implements backendInterface {
             return result;
         }
     }
-    async submitQuote(arg0: string, arg1: string, arg2: string, arg3: string, arg4: CoverageType, arg5: BestTimeToCall): Promise<bigint> {
+    async submitQuote(arg0: PersistentQuoteSubmission): Promise<void> {
         if (this.processError) {
             try {
-                const result = await this.actor.submitQuote(arg0, arg1, arg2, arg3, to_candid_CoverageType_n20(this._uploadFile, this._downloadFile, arg4), to_candid_BestTimeToCall_n22(this._uploadFile, this._downloadFile, arg5));
+                const result = await this.actor.submitQuote(arg0);
                 return result;
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
-            const result = await this.actor.submitQuote(arg0, arg1, arg2, arg3, to_candid_CoverageType_n20(this._uploadFile, this._downloadFile, arg4), to_candid_BestTimeToCall_n22(this._uploadFile, this._downloadFile, arg5));
+            const result = await this.actor.submitQuote(arg0);
             return result;
         }
     }
@@ -420,15 +407,6 @@ export class Backend implements backendInterface {
         }
     }
 }
-function from_candid_BestTimeToCall_n15(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _BestTimeToCall): BestTimeToCall {
-    return from_candid_variant_n16(_uploadFile, _downloadFile, value);
-}
-function from_candid_CoverageType_n17(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _CoverageType): CoverageType {
-    return from_candid_variant_n18(_uploadFile, _downloadFile, value);
-}
-function from_candid_QuoteSubmission_n13(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _QuoteSubmission): QuoteSubmission {
-    return from_candid_record_n14(_uploadFile, _downloadFile, value);
-}
 function from_candid_UserRole_n11(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _UserRole): UserRole {
     return from_candid_variant_n12(_uploadFile, _downloadFile, value);
 }
@@ -443,36 +421,6 @@ function from_candid_opt_n6(_uploadFile: (file: ExternalBlob) => Promise<Uint8Ar
 }
 function from_candid_opt_n7(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [bigint]): bigint | null {
     return value.length === 0 ? null : value[0];
-}
-function from_candid_record_n14(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
-    id: bigint;
-    bestTimeToCall: _BestTimeToCall;
-    name: string;
-    email: string;
-    zipCode: string;
-    timestamp: bigint;
-    phone: string;
-    coverageType: _CoverageType;
-}): {
-    id: bigint;
-    bestTimeToCall: BestTimeToCall;
-    name: string;
-    email: string;
-    zipCode: string;
-    timestamp: bigint;
-    phone: string;
-    coverageType: CoverageType;
-} {
-    return {
-        id: value.id,
-        bestTimeToCall: from_candid_BestTimeToCall_n15(_uploadFile, _downloadFile, value.bestTimeToCall),
-        name: value.name,
-        email: value.email,
-        zipCode: value.zipCode,
-        timestamp: value.timestamp,
-        phone: value.phone,
-        coverageType: from_candid_CoverageType_n17(_uploadFile, _downloadFile, value.coverageType)
-    };
 }
 function from_candid_record_n5(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
     success: [] | [boolean];
@@ -495,37 +443,6 @@ function from_candid_variant_n12(_uploadFile: (file: ExternalBlob) => Promise<Ui
 }): UserRole {
     return "admin" in value ? UserRole.admin : "user" in value ? UserRole.user : "guest" in value ? UserRole.guest : value;
 }
-function from_candid_variant_n16(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
-    morning: null;
-} | {
-    evening: null;
-} | {
-    anyTime: null;
-} | {
-    afternoon: null;
-}): BestTimeToCall {
-    return "morning" in value ? BestTimeToCall.morning : "evening" in value ? BestTimeToCall.evening : "anyTime" in value ? BestTimeToCall.anyTime : "afternoon" in value ? BestTimeToCall.afternoon : value;
-}
-function from_candid_variant_n18(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
-    auto: null;
-} | {
-    home: null;
-} | {
-    life: null;
-} | {
-    business: null;
-}): CoverageType {
-    return "auto" in value ? CoverageType.auto : "home" in value ? CoverageType.home : "life" in value ? CoverageType.life : "business" in value ? CoverageType.business : value;
-}
-function from_candid_vec_n19(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<_QuoteSubmission>): Array<QuoteSubmission> {
-    return value.map((x)=>from_candid_QuoteSubmission_n13(_uploadFile, _downloadFile, x));
-}
-function to_candid_BestTimeToCall_n22(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: BestTimeToCall): _BestTimeToCall {
-    return to_candid_variant_n23(_uploadFile, _downloadFile, value);
-}
-function to_candid_CoverageType_n20(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: CoverageType): _CoverageType {
-    return to_candid_variant_n21(_uploadFile, _downloadFile, value);
-}
 function to_candid_UserRole_n8(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: UserRole): _UserRole {
     return to_candid_variant_n9(_uploadFile, _downloadFile, value);
 }
@@ -543,44 +460,6 @@ function to_candid_record_n3(_uploadFile: (file: ExternalBlob) => Promise<Uint8A
     return {
         proposed_top_up_amount: value.proposed_top_up_amount ? candid_some(value.proposed_top_up_amount) : candid_none()
     };
-}
-function to_candid_variant_n21(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: CoverageType): {
-    auto: null;
-} | {
-    home: null;
-} | {
-    life: null;
-} | {
-    business: null;
-} {
-    return value == CoverageType.auto ? {
-        auto: null
-    } : value == CoverageType.home ? {
-        home: null
-    } : value == CoverageType.life ? {
-        life: null
-    } : value == CoverageType.business ? {
-        business: null
-    } : value;
-}
-function to_candid_variant_n23(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: BestTimeToCall): {
-    morning: null;
-} | {
-    evening: null;
-} | {
-    anyTime: null;
-} | {
-    afternoon: null;
-} {
-    return value == BestTimeToCall.morning ? {
-        morning: null
-    } : value == BestTimeToCall.evening ? {
-        evening: null
-    } : value == BestTimeToCall.anyTime ? {
-        anyTime: null
-    } : value == BestTimeToCall.afternoon ? {
-        afternoon: null
-    } : value;
 }
 function to_candid_variant_n9(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: UserRole): {
     admin: null;

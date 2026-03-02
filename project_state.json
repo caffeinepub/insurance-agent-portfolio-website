@@ -1,52 +1,129 @@
 {
   "schemaVersion": "1.0.0",
   "projectStateVersion": 3,
-  "summary": "Insurance demo web app for Conroe TX with a responsive frontend (hero, quote form, testimonials, footer) and a complete professional admin panel for agents.",
+  "summary": "Demo website + admin panel product for selling $749 web design packages to independent insurance agents in Greater Houston TX. Demo site is for 'Jenkins Insurance Agency' (agent: C. Jenkins, phone: (281) 410-8934, email: cjenkins@twfg.com, address: 33018 Tamina Rd, Greater Houston Metro TX). Serves 6 cities: The Woodlands, Spring, Humble, Magnolia, Tomball, Conroe TX. Includes a full admin panel (password: admin123) with dashboard, quote requests manager, reviews manager, content editor, analytics, and settings — all localStorage-based for demo purposes.",
   "architectural_notes": [
-    "Admin panel uses dark theme: background #1a1a2e/#16213e, accent green #0f3460",
-    "Frontend (hero, quote form, testimonials, footer) must remain unchanged",
-    "Sample data uses real Conroe TX names and 936-xxx-xxxx phone numbers"
+    "Single HTML file delivery; admin panel accessible via /admin route or hash-based navigation within the same file",
+    "All admin data (leads, reviews, content edits) stored in browser localStorage for demo purposes",
+    "Colors: Navy #1B3A6B, Gold #F4B942, Green #27AE60, White #FFFFFF, Light Grey #F8F9FA, Dark Text #2C2C2C, Dark Navy #0D2347",
+    "Fonts: Montserrat 700/800 (headings), Open Sans 400/600 (body) — imported from Google Fonts",
+    "Agent: C. Jenkins | Agency: Jenkins Insurance Agency | Phone: (281) 410-8934 | Email: cjenkins@twfg.com | Address: 33018 Tamina Rd, Greater Houston Metro TX",
+    "Service cities must appear everywhere: The Woodlands, Spring, Humble, Magnolia, Tomball, Conroe TX",
+    "Zero mentions of California, Los Angeles, Reeves, or Lorem Ipsum anywhere in output"
   ],
   "known_issues": [],
   "isFixRequest": false,
+  "imageRequirements": "## Required Images\n- Professional headshot-style portrait of a confident male insurance agent in a navy blue suit with gold tie, neutral studio background, warm lighting, business professional (agent-photo-jenkins.dim_400x500.png)\n- Jenkins Insurance Agency logo mark — bold serif or sans-serif text 'Jenkins Insurance' with a shield icon in navy and gold on white background (jenkins-logo.dim_300x80.png)\n- Admin panel dashboard preview screenshot mockup showing navy sidebar and gold stat cards on white background (admin-preview-dashboard.dim_800x500.png)",
   "existing_features": [
     {
-      "id": "feature-add-an-agent-login-button-in-the-top-right-corner-of-the-reevesheader-component-clicking-it-opens-a-modal-dialog-with-a-username-password-form-credentials-admin-conroe123-grant-access-to-the-admin-dashboard-on-successful-login-close-the-modal-and-navigate-to-the-admin-dashboard-route-show-an-error-message-for-invalid-credentials-this-login-must-be-purely-frontend-credential-check-no-internet-identity-required-for-this-admin-flow",
-      "title": "Add an 'Agent Login' button in the top-right corner of the ReevesHeader component. Clicking it opens a modal dialog with a username/password form. Credentials admin / conroe123 grant access to the admin dashboard. On successful login, close the modal and navigate to the admin dashboard route. Show an error message for invalid credentials. This login must be purely frontend credential-check (no Internet Identity required for this admin flow).",
+      "id": "feature-build-the-full-jenkins-insurance-agency-public-facing-demo-site-by-composing-all-jenkins-branded-section-components-in-jenkinspublicsite-tsx-sticky-header-jenkinsheader-full-screen-hero-with-animated-headline-and-float-effect-jenkinshero-gold-trust-bar-with-count-up-stats-jenkinstrustbar-carrier-badges-grid-jenkinscarrierbadges-why-choose-us-cards-jenkinswhychoose-coverage-types-grid-jenkinscoveragetypes-about-c-jenkins-section-jenkinsabout-google-reviews-section-jenkinsreviews-quote-contact-form-jenkinsquotecontact-spanish-bilingual-section-jenkinsbilingual-footer-with-agent-login-link-jenkinsfooter-floating-whatsapp-button-jenkinsfloatingwhatsapp-and-mobile-sticky-bottom-bar-jenkinsstickymobilebar-document-title-must-be-set-to-jenkins-insurance-agency-greater-houston-tx-all-scroll-animations-use-intersectionobserver-colors-navy-1b3a6b-gold-f4b942-white-ffffff-fonts-montserrat-headings-open-sans-body",
+      "title": "Build the full Jenkins Insurance Agency public-facing demo site by composing all Jenkins-branded section components in JenkinsPublicSite.tsx: sticky header (JenkinsHeader), full-screen hero with animated headline and float effect (JenkinsHero), gold trust bar with count-up stats (JenkinsTrustBar), carrier badges grid (JenkinsCarrierBadges), Why Choose Us cards (JenkinsWhyChoose), coverage types grid (JenkinsCoverageTypes), About C. Jenkins section (JenkinsAbout), Google Reviews section (JenkinsReviews), Quote/Contact form (JenkinsQuoteContact), Spanish bilingual section (JenkinsBilingual), footer with Agent Login link (JenkinsFooter), floating WhatsApp button (JenkinsFloatingWhatsApp), and mobile sticky bottom bar (JenkinsStickyMobileBar). Document title must be set to 'Jenkins Insurance Agency | Greater Houston TX'. All scroll animations use IntersectionObserver. Colors: Navy #1B3A6B, Gold #F4B942, White #FFFFFF. Fonts: Montserrat (headings), Open Sans (body).",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-an-agent-login-link-button-to-the-jenkinsfooter-component-that-navigates-to-admin",
+      "title": "Add an 'Agent Login →' link/button to the JenkinsFooter component that navigates to /admin.",
       "reqIds": [
         "REQ-2"
       ],
       "version": 1
     },
     {
-      "id": "feature-build-a-complete-admin-dashboard-page-at-admin-dashboard-with-a-dark-theme-using-background-colors-1a1a2e-and-16213e-and-accent-green-0f3460-the-dashboard-must-display-1-four-stat-cards-total-leads-127-15-quotes-23-18-conv-rate-calls-45-won-8-24k-revenue-2-a-leads-table-with-columns-name-phone-email-policy-status-date-pre-populated-with-at-least-8-sample-rows-using-real-conroe-tx-first-last-names-and-936-area-code-phone-numbers-3-status-filter-tabs-new-called-won-with-live-table-filtering-4-an-export-csv-button-that-downloads-the-visible-leads-as-a-csv-file-5-a-leads-per-week-line-chart-7-days-6-a-policy-type-pie-chart-showing-auto-45-home-30-life-15-commercial-10",
-      "title": "Build a complete admin dashboard page at /admin/dashboard with a dark theme using background colors #1a1a2e and #16213e and accent green #0f3460. The dashboard must display: (1) Four stat cards — Total Leads: 127 (+15%), Quotes: 23 (18% conv rate), Calls: 45, Won: 8 ($24K revenue); (2) A leads table with columns Name, Phone, Email, Policy, Status, Date — pre-populated with at least 8 sample rows using real Conroe TX first/last names and 936-area-code phone numbers; (3) Status filter tabs: New / Called / Won with live table filtering; (4) An Export CSV button that downloads the visible leads as a CSV file; (5) A leads-per-week line chart (7 days); (6) A policy type pie chart showing Auto 45%, Home 30%, Life 15%, Commercial 10%.",
+      "id": "feature-create-an-admin-route-in-app-tsx-that-renders-an-adminloginpage-the-login-page-must-display-centered-card-with-navy-gold-styling-the-text-jenkins-insurance-admin-panel-as-a-title-a-password-input-field-and-a-login-button-the-demo-password-is-admin123-on-correct-password-store-authentication-in-sessionstorage-key-adminauthenticated-true-and-redirect-to-admin-dashboard-on-incorrect-password-show-an-inline-error-message-the-login-page-must-not-show-the-sidebar-or-top-bar",
+      "title": "Create an /admin route in App.tsx that renders an AdminLoginPage. The login page must display: centered card with navy/gold styling, the text 'Jenkins Insurance Admin Panel' as a title, a password input field, and a 'Login' button. The demo password is 'admin123'. On correct password, store authentication in sessionStorage key 'adminAuthenticated' = 'true' and redirect to /admin/dashboard. On incorrect password, show an inline error message. The login page must not show the sidebar or top bar.",
       "reqIds": [
         "REQ-3"
       ],
       "version": 1
     },
     {
-      "id": "feature-build-the-admin-panel-side-navigation-and-layout-shell-with-these-sections-dashboard-default-leads-policy-management-lead-assignment-analytics-and-pdf-invoices-the-layout-must-use-the-dark-theme-1a1a2e-sidebar-16213e-main-area-0f3460-accent-implement-stub-pages-for-policy-management-list-view-placeholder-lead-assignment-assign-lead-to-agent-dropdown-placeholder-analytics-extended-charts-placeholder-and-pdf-invoices-invoice-list-with-a-generate-pdf-button-per-row-that-triggers-a-browser-print-pdf-of-a-simple-invoice-template",
-      "title": "Build the admin panel side navigation and layout shell with these sections: Dashboard (default), Leads, Policy Management, Lead Assignment, Analytics, and PDF Invoices. The layout must use the dark theme (#1a1a2e sidebar, #16213e main area, #0f3460 accent). Implement stub pages for Policy Management (list view placeholder), Lead Assignment (assign lead to agent dropdown placeholder), Analytics (extended charts placeholder), and PDF Invoices (invoice list with a 'Generate PDF' button per row that triggers a browser print/PDF of a simple invoice template).",
+      "id": "feature-create-a-full-admin-panel-layout-component-adminjenkinslayout-with-a-fixed-left-sidebar-260px-wide-navy-1b3a6b-background-containing-the-menu-items-with-emoji-icons-dashboard-quote-requests-reviews-manager-edit-website-content-contact-info-settings-service-areas-analytics-settings-logout-a-top-bar-white-background-showing-welcome-c-jenkins-today-s-date-a-notification-bell-icon-with-a-red-dot-badge-and-a-gold-view-my-website-button-that-links-to-a-main-content-area-white-scrollable-that-renders-child-routes-via-outlet-active-sidebar-menu-item-is-highlighted-gold-f4b942-text-or-background-sidebar-collapses-to-a-hamburger-drawer-on-mobile-smooth-transition-animations-on-sidebar-open-close-all-admin-routes-except-admin-itself-are-protected-redirect-to-admin-if-not-authenticated",
+      "title": "Create a full admin panel layout component (AdminJenkinsLayout) with: a fixed left sidebar (260px wide, navy #1B3A6B background) containing the menu items with emoji icons — Dashboard, Quote Requests, Reviews Manager, Edit Website Content, Contact Info Settings, Service Areas, Analytics, Settings, Logout; a top bar (white background) showing 'Welcome, C. Jenkins', today's date, a notification bell icon with a red dot badge, and a gold 'View My Website →' button that links to '/'; a main content area (white, scrollable) that renders child routes via Outlet. Active sidebar menu item is highlighted gold (#F4B942 text or background). Sidebar collapses to a hamburger drawer on mobile. Smooth transition animations on sidebar open/close. All /admin/* routes (except /admin itself) are protected — redirect to /admin if not authenticated.",
       "reqIds": [
         "REQ-4"
       ],
       "version": 1
     },
     {
-      "id": "feature-make-the-admin-panel-fully-responsive-for-mobile-replace-the-sidebar-navigation-with-a-hamburger-menu-that-opens-a-slide-out-drawer-on-screens-768px-stack-the-4-stat-cards-vertically-on-mobile-make-the-leads-table-horizontally-scrollable-swipeable-on-small-screens",
-      "title": "Make the admin panel fully responsive for mobile: replace the sidebar navigation with a hamburger menu that opens a slide-out drawer on screens ≤768px; stack the 4 stat cards vertically on mobile; make the leads table horizontally scrollable (swipeable) on small screens.",
+      "id": "feature-build-the-admin-dashboard-page-admin-dashboard-as-the-default-page-after-login-display-4-stat-cards-in-a-row-card-1-navy-icon-value-12-label-quote-requests-this-month-subtext-3-from-last-month-in-green-card-2-gold-icon-value-4-9-label-google-rating-subtext-127-total-reviews-card-3-green-icon-value-4-200-label-est-revenue-this-month-subtext-based-on-12-leads-avg-policy-card-4-navy-icon-value-847-label-website-visitors-this-month-subtext-23-from-last-month-in-green-below-cards-a-recent-quote-requests-table-with-columns-name-city-coverage-date-status-showing-5-sample-rows-sarah-m-the-woodlands-home-auto-today-new-robert-t-humble-flood-yesterday-contacted-maria-g-spring-business-mar-1-quoted-jennifer-k-magnolia-auto-feb-28-contacted-david-l-tomball-life-feb-27-closed-each-row-has-a-navy-view-button-and-a-gold-mark-as-contacted-button-status-badges-are-color-coded-yellow-new-green-contacted-blue-quoted-quote-sent-green-checkmark-closed-on-the-right-side-a-quick-actions-card-with-buttons-add-new-review-gold-edit-phone-number-navy-update-business-hours-navy-download-all-leads-csv-navy",
+      "title": "Build the Admin Dashboard page (/admin/dashboard) as the default page after login. Display 4 stat cards in a row: Card 1 (navy): icon 📋, value '12', label 'Quote Requests This Month', subtext '↑ +3 from last month' in green. Card 2 (gold): icon ⭐, value '4.9', label 'Google Rating', subtext '127 total reviews'. Card 3 (green): icon 💰, value '$4,200', label 'Est. Revenue This Month', subtext 'Based on 12 leads × avg policy'. Card 4 (navy): icon 👁️, value '847', label 'Website Visitors This Month', subtext '↑ +23% from last month' in green. Below cards: a 'Recent Quote Requests' table with columns Name, City, Coverage, Date, Status showing 5 sample rows (Sarah M./The Woodlands/Home+Auto/Today/New, Robert T./Humble/Flood/Yesterday/Contacted, Maria G./Spring/Business/Mar 1/Quoted, Jennifer K./Magnolia/Auto/Feb 28/Contacted, David L./Tomball/Life/Feb 27/Closed). Each row has a navy 'View' button and a gold 'Mark as Contacted' button. Status badges are color-coded (yellow=New, green=Contacted, blue=Quoted/Quote Sent, green checkmark=Closed). On the right side, a 'Quick Actions' card with buttons: '+ Add New Review' (gold), 'Edit Phone Number' (navy), 'Update Business Hours' (navy), 'Download All Leads CSV' (navy).",
       "reqIds": [
         "REQ-5"
       ],
       "version": 1
     },
     {
-      "id": "feature-protect-the-admin-routes-so-that-unauthenticated-users-not-logged-in-via-the-admin-conroe123-credential-check-are-redirected-to-the-home-page-or-a-login-prompt-when-navigating-directly-to-admin-store-the-admin-session-state-in-sessionstorage-so-it-persists-across-page-refreshes-during-the-session-but-clears-on-tab-close",
-      "title": "Protect the admin routes so that unauthenticated users (not logged in via the admin/conroe123 credential check) are redirected to the home page or a login prompt when navigating directly to /admin/*. Store the admin session state in sessionStorage so it persists across page refreshes during the session but clears on tab close.",
+      "id": "feature-build-the-quote-requests-page-admin-quotes-display-a-filter-bar-with-search-input-by-name-email-city-dropdown-6-cities-coverage-type-dropdown-status-dropdown-date-range-inputs-and-a-gold-export-to-csv-button-that-downloads-lead-data-as-csv-display-a-sortable-table-with-columns-name-phone-email-city-coverage-message-date-status-actions-status-badges-yellow-new-green-contacted-blue-quote-sent-green-checkmark-closed-red-x-not-interested-actions-per-row-view-opens-modal-change-status-inline-dropdown-add-notes-delete-with-confirmation-dialog-pre-populate-with-at-least-8-sample-leads-including-the-5-from-the-dashboard-clicking-view-opens-a-modal-popup-showing-full-lead-details-an-editable-notes-textarea-a-status-dropdown-a-green-send-whatsapp-button-opens-wa-me-link-a-navy-send-email-button-opens-mailto-and-a-gold-mark-closed-749-won-button-all-lead-data-stored-and-retrieved-from-localstorage-sorting-by-any-column-header-click-delete-requires-a-confirmation-dialog-before-removing",
+      "title": "Build the Quote Requests page (/admin/quotes). Display a filter bar with: search input (by name/email), City dropdown (6 cities), Coverage Type dropdown, Status dropdown, date range inputs, and a gold 'Export to CSV' button that downloads lead data as CSV. Display a sortable table with columns: #, Name, Phone, Email, City, Coverage, Message, Date, Status, Actions. Status badges: yellow=New, green=Contacted, blue=Quote Sent, green checkmark=Closed, red X=Not Interested. Actions per row: View (opens modal), Change Status (inline dropdown), Add Notes, Delete (with confirmation dialog). Pre-populate with at least 8 sample leads including the 5 from the dashboard. Clicking 'View' opens a modal popup showing full lead details, an editable Notes textarea, a Status dropdown, a green 'Send WhatsApp' button (opens wa.me link), a navy 'Send Email' button (opens mailto), and a gold 'Mark Closed — $749 Won!' button. All lead data stored and retrieved from localStorage. Sorting by any column header click. Delete requires a confirmation dialog before removing.",
       "reqIds": [
         "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-build-the-reviews-manager-page-admin-reviews-display-current-reviews-as-cards-each-showing-star-rating-filled-stars-review-text-reviewer-name-city-and-date-each-card-has-edit-delete-with-confirmation-move-up-and-move-down-buttons-a-gold-add-new-review-button-at-the-top-opens-a-form-inline-or-modal-with-star-rating-selector-clickable-1-5-stars-reviewer-name-input-reviewer-city-dropdown-6-cities-review-text-textarea-date-input-and-save-review-gold-button-an-overall-rating-display-auto-calculates-the-average-of-all-reviews-and-updates-live-pre-populate-with-at-least-3-sample-reviews-all-review-data-stored-in-localstorage-changes-to-reviews-add-edit-delete-reorder-are-reflected-immediately-when-the-public-site-reads-from-localstorage",
+      "title": "Build the Reviews Manager page (/admin/reviews). Display current reviews as cards, each showing star rating (filled stars), review text, reviewer name, city, and date. Each card has edit (✏️), delete (🗑️ with confirmation), move up (⬆️), and move down (⬇️) buttons. A gold '+ Add New Review' button at the top opens a form (inline or modal) with: star rating selector (clickable 1–5 stars), Reviewer Name input, Reviewer City dropdown (6 cities), Review Text textarea, Date input, and 'Save Review' gold button. An 'Overall Rating' display auto-calculates the average of all reviews and updates live. Pre-populate with at least 3 sample reviews. All review data stored in localStorage. Changes to reviews (add/edit/delete/reorder) are reflected immediately when the public site reads from localStorage.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-build-the-edit-website-content-page-admin-content-display-expandable-accordion-card-sections-hero-section-main-headline-subheadline-button-1-text-button-2-text-4-trust-indicator-fields-about-section-agent-name-about-text-textarea-years-experience-families-served-number-carriers-count-contact-info-phone-number-email-address-physical-address-mon-fri-hours-saturday-hours-whatsapp-number-coverage-types-title-description-for-each-of-6-coverage-cards-bilingual-section-spanish-headline-spanish-body-text-spanish-button-text-each-section-has-a-gold-save-changes-button-and-a-navy-preview-changes-button-all-changes-saved-to-localstorage-with-keys-matching-the-corresponding-section-the-public-site-s-jenkins-components-must-read-from-localstorage-falling-back-to-default-values-so-changes-appear-immediately-on-the-live-site-after-saving-show-a-success-toast-saved-successfully-bottom-right-after-any-save",
+      "title": "Build the Edit Website Content page (/admin/content). Display expandable accordion/card sections: HERO SECTION (main headline, subheadline, button 1 text, button 2 text, 4 trust indicator fields), ABOUT SECTION (agent name, about text textarea, years experience, families served number, carriers count), CONTACT INFO (phone number, email address, physical address, Mon-Fri hours, Saturday hours, WhatsApp number), COVERAGE TYPES (title + description for each of 6 coverage cards), BILINGUAL SECTION (Spanish headline, Spanish body text, Spanish button text). Each section has a gold 'Save Changes' button and a navy 'Preview Changes' button. All changes saved to localStorage with keys matching the corresponding section. The public site's Jenkins components must read from localStorage (falling back to default values) so changes appear immediately on the live site after saving. Show a success toast '✅ Saved successfully!' bottom-right after any save.",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-build-the-analytics-page-admin-analytics-top-row-4-stat-cards-for-total-visitors-this-month-total-quote-form-submissions-whatsapp-button-clicks-phone-number-clicks-use-sample-numbers-bar-chart-monthly-quote-requests-showing-6-months-oct-4-nov-6-dec-5-jan-8-feb-10-mar-12-gold-f4b942-bars-white-card-background-border-radius-16px-padding-32px-implemented-with-recharts-barchart-or-css-bars-pie-donut-chart-leads-by-coverage-type-homeowners-35-auto-28-bundle-20-business-10-other-7-implemented-with-recharts-piechart-horizontal-bar-chart-leads-by-city-the-woodlands-32-spring-24-humble-20-magnolia-12-tomball-8-conroe-4-rendered-as-css-progress-bars-with-gold-fill",
+      "title": "Build the Analytics page (/admin/analytics). Top row: 4 stat cards for Total Visitors This Month, Total Quote Form Submissions, WhatsApp Button Clicks, Phone Number Clicks (use sample numbers). Bar chart 'Monthly Quote Requests' showing 6 months: Oct=4, Nov=6, Dec=5, Jan=8, Feb=10, Mar=12 — gold (#F4B942) bars, white card background, border-radius 16px, padding 32px — implemented with Recharts BarChart or CSS bars. Pie/donut chart 'Leads by Coverage Type': Homeowners 35%, Auto 28%, Bundle 20%, Business 10%, Other 7% — implemented with Recharts PieChart. Horizontal bar chart 'Leads by City': The Woodlands 32%, Spring 24%, Humble 20%, Magnolia 12%, Tomball 8%, Conroe 4% — rendered as CSS progress bars with gold fill.",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-build-the-settings-page-admin-settings-with-4-sections-profile-agent-full-name-input-license-number-input-labeled-tx-dept-of-insurance-agency-name-input-profile-photo-upload-button-notifications-4-toggle-switches-gold-when-on-for-email-me-when-new-quote-arrives-whatsapp-alert-for-new-leads-weekly-summary-email-monthly-analytics-report-all-defaulting-to-on-website-custom-domain-text-field-with-placeholder-yourname-com-connect-domain-button-google-maps-embed-url-field-facebook-page-url-field-linkedin-profile-url-field-change-password-current-password-new-password-confirm-password-inputs-update-password-navy-button-each-section-has-its-own-save-button-notification-toggles-and-other-settings-persist-to-localstorage-show-success-toast-on-save",
+      "title": "Build the Settings page (/admin/settings) with 4 sections: PROFILE (Agent Full Name input, License Number input labeled 'TX Dept of Insurance', Agency Name input, Profile Photo upload button); NOTIFICATIONS (4 toggle switches — gold when on — for: 'Email me when new quote arrives', 'WhatsApp alert for new leads', 'Weekly summary email', 'Monthly analytics report', all defaulting to on); WEBSITE (Custom domain text field with placeholder 'yourname.com', 'Connect Domain' button, Google Maps embed URL field, Facebook Page URL field, LinkedIn Profile URL field); CHANGE PASSWORD (Current password, New password, Confirm password inputs, 'Update Password' navy button). Each section has its own save button. Notification toggles and other settings persist to localStorage. Show success toast on save.",
+      "reqIds": [
+        "REQ-10"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-build-a-contact-info-settings-page-admin-contact-and-a-service-areas-page-admin-service-areas-as-stubs-that-are-accessible-from-the-sidebar-contact-info-settings-shows-editable-fields-for-phone-email-address-and-business-hours-same-as-the-contact-info-sub-section-in-edit-website-content-saved-to-localstorage-service-areas-shows-a-list-of-the-6-cities-the-woodlands-spring-humble-magnolia-tomball-conroe-with-checkboxes-to-enable-disable-each-plus-an-add-city-input-saved-to-localstorage",
+      "title": "Build a Contact Info Settings page (/admin/contact) and a Service Areas page (/admin/service-areas) as stubs that are accessible from the sidebar. Contact Info Settings shows editable fields for phone, email, address, and business hours (same as the Contact Info sub-section in Edit Website Content), saved to localStorage. Service Areas shows a list of the 6 cities (The Woodlands, Spring, Humble, Magnolia, Tomball, Conroe) with checkboxes to enable/disable each, plus an 'Add City' input, saved to localStorage.",
+      "reqIds": [
+        "REQ-11"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-a-global-toast-notification-system-in-the-admin-panel-a-success-toast-with-saved-successfully-text-appears-at-the-bottom-right-of-the-screen-for-3-seconds-after-any-save-action-across-all-admin-pages-implement-as-a-shared-context-or-component-used-throughout-the-admin-layout",
+      "title": "Implement a global toast notification system in the admin panel. A success toast with '✅ Saved successfully!' text appears at the bottom-right of the screen for 3 seconds after any save action across all admin pages. Implement as a shared context or component used throughout the admin layout.",
+      "reqIds": [
+        "REQ-12"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-all-jenkins-public-site-components-jenkinshero-jenkinsabout-jenkinsbilingual-jenkinscoveragetypes-jenkinsreviews-jenkinsquotecontact-jenkinsfooter-to-read-their-content-from-localstorage-using-the-same-keys-written-by-the-edit-website-content-admin-page-and-fall-back-to-hardcoded-default-values-when-no-localstorage-data-exists-this-enables-live-content-editing-from-the-admin-panel-to-appear-on-the-public-site-immediately",
+      "title": "Update all Jenkins public site components (JenkinsHero, JenkinsAbout, JenkinsBilingual, JenkinsCoverageTypes, JenkinsReviews, JenkinsQuoteContact, JenkinsFooter) to read their content from localStorage (using the same keys written by the Edit Website Content admin page) and fall back to hardcoded default values when no localStorage data exists. This enables live content editing from the admin panel to appear on the public site immediately.",
+      "reqIds": [
+        "REQ-13"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-register-all-admin-routes-in-app-tsx-admin-login-page-public-admin-dashboard-admin-quotes-admin-reviews-admin-content-admin-contact-admin-service-areas-admin-analytics-admin-settings-all-routes-except-admin-are-wrapped-in-the-adminjenkinslayout-and-protected-by-sessionstorage-authentication-check-the-admin-dashboard-route-is-the-default-landing-after-login",
+      "title": "Register all admin routes in App.tsx: /admin (login page, public), /admin/dashboard, /admin/quotes, /admin/reviews, /admin/content, /admin/contact, /admin/service-areas, /admin/analytics, /admin/settings. All routes except /admin are wrapped in the AdminJenkinsLayout and protected by sessionStorage authentication check. The /admin/dashboard route is the default landing after login.",
+      "reqIds": [
+        "REQ-14"
       ],
       "version": 1
     }
@@ -54,45 +131,39 @@
   "new_feature_requests": [
     {
       "id": "AR-1",
-      "summary": "Responsive layout fix: ensure all text and images adjust properly for both mobile and laptop viewports",
+      "summary": "Full conversion-focused insurance agent demo website (Jenkins Insurance Agency, Greater Houston TX) with 11 sections: sticky nav, hero, trust bar, carrier badges, why choose us, coverage grid, about agent, Google reviews, quote form, Spanish bilingual section, footer — exact colors/fonts/animations as specified",
       "reqIds": [],
       "status": "pending"
     },
     {
       "id": "AR-2",
-      "summary": "Admin panel with Agent Login button (top-right), modal login (admin/conroe123), dark dashboard theme (#1a1a2e/#16213e + green #0f3460)",
+      "summary": "Admin panel with login (password: admin123), left sidebar nav, and 6 pages: Dashboard, Quote Requests, Reviews Manager, Edit Website Content, Analytics, Settings — all data in localStorage, changes reflect on main site immediately",
       "reqIds": [],
       "status": "pending"
     },
     {
       "id": "AR-3",
-      "summary": "Dashboard: 4 stat cards (Total Leads 127, Quotes 23, Calls 45, Won 8/$24K), leads table with Name/Phone/Email/Policy/Status/Date, filters (New/Called/Won), Export CSV, leads/week line chart and policy type pie chart",
+      "summary": "Floating WhatsApp button (pulse animation) and mobile sticky bottom bar (Call Now + WhatsApp) always visible",
       "reqIds": [],
       "status": "pending"
     },
     {
       "id": "AR-4",
-      "summary": "Agent features: policy management, lead assignment, analytics, PDF invoices",
+      "summary": "Scroll animations via Intersection Observer, count-up stats, hero photo float, smooth scroll, button/card hover effects",
       "reqIds": [],
       "status": "pending"
     },
     {
-      "id": "AR-5",
-      "summary": "Admin mobile UX: hamburger menu, stacked cards, swipeable table",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-6",
-      "summary": "Fix responsive layout across the entire public-facing site (ReevesPublicSite and all its section components): all text sizes, image dimensions, spacing, and grid layouts must adapt correctly for both mobile (≤768px) and laptop (≥1024px) viewports. Ensure hero headline, hero image/agent portrait, stat row, service cards, testimonial carousel, quote form fields, and footer columns are all properly stacked and readable on mobile without horizontal overflow or clipped content.",
+      "id": "AR-19",
+      "summary": "Update the Motoko backend (backend/main.mo) to add a `submitQuote` public function that accepts a quote submission record (name, phone, email, city, coverageType, message, timestamp) and stores it in a stable array. Add a `getQuotes` admin-accessible function that returns all stored quote submissions. This enables real quote form submissions from the public site to be stored on-chain, while the admin panel can also display localStorage-based demo leads alongside backend leads.",
       "reqIds": [
-        "REQ-1"
+        "REQ-15"
       ],
       "status": "pending"
     }
   ],
   "gameProjectType": "none",
-  "projectName": "Conroe TX Insurance Demo",
+  "projectName": "Jenkins Insurance Agency Demo",
   "clarification_mode": "instant",
   "clarification_rounds": 0
 }

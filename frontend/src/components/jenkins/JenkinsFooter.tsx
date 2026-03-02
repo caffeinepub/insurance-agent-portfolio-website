@@ -1,202 +1,119 @@
-import React from 'react';
+import { Link } from '@tanstack/react-router';
 import { SiFacebook, SiLinkedin } from 'react-icons/si';
-import { Phone, Mail, MapPin } from 'lucide-react';
-
-const quickLinks = [
-  { label: 'Home', href: '#home' },
-  { label: 'Coverage Types', href: '#coverage' },
-  { label: 'About C. Jenkins', href: '#about' },
-  { label: 'Google Reviews', href: '#reviews' },
-  { label: 'Get Free Quote', href: '#quote' },
-  { label: 'Contact Us', href: '#quote' },
-];
-
-const serviceAreas = [
-  'The Woodlands', 'Spring TX', 'Conroe TX',
-  'Humble TX', 'Magnolia TX', 'Tomball TX', 'Montgomery County',
-];
 
 export default function JenkinsFooter() {
-  const handleNavClick = (href: string) => {
-    const el = document.querySelector(href);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
-  };
-
   const year = new Date().getFullYear();
-  const appId = encodeURIComponent(typeof window !== 'undefined' ? window.location.hostname : 'jenkins-insurance');
+
+  const quickLinks = [
+    { label: 'Home', href: '#home' },
+    { label: 'Coverage Types', href: '#coverage' },
+    { label: 'About C. Jenkins', href: '#about' },
+    { label: 'Google Reviews', href: '#reviews' },
+    { label: 'Get Free Quote', href: '#contact' },
+    { label: 'Contact Us', href: '#contact' },
+  ];
+
+  const cities = [
+    'The Woodlands TX', 'Spring TX', 'Conroe TX',
+    'Humble TX', 'Magnolia TX', 'Tomball TX', 'Montgomery County TX',
+  ];
 
   return (
-    <footer style={{ backgroundColor: '#0D2347' }}>
-      {/* Main Footer */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-          {/* Column 1: Brand */}
+    <footer style={{ background: '#0D2347' }}>
+      <div className="max-w-6xl mx-auto px-4 pt-[60px] pb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
+          {/* Column 1 */}
           <div>
-            <div
-              style={{
-                fontFamily: "'Montserrat', sans-serif",
-                fontWeight: 700,
-                fontSize: '20px',
-                color: '#FFFFFF',
-                marginBottom: '12px',
-              }}
-            >
-              🛡️ Jenkins Insurance Agency
+            <div className="flex items-center gap-2 mb-3">
+              <span className="text-2xl">🛡️</span>
+              <span className="font-montserrat font-bold text-white text-[20px]">
+                Jenkins Insurance Agency
+              </span>
             </div>
-            <p
-              style={{
-                fontFamily: "'Open Sans', sans-serif",
-                fontSize: '14px',
-                color: 'rgba(255,255,255,0.65)',
-                lineHeight: 1.7,
-                marginBottom: '16px',
-              }}
-            >
-              Independent Insurance Agent<br />
-              The Woodlands, TX 77354
+            <p className="font-opensans text-[14px] mb-3" style={{ color: 'rgba(255,255,255,0.65)' }}>
+              Independent Agent | Greater Houston TX
             </p>
-            <div className="flex flex-col gap-2 mb-4">
-              <a
-                href="tel:+12814108934"
-                style={{ fontFamily: "'Open Sans', sans-serif", fontSize: '14px', color: 'rgba(255,255,255,0.65)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '6px' }}
-                className="hover:text-yellow-300 transition-colors"
-              >
-                <Phone size={14} style={{ color: '#F4B942' }} />
-                (281) 410-8934
-              </a>
-              <a
-                href="mailto:cjenkins@twfg.com"
-                style={{ fontFamily: "'Open Sans', sans-serif", fontSize: '14px', color: 'rgba(255,255,255,0.65)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '6px' }}
-                className="hover:text-yellow-300 transition-colors"
-              >
-                <Mail size={14} style={{ color: '#F4B942' }} />
-                cjenkins@twfg.com
-              </a>
-              <div style={{ fontFamily: "'Open Sans', sans-serif", fontSize: '14px', color: 'rgba(255,255,255,0.65)', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <MapPin size={14} style={{ color: '#F4B942' }} />
-                33018 Tamina Rd, The Woodlands TX 77354
-              </div>
+            <div className="flex items-center gap-1 text-jenkins-gold text-[14px]">
+              ★★★★★ <span className="ml-1 text-white/65">4.9/5 Google Rating</span>
             </div>
-            <div style={{ color: '#F4B942', fontSize: '16px' }}>
-              ★★★★★ <span style={{ fontFamily: "'Open Sans', sans-serif", fontSize: '14px', color: '#F4B942' }}>4.9/5 Google Rating</span>
+            <div className="mt-4 space-y-1">
+              <p className="font-opensans text-[14px]" style={{ color: 'rgba(255,255,255,0.65)' }}>
+                📞 (281) 410-8934
+              </p>
+              <p className="font-opensans text-[14px]" style={{ color: 'rgba(255,255,255,0.65)' }}>
+                📧 cjenkins@twfg.com
+              </p>
             </div>
           </div>
 
-          {/* Column 2: Quick Links */}
+          {/* Column 2 */}
           <div>
-            <h4
-              style={{
-                fontFamily: "'Montserrat', sans-serif",
-                fontWeight: 700,
-                fontSize: '16px',
-                color: '#FFFFFF',
-                marginBottom: '16px',
-              }}
-            >
-              Quick Links
-            </h4>
+            <h4 className="font-montserrat font-bold text-white text-[16px] mb-4">Quick Links</h4>
             <ul className="space-y-2">
               {quickLinks.map((link) => (
                 <li key={link.label}>
-                  <button
-                    onClick={() => handleNavClick(link.href)}
-                    style={{
-                      fontFamily: "'Open Sans', sans-serif",
-                      fontSize: '14px',
-                      color: 'rgba(255,255,255,0.65)',
-                      background: 'none',
-                      border: 'none',
-                      cursor: 'pointer',
-                      padding: 0,
-                      textAlign: 'left',
-                      transition: 'color 0.2s ease',
-                    }}
-                    onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.color = '#F4B942'; }}
-                    onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.color = 'rgba(255,255,255,0.65)'; }}
+                  <a
+                    href={link.href}
+                    className="font-opensans text-[14px] hover:text-jenkins-gold transition-colors"
+                    style={{ color: 'rgba(255,255,255,0.70)' }}
                   >
                     {link.label}
-                  </button>
+                  </a>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Column 3: Service Areas */}
+          {/* Column 3 */}
           <div>
-            <h4
-              style={{
-                fontFamily: "'Open Sans', sans-serif",
-                fontWeight: 600,
-                fontSize: '14px',
-                color: '#FFFFFF',
-                marginBottom: '16px',
-              }}
-            >
-              Serving All Of:
-            </h4>
+            <h4 className="font-montserrat font-bold text-white text-[16px] mb-4">Proudly Serving:</h4>
             <ul className="space-y-2">
-              {serviceAreas.map((area) => (
-                <li
-                  key={area}
-                  style={{
-                    fontFamily: "'Open Sans', sans-serif",
-                    fontSize: '14px',
-                    color: 'rgba(255,255,255,0.65)',
-                  }}
-                >
-                  📍 {area}
+              {cities.map((city) => (
+                <li key={city} className="font-opensans text-[14px]" style={{ color: 'rgba(255,255,255,0.70)' }}>
+                  {city}
                 </li>
               ))}
             </ul>
           </div>
         </div>
-      </div>
 
-      {/* Divider */}
-      <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)' }} />
+        {/* Divider */}
+        <div className="border-t mb-6" style={{ borderColor: 'rgba(255,255,255,0.1)' }} />
 
-      {/* Bottom Bar */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
+        {/* Bottom Bar */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          <p style={{ fontFamily: "'Open Sans', sans-serif", fontSize: '12px', color: 'rgba(255,255,255,0.55)', textAlign: 'center' }}>
-            © {year} Jenkins Insurance Agency | The Woodlands, TX
+          <p className="font-opensans text-[12px]" style={{ color: 'rgba(255,255,255,0.50)' }}>
+            © {year} Jenkins Insurance Agency | Greater Houston Metro TX
           </p>
-          <p style={{ fontFamily: "'Open Sans', sans-serif", fontSize: '12px', color: 'rgba(255,255,255,0.55)', textAlign: 'center' }}>
-            Texas Dept of Insurance License #XXXXXXX
+          <p className="font-opensans text-[12px]" style={{ color: 'rgba(255,255,255,0.50)' }}>
+            TX Dept of Insurance Lic #XXXXXXX
           </p>
           <div className="flex items-center gap-4">
-            <a
-              href="https://facebook.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ color: 'rgba(255,255,255,0.55)' }}
-              className="hover:text-white transition-colors"
-              aria-label="Facebook"
-            >
-              <SiFacebook size={18} />
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-white/50 hover:text-jenkins-gold transition-colors">
+              <SiFacebook className="w-5 h-5" />
             </a>
-            <a
-              href="https://linkedin.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ color: 'rgba(255,255,255,0.55)' }}
-              className="hover:text-white transition-colors"
-              aria-label="LinkedIn"
-            >
-              <SiLinkedin size={18} />
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-white/50 hover:text-jenkins-gold transition-colors">
+              <SiLinkedin className="w-5 h-5" />
             </a>
+            <Link
+              to="/admin"
+              className="font-opensans text-[12px] hover:text-jenkins-gold transition-colors"
+              style={{ color: 'rgba(255,255,255,0.50)' }}
+            >
+              Agent Login →
+            </Link>
           </div>
         </div>
 
         {/* Attribution */}
-        <div className="text-center mt-4">
-          <p style={{ fontFamily: "'Open Sans', sans-serif", fontSize: '11px', color: 'rgba(255,255,255,0.35)' }}>
+        <div className="text-center mt-6">
+          <p className="font-opensans text-[11px]" style={{ color: 'rgba(255,255,255,0.35)' }}>
             Built with ❤️ using{' '}
             <a
-              href={`https://caffeine.ai/?utm_source=Caffeine-footer&utm_medium=referral&utm_content=${appId}`}
+              href={`https://caffeine.ai/?utm_source=Caffeine-footer&utm_medium=referral&utm_content=${encodeURIComponent(window.location.hostname || 'jenkins-insurance')}`}
               target="_blank"
               rel="noopener noreferrer"
-              style={{ color: '#F4B942', textDecoration: 'none' }}
+              className="hover:text-jenkins-gold transition-colors underline"
             >
               caffeine.ai
             </a>

@@ -1,11 +1,9 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useActor } from './useActor';
-import type { QuoteSubmission, UserProfile } from '../backend';
-import { CoverageType, BestTimeToCall } from '../backend';
+import type { PersistentQuoteSubmission, UserProfile } from '../backend';
 
 // Re-export types for convenience
-export type { QuoteSubmission, UserProfile };
-export { CoverageType, BestTimeToCall };
+export type { PersistentQuoteSubmission, UserProfile };
 
 // Get caller user profile
 export function useGetCallerUserProfile() {
@@ -48,11 +46,11 @@ export function useSaveCallerUserProfile() {
 export function useGetQuoteSubmissions() {
   const { actor, isFetching: actorFetching } = useActor();
 
-  return useQuery<QuoteSubmission[]>({
+  return useQuery<PersistentQuoteSubmission[]>({
     queryKey: ['quoteSubmissions'],
     queryFn: async () => {
       if (!actor) return [];
-      return actor.getQuoteSubmissions();
+      return actor.getQuotes();
     },
     enabled: !!actor && !actorFetching,
   });
@@ -72,19 +70,20 @@ export function useSubmitQuote() {
       name: string;
       phone: string;
       email: string;
-      zipCode: string;
-      coverageType: CoverageType;
-      bestTimeToCall: BestTimeToCall;
+      city: string;
+      coverageType: string;
+      message: string;
     }) => {
       if (!actor) throw new Error('Actor not available');
-      return actor.submitQuote(
-        params.name,
-        params.phone,
-        params.email,
-        params.zipCode,
-        params.coverageType,
-        params.bestTimeToCall
-      );
+      return actor.submitQuote({
+        name: params.name,
+        phone: params.phone,
+        email: params.email,
+        city: params.city,
+        coverageType: params.coverageType,
+        message: params.message,
+        timestamp: BigInt(Date.now()),
+      });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['quoteSubmissions'] });

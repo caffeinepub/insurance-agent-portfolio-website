@@ -1,7 +1,20 @@
 import React, { useState } from 'react';
 import { Phone, Mail, MapPin, Clock, Send, CheckCircle, Users } from 'lucide-react';
 import { useSubmitQuote } from '../hooks/useQueries';
-import { CoverageType, BestTimeToCall } from '../backend';
+
+const coverageOptions = [
+  { value: 'auto', label: 'Auto Insurance' },
+  { value: 'home', label: 'Home Insurance' },
+  { value: 'life', label: 'Life Insurance' },
+  { value: 'business', label: 'Business Insurance' },
+];
+
+const timeOptions = [
+  { value: 'morning', label: 'Morning (8am–12pm)' },
+  { value: 'afternoon', label: 'Afternoon (12pm–5pm)' },
+  { value: 'evening', label: 'Evening (5pm–8pm)' },
+  { value: 'anyTime', label: 'Any Time' },
+];
 
 export default function ContactSection() {
   const [formData, setFormData] = useState({
@@ -9,8 +22,8 @@ export default function ContactSection() {
     phone: '',
     email: '',
     zipCode: '',
-    coverageType: 'auto' as keyof typeof CoverageType,
-    bestTimeToCall: 'anyTime' as keyof typeof BestTimeToCall,
+    coverageType: 'auto',
+    bestTimeToCall: 'anyTime',
   });
   const [submitted, setSubmitted] = useState(false);
   const { mutate: submitQuote, isPending } = useSubmitQuote();
@@ -22,9 +35,9 @@ export default function ContactSection() {
         name: formData.name,
         phone: formData.phone,
         email: formData.email,
-        zipCode: formData.zipCode,
-        coverageType: CoverageType[formData.coverageType],
-        bestTimeToCall: BestTimeToCall[formData.bestTimeToCall],
+        city: formData.zipCode,
+        coverageType: formData.coverageType,
+        message: `Best time to call: ${formData.bestTimeToCall}`,
       },
       {
         onSuccess: () => setSubmitted(true),
@@ -92,7 +105,6 @@ export default function ContactSection() {
                 ))}
               </div>
 
-              {/* Social proof inside contact card */}
               <div className="mt-5 pt-5 border-t border-white/10">
                 <div className="flex items-center gap-2 mb-1">
                   <Users className="w-4 h-4 text-amber-400" />
@@ -176,26 +188,24 @@ export default function ContactSection() {
                     <label className="block text-sm font-medium text-gray-700 mb-1.5">Coverage Type *</label>
                     <select
                       value={formData.coverageType}
-                      onChange={e => setFormData(p => ({ ...p, coverageType: e.target.value as keyof typeof CoverageType }))}
+                      onChange={e => setFormData(p => ({ ...p, coverageType: e.target.value }))}
                       className="w-full px-4 py-3 rounded-xl border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-forest/30 focus:border-forest text-sm bg-white"
                     >
-                      <option value="auto">Auto Insurance</option>
-                      <option value="home">Home Insurance</option>
-                      <option value="life">Life Insurance</option>
-                      <option value="business">Business Insurance</option>
+                      {coverageOptions.map(opt => (
+                        <option key={opt.value} value={opt.value}>{opt.label}</option>
+                      ))}
                     </select>
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1.5">Best Time to Call *</label>
                     <select
                       value={formData.bestTimeToCall}
-                      onChange={e => setFormData(p => ({ ...p, bestTimeToCall: e.target.value as keyof typeof BestTimeToCall }))}
+                      onChange={e => setFormData(p => ({ ...p, bestTimeToCall: e.target.value }))}
                       className="w-full px-4 py-3 rounded-xl border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-forest/30 focus:border-forest text-sm bg-white"
                     >
-                      <option value="morning">Morning (8am–12pm)</option>
-                      <option value="afternoon">Afternoon (12pm–5pm)</option>
-                      <option value="evening">Evening (5pm–8pm)</option>
-                      <option value="anyTime">Any Time</option>
+                      {timeOptions.map(opt => (
+                        <option key={opt.value} value={opt.value}>{opt.label}</option>
+                      ))}
                     </select>
                   </div>
                 </div>

@@ -1,97 +1,69 @@
-import React, { useRef, useState, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
+
+interface BilingualContent {
+  headline: string;
+  body: string;
+  button: string;
+}
+
+const defaultContent: BilingualContent = {
+  headline: '¿Hablas Español?',
+  body: 'Ofrecemos servicio completo en español para familias de Greater Houston — The Woodlands, Spring, Humble, Magnolia, Tomball y Conroe.\n\nSeguros de casa, auto y vida — ¡cotización gratis en 24 horas!',
+  button: 'Obtener Cotización Gratis',
+};
 
 export default function JenkinsBilingual() {
-  const ref = useRef<HTMLElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
+  const [content, setContent] = useState<BilingualContent>(defaultContent);
 
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
+    try {
+      const stored = localStorage.getItem('jenkinsBilingual');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        setContent({ ...defaultContent, ...parsed });
+      }
+    } catch {}
+
     const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { setVisible(true); observer.unobserve(el); } },
+      ([entry]) => { if (entry.isIntersecting) setVisible(true); },
       { threshold: 0.1 }
     );
-    observer.observe(el);
+    if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
   }, []);
 
   return (
     <section
-      ref={ref}
+      className="py-[60px] text-center"
       style={{
-        backgroundColor: '#F8F9FA',
-        padding: '60px 0',
+        background: '#F8F9FA',
         borderTop: '4px solid #F4B942',
       }}
-      className={`scroll-fade ${visible ? 'visible' : ''}`}
     >
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
-        <div style={{ fontSize: '40px', marginBottom: '16px' }}>🇲🇽 🇺🇸</div>
-
-        <h2
-          style={{
-            fontFamily: "'Montserrat', sans-serif",
-            fontWeight: 800,
-            fontSize: 'clamp(28px, 4vw, 36px)',
-            color: '#1B3A6B',
-            marginBottom: '16px',
-          }}
-        >
-          ¿Hablas Español?
+      <div
+        ref={ref}
+        className={`max-w-2xl mx-auto px-4 transition-all duration-700 ${
+          visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}
+      >
+        <div className="text-4xl mb-4">🇲🇽 🇺🇸</div>
+        <h2 className="font-montserrat font-extrabold text-[40px] text-jenkins-navy mb-6">
+          {content.headline}
         </h2>
-
-        <p
-          style={{
-            fontFamily: "'Open Sans', sans-serif",
-            fontSize: '18px',
-            color: '#555',
-            lineHeight: 1.7,
-            marginBottom: '32px',
-            maxWidth: '600px',
-            margin: '0 auto 32px',
-          }}
-        >
-          Ofrecemos servicio completo en español para familias de The Woodlands, Spring,
-          Conroe y Humble, Texas. Seguros de casa, auto y vida —
-          ¡cotización gratis en 24 horas!
+        <p className="font-opensans text-[18px] text-[#555] leading-[1.8] mb-8 whitespace-pre-line">
+          {content.body}
         </p>
-
         <a
-          href="tel:+12814108934"
-          style={{
-            display: 'inline-block',
-            backgroundColor: '#F4B942',
-            color: '#1B3A6B',
-            fontFamily: "'Montserrat', sans-serif",
-            fontWeight: 700,
-            fontSize: '17px',
-            padding: '14px 36px',
-            borderRadius: '8px',
-            textDecoration: 'none',
-            boxShadow: '0 4px 15px rgba(244,185,66,0.4)',
-            transition: 'background-color 0.2s ease, transform 0.2s ease',
-          }}
-          onMouseEnter={(e) => {
-            (e.currentTarget as HTMLAnchorElement).style.backgroundColor = '#D9A030';
-            (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(1.03)';
-          }}
-          onMouseLeave={(e) => {
-            (e.currentTarget as HTMLAnchorElement).style.backgroundColor = '#F4B942';
-            (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(1)';
-          }}
+          href="#contact"
+          className="jenkins-gold-btn inline-block px-8 py-4 text-[17px] rounded-lg"
         >
-          Obtener Cotización Gratis
+          {content.button}
         </a>
-
-        <p
-          style={{
-            fontFamily: "'Open Sans', sans-serif",
-            fontSize: '14px',
-            color: '#888',
-            marginTop: '20px',
-          }}
-        >
-          Bilingual Agent | Agente Bilingüe | The Woodlands TX
+        <p className="font-opensans text-[13px] text-[#888] mt-4">
+          Bilingual Agent | Agente Bilingüe<br />
+          Greater Houston Metro TX
         </p>
       </div>
     </section>

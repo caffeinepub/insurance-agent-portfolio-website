@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import JenkinsHeader from '../components/jenkins/JenkinsHeader';
 import JenkinsHero from '../components/jenkins/JenkinsHero';
 import JenkinsTrustBar from '../components/jenkins/JenkinsTrustBar';
@@ -15,11 +15,34 @@ import JenkinsStickyMobileBar from '../components/jenkins/JenkinsStickyMobileBar
 
 export default function JenkinsPublicSite() {
   useEffect(() => {
-    document.title = 'Independent Insurance Agent | The Woodlands TX | Jenkins Insurance';
+    document.title = 'Independent Insurance Agent | Greater Houston TX | Jenkins Insurance Agency';
+    
+    // Set meta description
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute('content', 'Greater Houston TX independent insurance agent. Compare 20+ carriers for home, auto, life & business. Serving The Woodlands, Spring, Humble, Magnolia, Tomball & Conroe TX. Free quotes in 24 hours.');
+    }
+
+    // Scroll fade animation observer
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    const elements = document.querySelectorAll('.scroll-fade');
+    elements.forEach((el) => observer.observe(el));
+
+    return () => observer.disconnect();
   }, []);
 
   return (
-    <div className="min-h-screen overflow-x-hidden" style={{ fontFamily: "'Open Sans', sans-serif", color: '#2C2C2C' }}>
+    <div className="font-opensans">
       <JenkinsHeader />
       <main>
         <JenkinsHero />

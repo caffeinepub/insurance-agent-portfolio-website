@@ -1,106 +1,128 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-03-02T15:59:30.210Z",
-  "summary": "The diff implements the vast majority of the Jenkins Insurance Agency demo site requirements. All 16 REQ items have corresponding components and wiring. However, several specific acceptance criteria details are partially or not met: the hero H1 uses different wording than specified, the sticky mobile bar has a WhatsApp button instead of a 'Get Quote' scroll button, the carrier badges list includes extra carriers and is missing 'Foremost', the bilingual section lacks an explicit English sentence, the trust bar 4th stat is non-animating, and the reviews aggregate count is wrong.",
+  "generatedAt": "2026-03-02T18:09:11.569Z",
+  "summary": "The diff implements the vast majority of the Jenkins Insurance demo site and admin panel requirements. Most frontend components, admin pages, backend Motoko changes, and routing are present. A few notable gaps exist: the JenkinsWhyChoose component is not shown, the JenkinsPublicSite.tsx page composition file is not present in the diff, the JenkinsFooter localStorage reading (REQ-13) appears limited, and the backend submitQuote integration from the public form calls the actor but the REQ-15 AC around 'guest' permission check may conflict with anonymous callers. Some hallucinated features are also present.",
   "missing_requirements": [
     {
-      "id": "REQ-3",
-      "requirement": "Hero H1 must read exactly 'Your Local Insurance Agent in The Woodlands, TX'",
-      "reason": "JenkinsHero.tsx uses 'The Woodlands' Most Trusted Independent Insurance Agent' instead of the specified H1 copy",
-      "evidence": [
-        "frontend/src/components/jenkins/JenkinsHero.tsx"
-      ]
+      "requirement": "JenkinsWhyChoose component ('Why Choose Us cards') must be built and composed into JenkinsPublicSite.tsx",
+      "reason": "No file for JenkinsWhyChoose.tsx appears in the diff (added or modified).",
+      "evidence": []
     },
     {
-      "id": "REQ-4",
-      "requirement": "Trust bar stat '100% Local Texas Agent' with count-up animation from 0 to final value",
-      "reason": "JenkinsTrustBar.tsx sets the 4th stat value to 0 with label 'The Woodlands, TX Local' and the count-up hook skips it (target===0 branch), so no count-up animation fires for that stat and the label does not match '100% Local Texas Agent'",
-      "evidence": [
-        "frontend/src/components/jenkins/JenkinsTrustBar.tsx"
-      ]
+      "requirement": "JenkinsPublicSite.tsx must compose all 13 section components with document title 'Jenkins Insurance Agency | Greater Houston TX'",
+      "reason": "JenkinsPublicSite.tsx is not listed among the added or modified files in the diff summary.",
+      "evidence": []
     },
     {
-      "id": "REQ-5",
-      "requirement": "Carrier badges must include exactly Progressive, Travelers, Nationwide, Liberty Mutual, Safeco, and Foremost",
-      "reason": "JenkinsCarrierBadges.tsx omits 'Foremost' entirely while adding MetLife, Allstate, TWFG, Hartford, and Farmers which were not requested",
-      "evidence": [
-        "frontend/src/components/jenkins/JenkinsCarrierBadges.tsx"
-      ]
-    },
-    {
-      "id": "REQ-9",
-      "requirement": "Google Reviews aggregate rating summary must show 47 reviews",
-      "reason": "JenkinsReviews.tsx displays 'Based on 127 Google Reviews' instead of the spec-required 47 reviews",
-      "evidence": [
-        "frontend/src/components/jenkins/JenkinsReviews.tsx"
-      ]
-    },
-    {
-      "id": "REQ-11",
-      "requirement": "Bilingual section must contain both English and Spanish text including the phrase 'Hablamos Espanol - Se Habla Espanol. Llamenos hoy para una cotizacion gratuita.'",
-      "reason": "JenkinsBilingual.tsx contains only Spanish text with no distinct English sentence establishing the bilingual nature beyond the heading; the required English copy is absent",
-      "evidence": [
-        "frontend/src/components/jenkins/JenkinsBilingual.tsx"
-      ]
-    },
-    {
-      "id": "REQ-14",
-      "requirement": "Mobile sticky bottom bar must have 'Call Now' and 'Get Quote' (scrolls to #quote) buttons side by side",
-      "reason": "JenkinsStickyMobileBar.tsx implements 'Call Now' and a 'WhatsApp' link button; the 'Get Quote' scroll-to-#quote button is replaced with a WhatsApp deeplink, not a scroll-to-quote action",
+      "id": "REQ-1",
+      "requirement": "Mobile sticky bar shows Call Now and WhatsApp buttons (and 2 more) — the spec implies 4 buttons on the mobile bar",
+      "reason": "JenkinsStickyMobileBar.tsx only shows 2 buttons (Call Now and WhatsApp). The AC explicitly says '(and 2 more)', indicating 4 total buttons.",
       "evidence": [
         "frontend/src/components/jenkins/JenkinsStickyMobileBar.tsx"
       ]
-    }
-  ],
-  "hallucinated_features": [
+    },
     {
-      "description": "Footer includes an email address 'cjenkins@twfg.com' and social media icons (Facebook, LinkedIn) via react-icons library",
-      "reason": "The build request does not specify an email address or social media links in the footer; react-icons is also an additional third-party dependency not requested",
+      "id": "REQ-6",
+      "requirement": "Quote Requests page filter bar must include date range inputs",
+      "reason": "The AdminJenkinsQuotesPage.tsx diff is truncated but the visible filter state variables do not include date range inputs.",
+      "evidence": [
+        "frontend/src/components/admin/AdminJenkinsQuotesPage.tsx"
+      ]
+    },
+    {
+      "id": "REQ-12",
+      "requirement": "All save buttons show a loading spinner while saving",
+      "reason": "The toast context and layout do not enforce a universal loading spinner on all save buttons. Some pages such as AdminJenkinsDashboard do not show save button spinners.",
+      "evidence": [
+        "frontend/src/contexts/ToastContext.tsx",
+        "frontend/src/components/admin/AdminJenkinsDashboard.tsx"
+      ]
+    },
+    {
+      "id": "REQ-13",
+      "requirement": "JenkinsFooter must read its content from localStorage and fall back to hardcoded defaults",
+      "reason": "JenkinsFooter.tsx is shown as modified but uses hardcoded values for phone, email, and city list without any localStorage read logic visible in the diff.",
       "evidence": [
         "frontend/src/components/jenkins/JenkinsFooter.tsx"
       ]
     },
     {
-      "description": "Carrier badge row includes 10 carriers instead of the 6 specified, adding MetLife, Allstate, TWFG, Hartford, and Farmers",
-      "reason": "Only Progressive, Travelers, Nationwide, Liberty Mutual, Safeco, and Foremost were requested; the extra carriers were not requested",
+      "id": "REQ-8",
+      "requirement": "Each accordion section in Edit Website Content must have both a gold 'Save Changes' button AND a navy 'Preview Changes' button",
+      "reason": "AdminJenkinsContentPage.tsx is truncated and only 'Save Changes' button behavior is confirmed; the navy 'Preview Changes' button is not confirmed present.",
       "evidence": [
-        "frontend/src/components/jenkins/JenkinsCarrierBadges.tsx"
+        "frontend/src/components/admin/AdminJenkinsContentPage.tsx"
       ]
     },
     {
-      "description": "Mobile sticky bar shows a WhatsApp deeplink button instead of the specified 'Get Quote' scroll-to-#quote button",
-      "reason": "REQ-14 specifies 'Call Now' and 'Get Quote' scroll to #quote; a WhatsApp button in the mobile sticky bar was not requested",
+      "id": "REQ-15",
+      "requirement": "Quote form submission on public site calls the backend submitQuote function successfully for anonymous callers",
+      "reason": "The backend submitQuote checks AccessControl.hasPermission with #guest which may reject anonymous/unauthenticated callers from the public site form, breaking the AC.",
       "evidence": [
-        "frontend/src/components/jenkins/JenkinsStickyMobileBar.tsx"
+        "backend/main.mo",
+        "frontend/src/components/jenkins/JenkinsQuoteContact.tsx"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "AdminLoginModal component with username field and modal-based login UI",
+      "reason": "REQ-3 specifies a standalone AdminLoginPage with password only and no modal. A separate AdminLoginModal.tsx was added that includes a username input field, which was not requested.",
+      "evidence": [
+        "frontend/src/components/admin/AdminLoginModal.tsx"
       ]
     },
     {
-      "description": "Schema.org InsuranceAgency structured data JSON-LD script added to index.html",
-      "reason": "No requirement for structured data or JSON-LD was included in the build request",
+      "description": "AppointmentsCalendarView component with a calendar grid showing appointments by day",
+      "reason": "No calendar view for appointments was requested anywhere in the build request.",
       "evidence": [
-        "frontend/index.html"
+        "frontend/src/components/admin/AppointmentsCalendarView.tsx"
       ]
     },
     {
-      "description": "Open Graph and Twitter Card meta tags added to index.html",
-      "reason": "Social media meta tags were not requested in the build request",
+      "description": "AdminAppointmentsPage showing backend quote submissions via useGetAllAppointments hook",
+      "reason": "No Appointments page was requested. The admin panel routes are fully specified and this page is not among them.",
       "evidence": [
-        "frontend/index.html"
+        "frontend/src/components/admin/AdminAppointmentsPage.tsx"
       ]
     },
     {
-      "description": "JenkinsAbout.tsx shows 4 stat boxes (Years, Clients, Carriers, Rating) instead of the specified 3 stat boxes labeled Families Served, Carriers, Years",
-      "reason": "REQ-8 specifies exactly 3 inline stat boxes; the implementation adds a 4th and changes the labels",
+      "description": "backend/migration.mo module with OldActor/NewActor migration logic",
+      "reason": "No data migration module was requested. REQ-15 only asked for submitQuote and getQuotes functions to be added to main.mo.",
       "evidence": [
-        "frontend/src/components/jenkins/JenkinsAbout.tsx"
+        "backend/migration.mo"
+      ]
+    },
+    {
+      "description": "HoustonQuoteForm component as a separate Houston-branded quote form",
+      "reason": "No standalone Houston quote form component was requested. The public form is specified as JenkinsQuoteContact inside JenkinsPublicSite.",
+      "evidence": [
+        "frontend/src/components/houston/HoustonQuoteForm.tsx"
       ]
     }
   ],
   "confidence": 0.72,
   "changed_files": [
-    "frontend/index.html",
+    "backend/main.mo",
+    "backend/migration.mo",
+    "frontend-file-summaries.txt",
     "frontend/src/App.tsx",
+    "frontend/src/components/ContactSection.tsx",
+    "frontend/src/components/admin/AdminAppointmentsPage.tsx",
+    "frontend/src/components/admin/AdminJenkinsAnalyticsPage.tsx",
+    "frontend/src/components/admin/AdminJenkinsContactPage.tsx",
+    "frontend/src/components/admin/AdminJenkinsContentPage.tsx",
+    "frontend/src/components/admin/AdminJenkinsDashboard.tsx",
+    "frontend/src/components/admin/AdminJenkinsLayout.tsx",
+    "frontend/src/components/admin/AdminJenkinsQuotesPage.tsx",
+    "frontend/src/components/admin/AdminJenkinsReviewsPage.tsx",
+    "frontend/src/components/admin/AdminJenkinsServiceAreasPage.tsx",
+    "frontend/src/components/admin/AdminJenkinsSettingsPage.tsx",
+    "frontend/src/components/admin/AdminLoginModal.tsx",
+    "frontend/src/components/admin/AdminLoginPage.tsx",
+    "frontend/src/components/admin/AppointmentsCalendarView.tsx",
+    "frontend/src/components/houston/HoustonQuoteForm.tsx",
     "frontend/src/components/jenkins/JenkinsAbout.tsx",
     "frontend/src/components/jenkins/JenkinsBilingual.tsx",
     "frontend/src/components/jenkins/JenkinsCarrierBadges.tsx",
@@ -114,8 +136,11 @@
     "frontend/src/components/jenkins/JenkinsStickyMobileBar.tsx",
     "frontend/src/components/jenkins/JenkinsTrustBar.tsx",
     "frontend/src/components/jenkins/JenkinsWhyChoose.tsx",
+    "frontend/src/contexts/ToastContext.tsx",
+    "frontend/src/hooks/useAdminQueries.ts",
+    "frontend/src/hooks/useHoustonQuoteSubmission.ts",
     "frontend/src/hooks/useQueries.ts",
-    "frontend/src/hooks/useScrollAnimation.ts",
+    "frontend/src/hooks/useReevesQuoteSubmission.ts",
     "frontend/src/index.css",
     "frontend/src/pages/JenkinsPublicSite.tsx",
     "frontend/tailwind.config.js",

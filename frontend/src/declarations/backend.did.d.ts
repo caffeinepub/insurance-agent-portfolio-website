@@ -10,10 +10,6 @@ import type { ActorMethod } from '@icp-sdk/core/agent';
 import type { IDL } from '@icp-sdk/core/candid';
 import type { Principal } from '@icp-sdk/core/principal';
 
-export type BestTimeToCall = { 'morning' : null } |
-  { 'evening' : null } |
-  { 'anyTime' : null } |
-  { 'afternoon' : null };
 export interface BusinessInfo {
   'whatsapp' : string,
   'licensedStates' : Array<string>,
@@ -21,19 +17,14 @@ export interface BusinessInfo {
   'address' : string,
   'phone' : string,
 }
-export type CoverageType = { 'auto' : null } |
-  { 'home' : null } |
-  { 'life' : null } |
-  { 'business' : null };
-export interface QuoteSubmission {
-  'id' : bigint,
-  'bestTimeToCall' : BestTimeToCall,
+export interface PersistentQuoteSubmission {
+  'city' : string,
   'name' : string,
   'email' : string,
-  'zipCode' : string,
+  'message' : string,
   'timestamp' : bigint,
   'phone' : string,
-  'coverageType' : CoverageType,
+  'coverageType' : string,
 }
 export interface UserProfile { 'name' : string, 'email' : string }
 export type UserRole = { 'admin' : null } |
@@ -74,15 +65,12 @@ export interface _SERVICE {
   >,
   'getCallerUserProfile' : ActorMethod<[], [] | [UserProfile]>,
   'getCallerUserRole' : ActorMethod<[], UserRole>,
-  'getQuoteById' : ActorMethod<[bigint], QuoteSubmission>,
-  'getQuoteSubmissions' : ActorMethod<[], Array<QuoteSubmission>>,
+  'getQuoteByIndex' : ActorMethod<[bigint], PersistentQuoteSubmission>,
+  'getQuotes' : ActorMethod<[], Array<PersistentQuoteSubmission>>,
   'getUserProfile' : ActorMethod<[Principal], [] | [UserProfile]>,
   'isCallerAdmin' : ActorMethod<[], boolean>,
   'saveCallerUserProfile' : ActorMethod<[UserProfile], undefined>,
-  'submitQuote' : ActorMethod<
-    [string, string, string, string, CoverageType, BestTimeToCall],
-    bigint
-  >,
+  'submitQuote' : ActorMethod<[PersistentQuoteSubmission], undefined>,
   'updateBusinessInfo' : ActorMethod<[string, BusinessInfo], undefined>,
 }
 export declare const idlService: IDL.ServiceClass;

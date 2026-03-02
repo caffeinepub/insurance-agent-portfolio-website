@@ -1,484 +1,260 @@
-import React, { useState } from 'react';
-import { useSubmitQuote } from '../../hooks/useQueries';
-import { CoverageType, BestTimeToCall } from '../../backend';
-import { MapPin, Phone, Mail, MessageCircle, Clock, Shield, Star } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { useActor } from '../../hooks/useActor';
 
-const coverageOptions = [
-  { value: CoverageType.home, label: 'Homeowners' },
-  { value: CoverageType.auto, label: 'Auto' },
-  { value: CoverageType.business, label: 'Business' },
-  { value: CoverageType.life, label: 'Life' },
-];
+interface ContactInfo {
+  phone: string;
+  email: string;
+  address: string;
+  hoursMF: string;
+  hoursSat: string;
+  whatsapp: string;
+}
 
-const timeOptions = [
-  { value: BestTimeToCall.morning, label: 'Morning (8AM–12PM)' },
-  { value: BestTimeToCall.afternoon, label: 'Afternoon (12PM–5PM)' },
-  { value: BestTimeToCall.evening, label: 'Evening (5PM–8PM)' },
-  { value: BestTimeToCall.anyTime, label: 'Any Time' },
-];
+const defaultContact: ContactInfo = {
+  phone: '(281) 410-8934',
+  email: 'cjenkins@twfg.com',
+  address: '33018 Tamina Rd, Greater Houston Metro TX',
+  hoursMF: 'Monday–Friday: 8AM–6PM CST',
+  hoursSat: 'Saturday: 9AM–2PM CST',
+  whatsapp: '+12814108934',
+};
+
+const cities = ['The Woodlands', 'Spring', 'Conroe', 'Humble', 'Magnolia', 'Tomball', 'Other Houston Area'];
+const coverageTypes = ['Homeowners', 'Auto Insurance', 'Home + Auto Bundle', 'Business', 'Flood Insurance', 'Life Insurance', 'Multiple Types'];
 
 export default function JenkinsQuoteContact() {
+  const { actor } = useActor();
+  const [contact, setContact] = useState<ContactInfo>(defaultContact);
   const [form, setForm] = useState({
-    firstName: '',
-    lastName: '',
-    phone: '',
-    email: '',
-    zipCode: '',
-    coverageType: CoverageType.home as CoverageType,
-    bestTimeToCall: BestTimeToCall.anyTime as BestTimeToCall,
-    currentInsurer: '',
-    message: '',
+    firstName: '', lastName: '', phone: '', email: '',
+    city: '', coverage: '', currentInsurer: '', message: '',
   });
+  const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState('');
 
-  const { mutate: submitQuote, isPending } = useSubmitQuote();
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem('jenkinsContactInfo');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        setContact({ ...defaultContact, ...parsed });
+      }
+    } catch {}
+  }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const fullName = `${form.firstName} ${form.lastName}`.trim();
-    submitQuote(
-      {
-        name: fullName,
+    setSubmitting(true);
+    setError('');
+    try {
+      if (actor) {
+        await actor.submitQuote({
+          name: `${form.firstName} ${form.lastName}`.trim(),
+          phone: form.phone,
+          email: form.email,
+          city: form.city,
+          coverageType: form.coverage,
+          message: form.message,
+          timestamp: BigInt(Date.now()),
+        });
+      }
+      // Also save to localStorage for admin panel
+      const existing = JSON.parse(localStorage.getItem('jenkinsQuoteLeads') || '[]');
+      const newLead = {
+        id: Date.now().toString(),
+        name: `${form.firstName} ${form.lastName}`.trim(),
         phone: form.phone,
         email: form.email,
-        zipCode: form.zipCode,
-        coverageType: form.coverageType,
-        bestTimeToCall: form.bestTimeToCall,
-      },
-      {
-        onSuccess: () => setSubmitted(true),
-      }
-    );
-  };
-
-  const inputStyle: React.CSSProperties = {
-    width: '100%',
-    padding: '12px 16px',
-    borderRadius: '8px',
-    border: '1px solid #D0D0D0',
-    fontFamily: "'Open Sans', sans-serif",
-    fontSize: '15px',
-    color: '#2C2C2C',
-    backgroundColor: '#FFFFFF',
-    outline: 'none',
-    transition: 'border-color 0.2s ease',
-  };
-
-  const labelStyle: React.CSSProperties = {
-    fontFamily: "'Open Sans', sans-serif",
-    fontSize: '13px',
-    fontWeight: 600,
-    color: 'rgba(255,255,255,0.85)',
-    display: 'block',
-    marginBottom: '6px',
+        city: form.city,
+        coverage: form.coverage,
+        currentInsurer: form.currentInsurer,
+        message: form.message,
+        date: new Date().toLocaleDateString(),
+        status: 'New',
+        notes: '',
+      };
+      localStorage.setItem('jenkinsQuoteLeads', JSON.stringify([newLead, ...existing]));
+      setSubmitted(true);
+    } catch (err) {
+      setError('Something went wrong. Please try again or call us directly.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
-    <section
-      id="quote"
-      style={{
-        background: 'linear-gradient(135deg, #1B3A6B 0%, #2E5FA3 100%)',
-        padding: '90px 0',
-      }}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+    <section id="contact" className="py-[90px]" style={{ background: 'linear-gradient(135deg, #1B3A6B 0%, #2E5FA3 100%)' }}>
+      <div className="max-w-6xl mx-auto px-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Left: Form */}
+          {/* Form */}
           <div>
-            <h2
-              style={{
-                fontFamily: "'Montserrat', sans-serif",
-                fontWeight: 800,
-                fontSize: 'clamp(26px, 3.5vw, 36px)',
-                color: '#FFFFFF',
-                marginBottom: '12px',
-              }}
-            >
+            <h2 className="font-montserrat font-extrabold text-[36px] text-white mb-3">
               Get Your Free Texas Quote
             </h2>
-            <p
-              style={{
-                fontFamily: "'Open Sans', sans-serif",
-                fontSize: '16px',
-                color: 'rgba(255,255,255,0.80)',
-                marginBottom: '32px',
-                lineHeight: 1.6,
-              }}
-            >
+            <p className="font-opensans text-[16px] mb-8" style={{ color: 'rgba(255,255,255,0.80)' }}>
               Takes 2 minutes. No spam ever. Response within 24 hours guaranteed.
             </p>
 
             {submitted ? (
-              <div
-                style={{
-                  backgroundColor: 'rgba(39,174,96,0.15)',
-                  border: '2px solid #27AE60',
-                  borderRadius: '16px',
-                  padding: '40px',
-                  textAlign: 'center',
-                }}
-              >
-                <div style={{ fontSize: '48px', marginBottom: '16px' }}>✅</div>
-                <h3
-                  style={{
-                    fontFamily: "'Montserrat', sans-serif",
-                    fontWeight: 800,
-                    fontSize: '24px',
-                    color: '#FFFFFF',
-                    marginBottom: '12px',
-                  }}
-                >
+              <div className="bg-white rounded-2xl p-10 text-center">
+                <div className="text-5xl mb-4">✅</div>
+                <h3 className="font-montserrat font-bold text-[24px] text-jenkins-navy mb-3">
                   Quote Request Sent!
                 </h3>
-                <p style={{ fontFamily: "'Open Sans', sans-serif", color: 'rgba(255,255,255,0.85)', fontSize: '16px', lineHeight: 1.6 }}>
-                  C. Jenkins will contact you within 24 hours with your personalized quote comparison from 20+ carriers.
-                </p>
-                <p style={{ fontFamily: "'Open Sans', sans-serif", color: '#F4B942', fontSize: '15px', marginTop: '16px', fontWeight: 600 }}>
-                  Questions? Call (281) 410-8934 anytime.
+                <p className="font-opensans text-[16px] text-[#555]">
+                  Thank you! C. Jenkins will contact you within 24 hours at {form.phone || form.email}.
                 </p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit}>
-                {/* Name Row */}
-                <div className="grid grid-cols-2 gap-4 mb-4">
-                  <div>
-                    <label style={labelStyle}>First Name *</label>
-                    <input
-                      type="text"
-                      required
-                      value={form.firstName}
-                      onChange={(e) => setForm({ ...form, firstName: e.target.value })}
-                      placeholder="First Name"
-                      style={inputStyle}
-                      onFocus={(e) => { (e.target as HTMLInputElement).style.borderColor = '#F4B942'; }}
-                      onBlur={(e) => { (e.target as HTMLInputElement).style.borderColor = '#D0D0D0'; }}
-                    />
-                  </div>
-                  <div>
-                    <label style={labelStyle}>Last Name *</label>
-                    <input
-                      type="text"
-                      required
-                      value={form.lastName}
-                      onChange={(e) => setForm({ ...form, lastName: e.target.value })}
-                      placeholder="Last Name"
-                      style={inputStyle}
-                      onFocus={(e) => { (e.target as HTMLInputElement).style.borderColor = '#F4B942'; }}
-                      onBlur={(e) => { (e.target as HTMLInputElement).style.borderColor = '#D0D0D0'; }}
-                    />
-                  </div>
-                </div>
-
-                {/* Phone */}
-                <div className="mb-4">
-                  <label style={labelStyle}>Phone Number *</label>
-                  <input
-                    type="tel"
-                    required
-                    value={form.phone}
-                    onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                    placeholder="(281) 555-0000"
-                    style={inputStyle}
-                    onFocus={(e) => { (e.target as HTMLInputElement).style.borderColor = '#F4B942'; }}
-                    onBlur={(e) => { (e.target as HTMLInputElement).style.borderColor = '#D0D0D0'; }}
-                  />
-                </div>
-
-                {/* Email */}
-                <div className="mb-4">
-                  <label style={labelStyle}>Email Address *</label>
-                  <input
-                    type="email"
-                    required
-                    value={form.email}
-                    onChange={(e) => setForm({ ...form, email: e.target.value })}
-                    placeholder="your@email.com"
-                    style={inputStyle}
-                    onFocus={(e) => { (e.target as HTMLInputElement).style.borderColor = '#F4B942'; }}
-                    onBlur={(e) => { (e.target as HTMLInputElement).style.borderColor = '#D0D0D0'; }}
-                  />
-                </div>
-
-                {/* ZIP */}
-                <div className="mb-4">
-                  <label style={labelStyle}>ZIP Code *</label>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
                   <input
                     type="text"
+                    placeholder="First Name *"
                     required
-                    value={form.zipCode}
-                    onChange={(e) => setForm({ ...form, zipCode: e.target.value })}
-                    placeholder="77354"
-                    style={inputStyle}
-                    onFocus={(e) => { (e.target as HTMLInputElement).style.borderColor = '#F4B942'; }}
-                    onBlur={(e) => { (e.target as HTMLInputElement).style.borderColor = '#D0D0D0'; }}
+                    value={form.firstName}
+                    onChange={e => setForm({ ...form, firstName: e.target.value })}
+                    className="w-full px-4 py-3 rounded-lg bg-white text-jenkins-dark-text font-opensans focus:outline-none focus:ring-2 focus:ring-jenkins-gold"
                   />
-                </div>
-
-                {/* Coverage Type */}
-                <div className="mb-4">
-                  <label style={labelStyle}>Coverage Needed *</label>
-                  <select
-                    required
-                    value={form.coverageType}
-                    onChange={(e) => setForm({ ...form, coverageType: e.target.value as CoverageType })}
-                    style={inputStyle}
-                    onFocus={(e) => { (e.target as HTMLSelectElement).style.borderColor = '#F4B942'; }}
-                    onBlur={(e) => { (e.target as HTMLSelectElement).style.borderColor = '#D0D0D0'; }}
-                  >
-                    {coverageOptions.map((opt) => (
-                      <option key={opt.value} value={opt.value}>{opt.label}</option>
-                    ))}
-                  </select>
-                </div>
-
-                {/* Best Time */}
-                <div className="mb-4">
-                  <label style={labelStyle}>Best Time to Call *</label>
-                  <select
-                    required
-                    value={form.bestTimeToCall}
-                    onChange={(e) => setForm({ ...form, bestTimeToCall: e.target.value as BestTimeToCall })}
-                    style={inputStyle}
-                    onFocus={(e) => { (e.target as HTMLSelectElement).style.borderColor = '#F4B942'; }}
-                    onBlur={(e) => { (e.target as HTMLSelectElement).style.borderColor = '#D0D0D0'; }}
-                  >
-                    {timeOptions.map((opt) => (
-                      <option key={opt.value} value={opt.value}>{opt.label}</option>
-                    ))}
-                  </select>
-                </div>
-
-                {/* Current Insurer */}
-                <div className="mb-4">
-                  <label style={labelStyle}>Current Insurance Company</label>
                   <input
                     type="text"
-                    value={form.currentInsurer}
-                    onChange={(e) => setForm({ ...form, currentInsurer: e.target.value })}
-                    placeholder="e.g. State Farm, Allstate"
-                    style={inputStyle}
-                    onFocus={(e) => { (e.target as HTMLInputElement).style.borderColor = '#F4B942'; }}
-                    onBlur={(e) => { (e.target as HTMLInputElement).style.borderColor = '#D0D0D0'; }}
+                    placeholder="Last Name *"
+                    required
+                    value={form.lastName}
+                    onChange={e => setForm({ ...form, lastName: e.target.value })}
+                    className="w-full px-4 py-3 rounded-lg bg-white text-jenkins-dark-text font-opensans focus:outline-none focus:ring-2 focus:ring-jenkins-gold"
                   />
                 </div>
-
-                {/* Message */}
-                <div className="mb-6">
-                  <label style={labelStyle}>Message</label>
-                  <textarea
-                    value={form.message}
-                    onChange={(e) => setForm({ ...form, message: e.target.value })}
-                    placeholder="Tell us about your current coverage and what you want to save on..."
-                    rows={3}
-                    style={{ ...inputStyle, resize: 'vertical' }}
-                    onFocus={(e) => { (e.target as HTMLTextAreaElement).style.borderColor = '#F4B942'; }}
-                    onBlur={(e) => { (e.target as HTMLTextAreaElement).style.borderColor = '#D0D0D0'; }}
-                  />
-                </div>
-
-                {/* Submit */}
+                <input
+                  type="tel"
+                  placeholder="(281) 555-0000"
+                  value={form.phone}
+                  onChange={e => setForm({ ...form, phone: e.target.value })}
+                  className="w-full px-4 py-3 rounded-lg bg-white text-jenkins-dark-text font-opensans focus:outline-none focus:ring-2 focus:ring-jenkins-gold"
+                />
+                <input
+                  type="email"
+                  placeholder="Email Address"
+                  value={form.email}
+                  onChange={e => setForm({ ...form, email: e.target.value })}
+                  className="w-full px-4 py-3 rounded-lg bg-white text-jenkins-dark-text font-opensans focus:outline-none focus:ring-2 focus:ring-jenkins-gold"
+                />
+                <select
+                  value={form.city}
+                  onChange={e => setForm({ ...form, city: e.target.value })}
+                  className="w-full px-4 py-3 rounded-lg bg-white text-jenkins-dark-text font-opensans focus:outline-none focus:ring-2 focus:ring-jenkins-gold"
+                >
+                  <option value="">Your City</option>
+                  {cities.map(c => <option key={c} value={c}>{c}</option>)}
+                </select>
+                <select
+                  value={form.coverage}
+                  onChange={e => setForm({ ...form, coverage: e.target.value })}
+                  className="w-full px-4 py-3 rounded-lg bg-white text-jenkins-dark-text font-opensans focus:outline-none focus:ring-2 focus:ring-jenkins-gold"
+                >
+                  <option value="">Coverage Needed</option>
+                  {coverageTypes.map(c => <option key={c} value={c}>{c}</option>)}
+                </select>
+                <input
+                  type="text"
+                  placeholder="Current Insurance Company (e.g. State Farm, Allstate)"
+                  value={form.currentInsurer}
+                  onChange={e => setForm({ ...form, currentInsurer: e.target.value })}
+                  className="w-full px-4 py-3 rounded-lg bg-white text-jenkins-dark-text font-opensans focus:outline-none focus:ring-2 focus:ring-jenkins-gold"
+                />
+                <textarea
+                  rows={4}
+                  placeholder="Tell us about your current coverage and what you want to save on..."
+                  value={form.message}
+                  onChange={e => setForm({ ...form, message: e.target.value })}
+                  className="w-full px-4 py-3 rounded-lg bg-white text-jenkins-dark-text font-opensans focus:outline-none focus:ring-2 focus:ring-jenkins-gold resize-none"
+                />
+                {error && <p className="text-red-300 text-sm">{error}</p>}
                 <button
                   type="submit"
-                  disabled={isPending}
-                  style={{
-                    width: '100%',
-                    height: '56px',
-                    backgroundColor: isPending ? '#D9A030' : '#F4B942',
-                    color: '#1B3A6B',
-                    fontFamily: "'Montserrat', sans-serif",
-                    fontWeight: 700,
-                    fontSize: '18px',
-                    borderRadius: '8px',
-                    border: 'none',
-                    cursor: isPending ? 'not-allowed' : 'pointer',
-                    transition: 'background-color 0.2s ease, transform 0.2s ease',
-                  }}
-                  onMouseEnter={(e) => {
-                    if (!isPending) {
-                      (e.currentTarget as HTMLButtonElement).style.backgroundColor = '#D9A030';
-                      (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.01)';
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!isPending) {
-                      (e.currentTarget as HTMLButtonElement).style.backgroundColor = '#F4B942';
-                      (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1)';
-                    }
-                  }}
+                  disabled={submitting}
+                  className="w-full jenkins-gold-btn py-4 text-[18px] rounded-lg disabled:opacity-70 flex items-center justify-center gap-2"
                 >
-                  {isPending ? '⏳ Sending...' : 'Send My Free Quote Request →'}
+                  {submitting ? (
+                    <>
+                      <div className="w-5 h-5 border-2 border-jenkins-navy/30 border-t-jenkins-navy rounded-full animate-spin" />
+                      Sending...
+                    </>
+                  ) : (
+                    'Send My Free Quote Request →'
+                  )}
                 </button>
-
-                <p
-                  style={{
-                    fontFamily: "'Open Sans', sans-serif",
-                    fontSize: '13px',
-                    color: 'rgba(255,255,255,0.70)',
-                    textAlign: 'center',
-                    marginTop: '12px',
-                  }}
-                >
+                <p className="text-center text-[13px]" style={{ color: 'rgba(255,255,255,0.70)' }}>
                   🔒 100% Private — Your information is never sold or shared with third parties. Ever.
                 </p>
               </form>
             )}
           </div>
 
-          {/* Right: Contact Info */}
-          <div>
-            <div
-              style={{
-                backgroundColor: '#FFFFFF',
-                borderRadius: '20px',
-                padding: '40px',
-                boxShadow: '0 8px 40px rgba(0,0,0,0.2)',
-              }}
-            >
-              <h3
-                style={{
-                  fontFamily: "'Montserrat', sans-serif",
-                  fontWeight: 700,
-                  fontSize: '22px',
-                  color: '#1B3A6B',
-                  marginBottom: '28px',
-                }}
-              >
-                Or Reach Us Directly
-              </h3>
-
-              {/* Contact Items */}
-              <div className="space-y-6">
-                <div className="flex items-start gap-4">
-                  <div style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: 'rgba(27,58,107,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                    <Phone size={18} style={{ color: '#1B3A6B' }} />
-                  </div>
-                  <div>
-                    <a
-                      href="tel:+12814108934"
-                      style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700, fontSize: '18px', color: '#1B3A6B', textDecoration: 'none' }}
-                    >
-                      (281) 410-8934
-                    </a>
-                    <p style={{ fontFamily: "'Open Sans', sans-serif", fontSize: '13px', color: '#666', marginTop: '2px' }}>Call or text anytime</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: 'rgba(27,58,107,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                    <Mail size={18} style={{ color: '#1B3A6B' }} />
-                  </div>
-                  <div>
-                    <a
-                      href="mailto:cjenkins@twfg.com"
-                      style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700, fontSize: '16px', color: '#1B3A6B', textDecoration: 'none' }}
-                    >
-                      cjenkins@twfg.com
-                    </a>
-                    <p style={{ fontFamily: "'Open Sans', sans-serif", fontSize: '13px', color: '#666', marginTop: '2px' }}>Reply within 2 hours</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: 'rgba(27,58,107,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                    <MapPin size={18} style={{ color: '#1B3A6B' }} />
-                  </div>
-                  <div>
-                    <p style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700, fontSize: '15px', color: '#1B3A6B' }}>
-                      33018 Tamina Rd
-                    </p>
-                    <p style={{ fontFamily: "'Open Sans', sans-serif", fontSize: '14px', color: '#666', marginTop: '2px' }}>
-                      The Woodlands, TX 77354
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: 'rgba(37,211,102,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                    <MessageCircle size={18} style={{ color: '#25D366' }} />
-                  </div>
-                  <div>
-                    <a
-                      href="https://wa.me/12814108934?text=Hi%2C%20I%27d%20like%20a%20free%20insurance%20quote."
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700, fontSize: '15px', color: '#25D366', textDecoration: 'none' }}
-                    >
-                      WhatsApp Available
-                    </a>
-                    <p style={{ fontFamily: "'Open Sans', sans-serif", fontSize: '13px', color: '#666', marginTop: '2px' }}>Message us anytime</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: 'rgba(27,58,107,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                    <Clock size={18} style={{ color: '#1B3A6B' }} />
-                  </div>
-                  <div>
-                    <p style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700, fontSize: '14px', color: '#1B3A6B' }}>Office Hours</p>
-                    <p style={{ fontFamily: "'Open Sans', sans-serif", fontSize: '13px', color: '#666', marginTop: '2px' }}>
-                      Monday–Friday: 8AM – 6PM CST<br />
-                      Saturday: 9AM – 2PM CST
-                    </p>
-                  </div>
+          {/* Contact Card */}
+          <div className="bg-white rounded-[20px] p-10 shadow-[0_8px_40px_rgba(0,0,0,0.15)] h-fit">
+            <h3 className="font-montserrat font-bold text-[22px] text-jenkins-navy mb-6">
+              Or Reach Us Directly
+            </h3>
+            <div className="space-y-4">
+              <div className="flex items-start gap-3">
+                <span className="text-xl">📞</span>
+                <div>
+                  <a href={`tel:${contact.phone.replace(/\D/g, '')}`} className="font-opensans font-semibold text-jenkins-navy hover:text-jenkins-gold transition-colors">
+                    {contact.phone}
+                  </a>
+                  <p className="text-[13px] text-[#555]">Call or text anytime</p>
                 </div>
               </div>
-
-              {/* Map Placeholder */}
-              <div
-                style={{
-                  backgroundColor: '#F8F9FA',
-                  borderRadius: '12px',
-                  padding: '20px',
-                  textAlign: 'center',
-                  marginTop: '24px',
-                  border: '1px solid #E0E0E0',
-                }}
-              >
-                <div style={{ fontSize: '32px', marginBottom: '8px' }}>📍</div>
-                <p style={{ fontFamily: "'Open Sans', sans-serif", fontSize: '14px', color: '#555', marginBottom: '8px' }}>
-                  The Woodlands, TX 77354
-                </p>
-                <a
-                  href="https://maps.google.com/?q=33018+Tamina+Rd+The+Woodlands+TX+77354"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700, fontSize: '13px', color: '#F4B942', textDecoration: 'none' }}
-                >
-                  Open in Google Maps →
-                </a>
+              <div className="flex items-start gap-3">
+                <span className="text-xl">📧</span>
+                <div>
+                  <a href={`mailto:${contact.email}`} className="font-opensans font-semibold text-jenkins-navy hover:text-jenkins-gold transition-colors">
+                    {contact.email}
+                  </a>
+                  <p className="text-[13px] text-[#555]">Reply within 2 hours</p>
+                </div>
               </div>
-
-              {/* Badges */}
-              <div className="flex gap-3 mt-6 flex-wrap">
-                <span
-                  style={{
-                    backgroundColor: 'rgba(27,58,107,0.08)',
-                    border: '1px solid rgba(27,58,107,0.2)',
-                    borderRadius: '20px',
-                    padding: '6px 14px',
-                    fontFamily: "'Open Sans', sans-serif",
-                    fontSize: '12px',
-                    fontWeight: 600,
-                    color: '#1B3A6B',
-                  }}
-                >
-                  🛡️ Licensed TX Agent
-                </span>
-                <span
-                  style={{
-                    backgroundColor: 'rgba(244,185,66,0.1)',
-                    border: '1px solid rgba(244,185,66,0.4)',
-                    borderRadius: '20px',
-                    padding: '6px 14px',
-                    fontFamily: "'Open Sans', sans-serif",
-                    fontSize: '12px',
-                    fontWeight: 600,
-                    color: '#1B3A6B',
-                  }}
-                >
-                  ⭐ 5-Star Rated
-                </span>
+              <div className="flex items-start gap-3">
+                <span className="text-xl">📍</span>
+                <div>
+                  <p className="font-opensans font-semibold text-jenkins-navy">{contact.address}</p>
+                </div>
               </div>
+              <div className="flex items-start gap-3">
+                <span className="text-xl">💬</span>
+                <div>
+                  <p className="font-opensans font-semibold text-jenkins-navy">WhatsApp Available</p>
+                  <p className="text-[13px] text-[#555]">Message us anytime</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="text-xl">🕐</span>
+                <div>
+                  <p className="font-opensans text-[14px] text-jenkins-navy">{contact.hoursMF}</p>
+                  <p className="font-opensans text-[14px] text-jenkins-navy">{contact.hoursSat}</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Service Areas */}
+            <div className="mt-6 p-4 rounded-xl" style={{ background: '#F8F9FA' }}>
+              <p className="font-opensans font-bold text-jenkins-navy text-[14px] mb-2">Serving:</p>
+              <p className="font-opensans text-[14px] text-[#555]">
+                The Woodlands • Spring • Conroe<br />
+                Humble • Magnolia • Tomball
+              </p>
+            </div>
+
+            {/* Badges */}
+            <div className="flex gap-3 mt-4">
+              <span className="px-3 py-1.5 border-2 border-jenkins-gold text-jenkins-navy font-opensans font-semibold text-[12px] rounded-lg">
+                🛡️ Licensed TX Agent
+              </span>
+              <span className="px-3 py-1.5 border-2 border-jenkins-gold text-jenkins-navy font-opensans font-semibold text-[12px] rounded-lg">
+                ⭐ 4.9 Star Rated
+              </span>
             </div>
           </div>
         </div>

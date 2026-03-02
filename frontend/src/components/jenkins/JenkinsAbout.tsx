@@ -1,147 +1,112 @@
-import React, { useRef, useState, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 
-const agentStats = [
-  { value: '10+', label: 'Years' },
-  { value: '500+', label: 'Clients' },
-  { value: '20+', label: 'Carriers' },
-  { value: '4.9★', label: 'Rating' },
-];
+interface AboutContent {
+  agentName: string;
+  aboutText: string;
+  yearsExperience: string;
+  familiesServed: string;
+  carriersCount: string;
+}
+
+const defaultAbout: AboutContent = {
+  agentName: 'C. Jenkins',
+  aboutText: `Hi, I'm C. Jenkins.\n\nI've spent years protecting families across Greater Houston — The Woodlands, Spring, Humble, Magnolia, Tomball, and Conroe — from the unexpected.\n\nI became an independent agent because I was tired of seeing my neighbors get stuck with overpriced policies from companies that treated them like a number — not a person.\n\nAs an independent agent, I work for YOU. I compare over 20 insurance carriers every single time to make sure you get the absolute best rate available in Texas.\n\nWhen you call me, I answer. When you have a claim, I fight for you. That's my promise to every Houston family I serve.`,
+  yearsExperience: '10+',
+  familiesServed: '500+',
+  carriersCount: '20+',
+};
 
 export default function JenkinsAbout() {
-  const ref = useRef<HTMLElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
+  const [content, setContent] = useState<AboutContent>(defaultAbout);
 
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
+    try {
+      const stored = localStorage.getItem('jenkinsAbout');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        setContent({ ...defaultAbout, ...parsed });
+      }
+    } catch {}
+
     const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { setVisible(true); observer.unobserve(el); } },
+      ([entry]) => { if (entry.isIntersecting) setVisible(true); },
       { threshold: 0.1 }
     );
-    observer.observe(el);
+    if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
   }, []);
 
+  const stats = [
+    { value: content.yearsExperience, label: 'Years Experience' },
+    { value: content.familiesServed, label: 'Families Served' },
+    { value: content.carriersCount, label: 'Carrier Options' },
+    { value: '4.9★', label: 'Google Rating' },
+  ];
+
   return (
-    <section
-      id="about"
-      ref={ref}
-      style={{ backgroundColor: '#1B3A6B', padding: '90px 0' }}
-      className={`scroll-fade ${visible ? 'visible' : ''}`}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+    <section id="about" className="py-[90px]" style={{ background: '#1B3A6B' }}>
+      <div className="max-w-6xl mx-auto px-4">
+        <div
+          ref={ref}
+          className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center transition-all duration-700 ${
+            visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+          }`}
+        >
           {/* Left: Photo */}
-          <div className="flex flex-col items-center lg:items-start">
+          <div className="flex flex-col items-center">
             <div
+              className="rounded-2xl overflow-hidden flex items-center justify-center"
               style={{
                 width: '100%',
                 maxWidth: '420px',
                 height: '500px',
-                borderRadius: '16px',
                 border: '4px solid #F4B942',
-                overflow: 'hidden',
-                backgroundColor: 'rgba(255,255,255,0.1)',
-                position: 'relative',
+                background: 'rgba(255,255,255,0.08)',
               }}
             >
               <img
-                src="/assets/generated/agent-photo.dim_400x500.png"
-                alt="C. Jenkins — Licensed Texas Insurance Agent"
-                loading="lazy"
-                style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center' }}
+                src="/assets/generated/agent-photo-jenkins.dim_400x500.png"
+                alt="C. Jenkins - Licensed Texas Insurance Agent"
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = 'none';
+                  target.parentElement!.innerHTML = '<div class="text-white/40 text-center p-8"><div class="text-8xl mb-4">👤</div><div class="text-lg">C. Jenkins</div></div>';
+                }}
               />
             </div>
-            <p
-              style={{
-                fontFamily: "'Open Sans', sans-serif",
-                fontSize: '14px',
-                color: '#F4B942',
-                marginTop: '12px',
-                textAlign: 'center',
-              }}
-            >
-              C. Jenkins | Licensed Texas Agent
+            <p className="font-opensans text-[14px] mt-3" style={{ color: '#F4B942' }}>
+              {content.agentName} | Licensed TX Agent
             </p>
           </div>
 
-          {/* Right: Story */}
+          {/* Right: Content */}
           <div>
-            {/* Gold accent line */}
-            <div style={{ width: '50px', height: '4px', backgroundColor: '#F4B942', marginBottom: '24px' }} />
-
-            <h2
-              style={{
-                fontFamily: "'Montserrat', sans-serif",
-                fontWeight: 800,
-                fontSize: 'clamp(26px, 3.5vw, 36px)',
-                color: '#FFFFFF',
-                lineHeight: 1.25,
-                marginBottom: '24px',
-              }}
-            >
+            <div className="w-[50px] h-1 bg-jenkins-gold mb-6 rounded-full" />
+            <h2 className="font-montserrat font-extrabold text-[36px] text-white leading-tight mb-6">
               Your Neighbor. Your Advocate.<br />Your Insurance Agent.
             </h2>
-
             <div
-              style={{
-                fontFamily: "'Open Sans', sans-serif",
-                fontSize: '17px',
-                color: 'rgba(255,255,255,0.88)',
-                lineHeight: 1.9,
-              }}
+              className="font-opensans text-[17px] leading-[1.9] mb-8 whitespace-pre-line"
+              style={{ color: 'rgba(255,255,255,0.88)' }}
             >
-              <p style={{ marginBottom: '16px' }}>
-                Hi, I'm C. Jenkins — and I've spent years protecting families right here
-                in The Woodlands from the unexpected.
-              </p>
-              <p style={{ marginBottom: '16px' }}>
-                I became an independent agent because I was tired of seeing neighbors get
-                stuck with overpriced policies from companies that treated them like a
-                policy number — not a person.
-              </p>
-              <p style={{ marginBottom: '16px' }}>
-                As an independent agent at 33018 Tamina Road, I work for YOU.
-                I compare over 20 insurance carriers every single time to make sure
-                you're getting the absolute best rate available in Texas.
-              </p>
-              <p>
-                When you call me, I answer. When you have a claim, I fight for you.
-                That's my promise to every family I serve in The Woodlands.
-              </p>
+              {content.aboutText}
             </div>
 
-            {/* Stats Row */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-10">
-              {agentStats.map((stat, i) => (
+            {/* Stats */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              {stats.map((stat, i) => (
                 <div
                   key={i}
-                  style={{
-                    border: '1px solid rgba(244,185,66,0.4)',
-                    borderRadius: '12px',
-                    padding: '16px 12px',
-                    textAlign: 'center',
-                  }}
+                  className="rounded-xl p-4 text-center"
+                  style={{ border: '1px solid rgba(244,185,66,0.4)' }}
                 >
-                  <div
-                    style={{
-                      fontFamily: "'Montserrat', sans-serif",
-                      fontWeight: 800,
-                      fontSize: '28px',
-                      color: '#F4B942',
-                      lineHeight: 1.2,
-                    }}
-                  >
+                  <div className="font-montserrat font-extrabold text-[28px] text-jenkins-gold">
                     {stat.value}
                   </div>
-                  <div
-                    style={{
-                      fontFamily: "'Open Sans', sans-serif",
-                      fontSize: '13px',
-                      color: '#FFFFFF',
-                      marginTop: '4px',
-                    }}
-                  >
+                  <div className="font-opensans text-[12px] text-white mt-1">
                     {stat.label}
                   </div>
                 </div>

@@ -1,164 +1,113 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { Link } from '@tanstack/react-router';
 import { Menu, X, Phone } from 'lucide-react';
 
-const navLinks = [
-  { label: 'Home', href: '#home' },
-  { label: 'Coverage', href: '#coverage' },
-  { label: 'About', href: '#about' },
-  { label: 'Reviews', href: '#reviews' },
-  { label: 'Contact', href: '#quote' },
-];
-
 export default function JenkinsHeader() {
-  const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleNavClick = (href: string) => {
-    setMobileOpen(false);
-    const el = document.querySelector(href);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  const navLinks = [
+    { label: 'Home', href: '#home' },
+    { label: 'Coverage', href: '#coverage' },
+    { label: 'About', href: '#about' },
+    { label: 'Reviews', href: '#reviews' },
+    { label: 'Contact', href: '#contact' },
+  ];
 
   return (
-    <>
-      <header
-        style={{
-          backgroundColor: '#1B3A6B',
-          boxShadow: scrolled ? '0 2px 20px rgba(0,0,0,0.25)' : '0 2px 20px rgba(0,0,0,0.15)',
-          transition: 'box-shadow 0.3s ease',
-        }}
-        className="fixed top-0 left-0 right-0 z-50 h-[70px]"
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-full flex items-center justify-between">
-          {/* Logo */}
-          <button
-            onClick={() => handleNavClick('#home')}
-            className="flex flex-col items-start focus:outline-none"
-          >
-            <span
-              style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700, fontSize: '22px', color: '#FFFFFF', lineHeight: 1.2 }}
-            >
-              🛡️ Jenkins Insurance
-            </span>
-            <span style={{ fontFamily: "'Open Sans', sans-serif", fontSize: '11px', color: '#F4B942', lineHeight: 1 }}>
-              The Woodlands, TX
-            </span>
-          </button>
-
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <button
-                key={link.label}
-                onClick={() => handleNavClick(link.href)}
-                style={{ fontFamily: "'Open Sans', sans-serif", color: '#FFFFFF', fontSize: '15px', background: 'none', border: 'none', cursor: 'pointer' }}
-                className="hover:text-yellow-300 transition-colors relative group pb-1"
-              >
-                {link.label}
-                <span
-                  className="absolute bottom-0 left-0 w-0 h-0.5 group-hover:w-full transition-all duration-200"
-                  style={{ backgroundColor: '#F4B942' }}
-                />
-              </button>
-            ))}
-          </nav>
-
-          {/* Desktop CTA */}
-          <div className="hidden md:flex items-center gap-3">
-            <a
-              href="tel:+12814108934"
-              style={{ fontFamily: "'Open Sans', sans-serif", color: '#F4B942', fontSize: '14px', fontWeight: 600 }}
-              className="flex items-center gap-1 hover:opacity-80 transition-opacity"
-            >
-              <Phone size={14} />
-              (281) 410-8934
-            </a>
-            <button
-              onClick={() => handleNavClick('#quote')}
-              style={{
-                backgroundColor: '#F4B942',
-                color: '#1B3A6B',
-                fontFamily: "'Montserrat', sans-serif",
-                fontWeight: 700,
-                fontSize: '14px',
-                borderRadius: '25px',
-                padding: '10px 22px',
-                border: 'none',
-                cursor: 'pointer',
-                transition: 'background-color 0.2s ease, transform 0.2s ease',
-              }}
-              onMouseEnter={(e) => { (e.target as HTMLButtonElement).style.backgroundColor = '#D9A030'; }}
-              onMouseLeave={(e) => { (e.target as HTMLButtonElement).style.backgroundColor = '#F4B942'; }}
-            >
-              ☎ Free Quote
-            </button>
-          </div>
-
-          {/* Mobile Hamburger */}
-          <button
-            className="md:hidden text-white focus:outline-none"
-            onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label="Toggle menu"
-          >
-            {mobileOpen ? <X size={28} /> : <Menu size={28} />}
-          </button>
-        </div>
-
-        {/* Mobile Dropdown */}
-        {mobileOpen && (
-          <div
-            style={{ backgroundColor: '#1B3A6B', borderTop: '1px solid rgba(255,255,255,0.1)' }}
-            className="md:hidden absolute top-[70px] left-0 right-0 z-50 shadow-lg"
-          >
-            <div className="px-4 py-4 flex flex-col gap-3">
-              {navLinks.map((link) => (
-                <button
-                  key={link.label}
-                  onClick={() => handleNavClick(link.href)}
-                  style={{ fontFamily: "'Open Sans', sans-serif", color: '#FFFFFF', fontSize: '16px', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', padding: '8px 0' }}
-                  className="hover:text-yellow-300 transition-colors border-b border-white/10 pb-2"
-                >
-                  {link.label}
-                </button>
-              ))}
-              <a
-                href="tel:+12814108934"
-                style={{ color: '#F4B942', fontFamily: "'Open Sans', sans-serif", fontSize: '16px', fontWeight: 600, padding: '8px 0' }}
-                className="flex items-center gap-2"
-              >
-                <Phone size={16} />
-                (281) 410-8934
-              </a>
-              <button
-                onClick={() => handleNavClick('#quote')}
-                style={{
-                  backgroundColor: '#F4B942',
-                  color: '#1B3A6B',
-                  fontFamily: "'Montserrat', sans-serif",
-                  fontWeight: 700,
-                  fontSize: '16px',
-                  borderRadius: '8px',
-                  padding: '14px 28px',
-                  border: 'none',
-                  cursor: 'pointer',
-                  width: '100%',
-                  marginTop: '8px',
-                }}
-              >
-                ☎ Get Free Quote
-              </button>
+    <header
+      className={`fixed top-0 left-0 right-0 z-[9999] transition-all duration-300 ${
+        scrolled
+          ? 'bg-jenkins-navy shadow-[0_2px_30px_rgba(0,0,0,0.25)]'
+          : 'bg-jenkins-navy shadow-[0_2px_20px_rgba(0,0,0,0.15)]'
+      }`}
+      style={{ height: '70px' }}
+    >
+      <div className="max-w-7xl mx-auto px-4 h-full flex items-center justify-between">
+        {/* Logo */}
+        <a href="#home" className="flex items-center gap-2">
+          <span className="text-2xl">🛡️</span>
+          <div>
+            <div className="font-montserrat font-bold text-white text-[22px] leading-tight">
+              Jenkins Insurance
+            </div>
+            <div className="text-[11px] text-jenkins-gold font-opensans leading-tight">
+              Greater Houston Metro TX
             </div>
           </div>
-        )}
-      </header>
-    </>
+        </a>
+
+        {/* Desktop Nav */}
+        <nav className="hidden md:flex items-center gap-8">
+          {navLinks.map((link) => (
+            <a
+              key={link.label}
+              href={link.href}
+              className="text-white font-opensans font-semibold text-[15px] hover:text-jenkins-gold transition-colors duration-200 relative group"
+            >
+              {link.label}
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-jenkins-gold transition-all duration-200 group-hover:w-full" />
+            </a>
+          ))}
+        </nav>
+
+        {/* CTA Button */}
+        <div className="hidden md:flex items-center gap-3">
+          <a
+            href="tel:+12814108934"
+            className="text-white font-opensans text-sm flex items-center gap-1 hover:text-jenkins-gold transition-colors"
+          >
+            <Phone className="w-4 h-4" />
+            (281) 410-8934
+          </a>
+          <a
+            href="#contact"
+            className="jenkins-gold-btn px-[22px] py-[10px] rounded-[25px] text-[15px] font-semibold"
+          >
+            ☎ Free Quote
+          </a>
+        </div>
+
+        {/* Mobile Hamburger */}
+        <button
+          className="md:hidden text-white p-2"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Toggle menu"
+        >
+          {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
+      </div>
+
+      {/* Mobile Menu */}
+      {mobileOpen && (
+        <div className="md:hidden bg-jenkins-navy border-t border-white/10 animate-fade-in-up">
+          <div className="px-4 py-4 flex flex-col gap-3">
+            {navLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                className="text-white font-opensans font-semibold text-[15px] py-2 hover:text-jenkins-gold transition-colors"
+                onClick={() => setMobileOpen(false)}
+              >
+                {link.label}
+              </a>
+            ))}
+            <a
+              href="#contact"
+              className="jenkins-gold-btn text-center py-3 rounded-lg text-[16px] font-semibold mt-2"
+              onClick={() => setMobileOpen(false)}
+            >
+              ☎ Free Quote
+            </a>
+          </div>
+        </div>
+      )}
+    </header>
   );
 }

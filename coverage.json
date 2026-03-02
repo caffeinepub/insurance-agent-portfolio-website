@@ -1,212 +1,280 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-03-02T15:59:30.215Z",
+  "generatedAt": "2026-03-02T18:09:11.577Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 16,
-    "implemented": 16,
+    "total": 15,
+    "implemented": 14,
     "items": [
       {
         "id": "REQ-1",
-        "summary": "Create a new top-level page component `JenkinsPublicSite.tsx` that assembles the entire Jenkins Insurance Agency single-page demo site. Set the document title to exactly: 'Independent Insurance Agent | The Woodlands TX | Jenkins Insurance'. Register this page as the index route in App.tsx, replacing the current default route.",
+        "summary": "Build the full Jenkins Insurance Agency public-facing demo site by composing all Jenkins-branded section components in JenkinsPublicSite.tsx: sticky header (JenkinsHeader), full-screen hero with animated headline and float effect (JenkinsHero), gold trust bar with count-up stats (JenkinsTrustBar), carrier badges grid (JenkinsCarrierBadges), Why Choose Us cards (JenkinsWhyChoose), coverage types grid (JenkinsCoverageTypes), About C. Jenkins section (JenkinsAbout), Google Reviews section (JenkinsReviews), Quote/Contact form (JenkinsQuoteContact), Spanish bilingual section (JenkinsBilingual), footer with Agent Login link (JenkinsFooter), floating WhatsApp button (JenkinsFloatingWhatsApp), and mobile sticky bottom bar (JenkinsStickyMobileBar). Document title must be set to 'Jenkins Insurance Agency | Greater Houston TX'. All scroll animations use IntersectionObserver. Colors: Navy #1B3A6B, Gold #F4B942, White #FFFFFF. Fonts: Montserrat (headings), Open Sans (body).",
         "status": "implemented",
         "plannedFiles": [
           "frontend/src/pages/JenkinsPublicSite.tsx",
-          "frontend/src/App.tsx"
+          "frontend/src/components/jenkins/JenkinsHeader.tsx",
+          "frontend/src/components/jenkins/JenkinsHero.tsx",
+          "frontend/src/components/jenkins/JenkinsTrustBar.tsx",
+          "frontend/src/components/jenkins/JenkinsCarrierBadges.tsx",
+          "frontend/src/components/jenkins/JenkinsWhyChoose.tsx",
+          "frontend/src/components/jenkins/JenkinsCoverageTypes.tsx",
+          "frontend/src/components/jenkins/JenkinsAbout.tsx",
+          "frontend/src/components/jenkins/JenkinsReviews.tsx",
+          "frontend/src/components/jenkins/JenkinsQuoteContact.tsx",
+          "frontend/src/components/jenkins/JenkinsBilingual.tsx",
+          "frontend/src/components/jenkins/JenkinsFooter.tsx",
+          "frontend/src/components/jenkins/JenkinsFloatingWhatsApp.tsx",
+          "frontend/src/components/jenkins/JenkinsStickyMobileBar.tsx",
+          "frontend/src/index.css"
         ],
         "matchedFiles": [
           "frontend/src/pages/JenkinsPublicSite.tsx",
-          "frontend/src/App.tsx"
+          "frontend/src/components/jenkins/JenkinsHeader.tsx",
+          "frontend/src/components/jenkins/JenkinsHero.tsx",
+          "frontend/src/components/jenkins/JenkinsTrustBar.tsx",
+          "frontend/src/components/jenkins/JenkinsCarrierBadges.tsx",
+          "frontend/src/components/jenkins/JenkinsWhyChoose.tsx",
+          "frontend/src/components/jenkins/JenkinsCoverageTypes.tsx",
+          "frontend/src/components/jenkins/JenkinsAbout.tsx",
+          "frontend/src/components/jenkins/JenkinsReviews.tsx",
+          "frontend/src/components/jenkins/JenkinsQuoteContact.tsx",
+          "frontend/src/components/jenkins/JenkinsBilingual.tsx",
+          "frontend/src/components/jenkins/JenkinsFooter.tsx",
+          "frontend/src/components/jenkins/JenkinsFloatingWhatsApp.tsx",
+          "frontend/src/components/jenkins/JenkinsStickyMobileBar.tsx",
+          "frontend/src/index.css"
         ]
       },
       {
         "id": "REQ-10",
-        "summary": "Build a quote request + contact section on a navy gradient background. Left side: a quote form with fields for Full Name, Phone, Email, ZIP Code, Coverage Type (dropdown), and Best Time to Call, plus a gold submit button. Right side: a contact info card showing address '33018 Tamina Rd, The Woodlands TX 77354', phone '(281) 410-8934', business hours, and a WhatsApp link. Assign this section the anchor id='quote'.",
+        "summary": "Build the Settings page (/admin/settings) with 4 sections: PROFILE (Agent Full Name input, License Number input labeled 'TX Dept of Insurance', Agency Name input, Profile Photo upload button); NOTIFICATIONS (4 toggle switches — gold when on — for: 'Email me when new quote arrives', 'WhatsApp alert for new leads', 'Weekly summary email', 'Monthly analytics report', all defaulting to on); WEBSITE (Custom domain text field with placeholder 'yourname.com', 'Connect Domain' button, Google Maps embed URL field, Facebook Page URL field, LinkedIn Profile URL field); CHANGE PASSWORD (Current password, New password, Confirm password inputs, 'Update Password' navy button). Each section has its own save button. Notification toggles and other settings persist to localStorage. Show success toast on save.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/jenkins/JenkinsQuoteContact.tsx"
+          "frontend/src/components/admin/AdminJenkinsSettingsPage.tsx",
+          "frontend/src/App.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/components/jenkins/JenkinsQuoteContact.tsx"
+          "frontend/src/components/admin/AdminJenkinsSettingsPage.tsx",
+          "frontend/src/App.tsx"
         ]
       },
       {
         "id": "REQ-11",
-        "summary": "Build a Spanish/bilingual section with a brief message in both English and Spanish inviting Spanish-speaking clients to get a free quote. Example: 'Hablamos Español — Se Habla Español. Llámenos hoy para una cotización gratuita.' Include a call-to-action button linking to tel:(281)410-8934.",
+        "summary": "Build a Contact Info Settings page (/admin/contact) and a Service Areas page (/admin/service-areas) as stubs that are accessible from the sidebar. Contact Info Settings shows editable fields for phone, email, address, and business hours (same as the Contact Info sub-section in Edit Website Content), saved to localStorage. Service Areas shows a list of the 6 cities (The Woodlands, Spring, Humble, Magnolia, Tomball, Conroe) with checkboxes to enable/disable each, plus an 'Add City' input, saved to localStorage.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/jenkins/JenkinsBilingual.tsx"
+          "frontend/src/components/admin/AdminJenkinsContactPage.tsx",
+          "frontend/src/components/admin/AdminJenkinsServiceAreasPage.tsx",
+          "frontend/src/App.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/components/jenkins/JenkinsBilingual.tsx"
+          "frontend/src/components/admin/AdminJenkinsContactPage.tsx",
+          "frontend/src/components/admin/AdminJenkinsServiceAreasPage.tsx",
+          "frontend/src/App.tsx"
         ]
       },
       {
         "id": "REQ-12",
-        "summary": "Build a 3-column footer with: Column 1 — Jenkins Insurance logo, tagline, address '33018 Tamina Rd, The Woodlands TX 77354', phone '(281) 410-8934'. Column 2 — Quick Links (Coverage types). Column 3 — Service Areas (The Woodlands, Conroe, Spring, Tomball, Humble, Cypress TX). Bottom strip: copyright, license disclaimer, privacy policy link. Background: dark navy.",
+        "summary": "Implement a global toast notification system in the admin panel. A success toast with '✅ Saved successfully!' text appears at the bottom-right of the screen for 3 seconds after any save action across all admin pages. Implement as a shared context or component used throughout the admin layout.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/jenkins/JenkinsFooter.tsx"
+          "frontend/src/contexts/ToastContext.tsx",
+          "frontend/src/components/admin/AdminJenkinsLayout.tsx",
+          "frontend/src/components/admin/AdminJenkinsContentPage.tsx",
+          "frontend/src/components/admin/AdminJenkinsReviewsPage.tsx",
+          "frontend/src/components/admin/AdminJenkinsSettingsPage.tsx",
+          "frontend/src/components/admin/AdminJenkinsContactPage.tsx",
+          "frontend/src/components/admin/AdminJenkinsServiceAreasPage.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/components/jenkins/JenkinsFooter.tsx"
+          "frontend/src/contexts/ToastContext.tsx",
+          "frontend/src/components/admin/AdminJenkinsLayout.tsx",
+          "frontend/src/components/admin/AdminJenkinsContentPage.tsx",
+          "frontend/src/components/admin/AdminJenkinsReviewsPage.tsx",
+          "frontend/src/components/admin/AdminJenkinsSettingsPage.tsx",
+          "frontend/src/components/admin/AdminJenkinsContactPage.tsx",
+          "frontend/src/components/admin/AdminJenkinsServiceAreasPage.tsx"
         ]
       },
       {
         "id": "REQ-13",
-        "summary": "Implement a floating WhatsApp button (bottom-right, fixed position) that is visible and accessible on ALL screen sizes — desktop, tablet, and mobile. It must use a WhatsApp green circle with a WhatsApp icon and a pulsing animation ring. The link must open `https://wa.me/12814108934` in a new tab. The button must NOT be hidden at any breakpoint.",
+        "summary": "Update all Jenkins public site components (JenkinsHero, JenkinsAbout, JenkinsBilingual, JenkinsCoverageTypes, JenkinsReviews, JenkinsQuoteContact, JenkinsFooter) to read their content from localStorage (using the same keys written by the Edit Website Content admin page) and fall back to hardcoded default values when no localStorage data exists. This enables live content editing from the admin panel to appear on the public site immediately.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/jenkins/JenkinsFloatingWhatsApp.tsx"
+          "frontend/src/components/jenkins/JenkinsHero.tsx",
+          "frontend/src/components/jenkins/JenkinsAbout.tsx",
+          "frontend/src/components/jenkins/JenkinsBilingual.tsx",
+          "frontend/src/components/jenkins/JenkinsCoverageTypes.tsx",
+          "frontend/src/components/jenkins/JenkinsReviews.tsx",
+          "frontend/src/components/jenkins/JenkinsQuoteContact.tsx",
+          "frontend/src/components/jenkins/JenkinsFooter.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/components/jenkins/JenkinsFloatingWhatsApp.tsx"
+          "frontend/src/components/jenkins/JenkinsHero.tsx",
+          "frontend/src/components/jenkins/JenkinsAbout.tsx",
+          "frontend/src/components/jenkins/JenkinsBilingual.tsx",
+          "frontend/src/components/jenkins/JenkinsCoverageTypes.tsx",
+          "frontend/src/components/jenkins/JenkinsReviews.tsx",
+          "frontend/src/components/jenkins/JenkinsQuoteContact.tsx",
+          "frontend/src/components/jenkins/JenkinsFooter.tsx"
         ]
       },
       {
         "id": "REQ-14",
-        "summary": "Implement a mobile sticky bottom action bar (fixed, bottom of screen, mobile-only) with two buttons side-by-side: 'Call Now' linking to tel:(281)410-8934 and 'Get Quote' scrolling to #quote. This bar should only appear on screens ≤768px wide.",
+        "summary": "Register all admin routes in App.tsx: /admin (login page, public), /admin/dashboard, /admin/quotes, /admin/reviews, /admin/content, /admin/contact, /admin/service-areas, /admin/analytics, /admin/settings. All routes except /admin are wrapped in the AdminJenkinsLayout and protected by sessionStorage authentication check. The /admin/dashboard route is the default landing after login.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/jenkins/JenkinsStickyMobileBar.tsx"
+          "frontend/src/App.tsx",
+          "frontend/src/components/admin/AdminJenkinsLayout.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/components/jenkins/JenkinsStickyMobileBar.tsx"
+          "frontend/src/App.tsx",
+          "frontend/src/components/admin/AdminJenkinsLayout.tsx"
         ]
       },
       {
         "id": "REQ-15",
-        "summary": "Apply global design system: primary font Montserrat (headings), secondary font Open Sans (body), loaded from Google Fonts. Primary color Navy #1B3A6B, accent Gold #F4B942, success Green #27AE60. All section scroll-in animations use IntersectionObserver with a 0.1 threshold and translateY(30px) → translateY(0) + opacity fade. All CSS custom properties defined in index.css for the Jenkins brand.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/index.css",
-          "frontend/tailwind.config.js",
-          "frontend/src/hooks/useScrollAnimation.ts"
-        ],
-        "matchedFiles": [
-          "frontend/src/index.css",
-          "frontend/tailwind.config.js",
-          "frontend/src/hooks/useScrollAnimation.ts"
-        ]
-      },
-      {
-        "id": "REQ-16",
-        "summary": "Ensure the entire frontend bundle is optimized for sub-3-second load time on mobile: lazy-load any images, use lightweight SVG icons instead of icon libraries where possible, minimize third-party script dependencies, and ensure no blocking render resources.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/index.html",
-          "frontend/src/components/jenkins/JenkinsHero.tsx",
-          "frontend/src/components/jenkins/JenkinsAbout.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/index.html",
-          "frontend/src/components/jenkins/JenkinsHero.tsx",
-          "frontend/src/components/jenkins/JenkinsAbout.tsx"
-        ]
+        "summary": "Update the Motoko backend (backend/main.mo) to add a `submitQuote` public function that accepts a quote submission record (name, phone, email, city, coverageType, message, timestamp) and stores it in a stable array. Add a `getQuotes` admin-accessible function that returns all stored quote submissions. This enables real quote form submissions from the public site to be stored on-chain, while the admin panel can also display localStorage-based demo leads alongside backend leads.",
+        "status": "unknown",
+        "plannedFiles": [],
+        "matchedFiles": []
       },
       {
         "id": "REQ-2",
-        "summary": "Build a sticky responsive navigation header with navy (#1B3A6B) background. Include the Jenkins Insurance logo/wordmark on the left, desktop nav links (Home, Coverage, About, Reviews, Contact), a visible phone number '(281) 410-8934' as a clickable tel: link, a gold 'Get Free Quote' CTA button, and a hamburger menu for mobile that opens a slide-down drawer. Header should gain a drop shadow on scroll.",
+        "summary": "Add an 'Agent Login →' link/button to the JenkinsFooter component that navigates to /admin.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/jenkins/JenkinsHeader.tsx"
+          "frontend/src/components/jenkins/JenkinsFooter.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/components/jenkins/JenkinsHeader.tsx"
+          "frontend/src/components/jenkins/JenkinsFooter.tsx"
         ]
       },
       {
         "id": "REQ-3",
-        "summary": "Build a full-screen hero section with a two-column layout. Left column: H1 headline 'Your Local Insurance Agent in The Woodlands, TX', subheadline copy establishing trust, two CTA buttons ('Get Your Free Quote' and 'Call (281) 410-8934'), and 3 inline trust badges (No Setup Fees, 5-Day Launch, 30-Day Guarantee). Right column: floating agent photo placeholder with a gold border frame, a floating Google review card showing 4.9★. Background: navy-to-dark-navy gradient. The very first 10 words visible on mobile must communicate immediate value to a Texas insurance agent prospect.",
+        "summary": "Create an /admin route in App.tsx that renders an AdminLoginPage. The login page must display: centered card with navy/gold styling, the text 'Jenkins Insurance Admin Panel' as a title, a password input field, and a 'Login' button. The demo password is 'admin123'. On correct password, store authentication in sessionStorage key 'adminAuthenticated' = 'true' and redirect to /admin/dashboard. On incorrect password, show an inline error message. The login page must not show the sidebar or top bar.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/jenkins/JenkinsHero.tsx"
+          "frontend/src/components/admin/AdminLoginPage.tsx",
+          "frontend/src/App.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/components/jenkins/JenkinsHero.tsx"
+          "frontend/src/components/admin/AdminLoginPage.tsx",
+          "frontend/src/App.tsx"
         ]
       },
       {
         "id": "REQ-4",
-        "summary": "Build a gold (#F4B942) trust bar below the hero with 4 animated count-up stats: '500+ Families Served', '4.9★ Google Rating', '20+ Carrier Partners', '100% Local Texas Agent'. Stats animate from 0 to final value when scrolled into view using IntersectionObserver.",
+        "summary": "Create a full admin panel layout component (AdminJenkinsLayout) with: a fixed left sidebar (260px wide, navy #1B3A6B background) containing the menu items with emoji icons — Dashboard, Quote Requests, Reviews Manager, Edit Website Content, Contact Info Settings, Service Areas, Analytics, Settings, Logout; a top bar (white background) showing 'Welcome, C. Jenkins', today's date, a notification bell icon with a red dot badge, and a gold 'View My Website →' button that links to '/'; a main content area (white, scrollable) that renders child routes via Outlet. Active sidebar menu item is highlighted gold (#F4B942 text or background). Sidebar collapses to a hamburger drawer on mobile. Smooth transition animations on sidebar open/close. All /admin/* routes (except /admin itself) are protected — redirect to /admin if not authenticated.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/jenkins/JenkinsTrustBar.tsx"
+          "frontend/src/components/admin/AdminJenkinsLayout.tsx",
+          "frontend/src/App.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/components/jenkins/JenkinsTrustBar.tsx"
+          "frontend/src/components/admin/AdminJenkinsLayout.tsx",
+          "frontend/src/App.tsx"
         ]
       },
       {
         "id": "REQ-5",
-        "summary": "Build a carrier partner badge row showing logos/name badges for: Progressive, Travelers, Nationwide, Liberty Mutual, Safeco, and Foremost. Use grayscale badges that colorize on hover. Include a heading 'Trusted Carrier Partners'.",
+        "summary": "Build the Admin Dashboard page (/admin/dashboard) as the default page after login. Display 4 stat cards in a row: Card 1 (navy): icon 📋, value '12', label 'Quote Requests This Month', subtext '↑ +3 from last month' in green. Card 2 (gold): icon ⭐, value '4.9', label 'Google Rating', subtext '127 total reviews'. Card 3 (green): icon 💰, value '$4,200', label 'Est. Revenue This Month', subtext 'Based on 12 leads × avg policy'. Card 4 (navy): icon 👁️, value '847', label 'Website Visitors This Month', subtext '↑ +23% from last month' in green. Below cards: a 'Recent Quote Requests' table with columns Name, City, Coverage, Date, Status showing 5 sample rows (Sarah M./The Woodlands/Home+Auto/Today/New, Robert T./Humble/Flood/Yesterday/Contacted, Maria G./Spring/Business/Mar 1/Quoted, Jennifer K./Magnolia/Auto/Feb 28/Contacted, David L./Tomball/Life/Feb 27/Closed). Each row has a navy 'View' button and a gold 'Mark as Contacted' button. Status badges are color-coded (yellow=New, green=Contacted, blue=Quoted/Quote Sent, green checkmark=Closed). On the right side, a 'Quick Actions' card with buttons: '+ Add New Review' (gold), 'Edit Phone Number' (navy), 'Update Business Hours' (navy), 'Download All Leads CSV' (navy).",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/jenkins/JenkinsCarrierBadges.tsx"
+          "frontend/src/components/admin/AdminJenkinsDashboard.tsx",
+          "frontend/src/App.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/components/jenkins/JenkinsCarrierBadges.tsx"
+          "frontend/src/components/admin/AdminJenkinsDashboard.tsx",
+          "frontend/src/App.tsx"
         ]
       },
       {
         "id": "REQ-6",
-        "summary": "Build a 'Why Choose Jenkins Insurance' section with 3 cards in a row. Cards: (1) Independent Agent — Access to 20+ carriers for the best rates, (2) Local The Woodlands Expert — Knows the TX market personally, (3) Personalized Service — Real agent, not a call center. Each card has an icon, title, body copy, and a lift+shadow hover effect. Section background: white or light cream.",
+        "summary": "Build the Quote Requests page (/admin/quotes). Display a filter bar with: search input (by name/email), City dropdown (6 cities), Coverage Type dropdown, Status dropdown, date range inputs, and a gold 'Export to CSV' button that downloads lead data as CSV. Display a sortable table with columns: #, Name, Phone, Email, City, Coverage, Message, Date, Status, Actions. Status badges: yellow=New, green=Contacted, blue=Quote Sent, green checkmark=Closed, red X=Not Interested. Actions per row: View (opens modal), Change Status (inline dropdown), Add Notes, Delete (with confirmation dialog). Pre-populate with at least 8 sample leads including the 5 from the dashboard. Clicking 'View' opens a modal popup showing full lead details, an editable Notes textarea, a Status dropdown, a green 'Send WhatsApp' button (opens wa.me link), a navy 'Send Email' button (opens mailto), and a gold 'Mark Closed — $749 Won!' button. All lead data stored and retrieved from localStorage. Sorting by any column header click. Delete requires a confirmation dialog before removing.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/jenkins/JenkinsWhyChoose.tsx"
+          "frontend/src/components/admin/AdminJenkinsQuotesPage.tsx",
+          "frontend/src/App.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/components/jenkins/JenkinsWhyChoose.tsx"
+          "frontend/src/components/admin/AdminJenkinsQuotesPage.tsx",
+          "frontend/src/App.tsx"
         ]
       },
       {
         "id": "REQ-7",
-        "summary": "Build a 3×2 coverage types grid with 6 cards: Home Insurance, Auto Insurance, Business Insurance, Flood Insurance, RV Insurance, Life Insurance. Each card has a relevant icon, short description, and a 'Get a Quote' link that scrolls to the contact form. Use navy card headers and white card bodies.",
+        "summary": "Build the Reviews Manager page (/admin/reviews). Display current reviews as cards, each showing star rating (filled stars), review text, reviewer name, city, and date. Each card has edit (✏️), delete (🗑️ with confirmation), move up (⬆️), and move down (⬇️) buttons. A gold '+ Add New Review' button at the top opens a form (inline or modal) with: star rating selector (clickable 1–5 stars), Reviewer Name input, Reviewer City dropdown (6 cities), Review Text textarea, Date input, and 'Save Review' gold button. An 'Overall Rating' display auto-calculates the average of all reviews and updates live. Pre-populate with at least 3 sample reviews. All review data stored in localStorage. Changes to reviews (add/edit/delete/reorder) are reflected immediately when the public site reads from localStorage.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/jenkins/JenkinsCoverageTypes.tsx"
+          "frontend/src/components/admin/AdminJenkinsReviewsPage.tsx",
+          "frontend/src/App.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/components/jenkins/JenkinsCoverageTypes.tsx"
+          "frontend/src/components/admin/AdminJenkinsReviewsPage.tsx",
+          "frontend/src/App.tsx"
         ]
       },
       {
         "id": "REQ-8",
-        "summary": "Build a navy 'About C. Jenkins' section. Left side: agent photo placeholder, credential badges (Licensed TX Agent, Independent Broker, 10+ Years Experience). Right side: personal story copy about serving The Woodlands TX community, 3 inline stat boxes (Families Served, Carriers, Years). Background: navy #1B3A6B with white/gold text.",
+        "summary": "Build the Edit Website Content page (/admin/content). Display expandable accordion/card sections: HERO SECTION (main headline, subheadline, button 1 text, button 2 text, 4 trust indicator fields), ABOUT SECTION (agent name, about text textarea, years experience, families served number, carriers count), CONTACT INFO (phone number, email address, physical address, Mon-Fri hours, Saturday hours, WhatsApp number), COVERAGE TYPES (title + description for each of 6 coverage cards), BILINGUAL SECTION (Spanish headline, Spanish body text, Spanish button text). Each section has a gold 'Save Changes' button and a navy 'Preview Changes' button. All changes saved to localStorage with keys matching the corresponding section. The public site's Jenkins components must read from localStorage (falling back to default values) so changes appear immediately on the live site after saving. Show a success toast '✅ Saved successfully!' bottom-right after any save.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/jenkins/JenkinsAbout.tsx"
+          "frontend/src/components/admin/AdminJenkinsContentPage.tsx",
+          "frontend/src/App.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/components/jenkins/JenkinsAbout.tsx"
+          "frontend/src/components/admin/AdminJenkinsContentPage.tsx",
+          "frontend/src/App.tsx"
         ]
       },
       {
         "id": "REQ-9",
-        "summary": "Build a Google Reviews section showing an aggregate rating summary (4.9/5, 47 reviews) and 3 testimonial cards. Each card includes a reviewer name, star rating (5★), review text relevant to Texas insurance needs, and a 'Posted on Google' badge. Use IntersectionObserver for staggered fade-in animation on scroll.",
+        "summary": "Build the Analytics page (/admin/analytics). Top row: 4 stat cards for Total Visitors This Month, Total Quote Form Submissions, WhatsApp Button Clicks, Phone Number Clicks (use sample numbers). Bar chart 'Monthly Quote Requests' showing 6 months: Oct=4, Nov=6, Dec=5, Jan=8, Feb=10, Mar=12 — gold (#F4B942) bars, white card background, border-radius 16px, padding 32px — implemented with Recharts BarChart or CSS bars. Pie/donut chart 'Leads by Coverage Type': Homeowners 35%, Auto 28%, Bundle 20%, Business 10%, Other 7% — implemented with Recharts PieChart. Horizontal bar chart 'Leads by City': The Woodlands 32%, Spring 24%, Humble 20%, Magnolia 12%, Tomball 8%, Conroe 4% — rendered as CSS progress bars with gold fill.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/jenkins/JenkinsReviews.tsx"
+          "frontend/src/components/admin/AdminJenkinsAnalyticsPage.tsx",
+          "frontend/src/App.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/components/jenkins/JenkinsReviews.tsx"
+          "frontend/src/components/admin/AdminJenkinsAnalyticsPage.tsx",
+          "frontend/src/App.tsx"
         ]
       }
     ]
   },
   "changedFiles": [
+    "backend/main.mo",
+    "backend/migration.mo",
     "build-request.json",
     "feature_evidence.json",
+    "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/index.html",
-    "frontend/public/assets/generated/agent-photo.dim_400x500.png",
-    "frontend/public/assets/generated/hero-bg.dim_1920x1080.png",
+    "frontend/public/assets/generated/admin-preview-dashboard.dim_800x500.png",
+    "frontend/public/assets/generated/agent-photo-jenkins.dim_400x500.png",
     "frontend/public/assets/generated/jenkins-logo.dim_300x80.png",
     "frontend/src/App.tsx",
+    "frontend/src/backend.d.ts",
+    "frontend/src/backend.ts",
+    "frontend/src/components/ContactSection.tsx",
+    "frontend/src/components/admin/AdminAppointmentsPage.tsx",
+    "frontend/src/components/admin/AdminJenkinsAnalyticsPage.tsx",
+    "frontend/src/components/admin/AdminJenkinsContactPage.tsx",
+    "frontend/src/components/admin/AdminJenkinsContentPage.tsx",
+    "frontend/src/components/admin/AdminJenkinsDashboard.tsx",
+    "frontend/src/components/admin/AdminJenkinsLayout.tsx",
+    "frontend/src/components/admin/AdminJenkinsQuotesPage.tsx",
+    "frontend/src/components/admin/AdminJenkinsReviewsPage.tsx",
+    "frontend/src/components/admin/AdminJenkinsServiceAreasPage.tsx",
+    "frontend/src/components/admin/AdminJenkinsSettingsPage.tsx",
+    "frontend/src/components/admin/AdminLoginModal.tsx",
+    "frontend/src/components/admin/AdminLoginPage.tsx",
+    "frontend/src/components/admin/AppointmentsCalendarView.tsx",
+    "frontend/src/components/houston/HoustonQuoteForm.tsx",
     "frontend/src/components/jenkins/JenkinsAbout.tsx",
     "frontend/src/components/jenkins/JenkinsBilingual.tsx",
     "frontend/src/components/jenkins/JenkinsCarrierBadges.tsx",
@@ -220,8 +288,13 @@
     "frontend/src/components/jenkins/JenkinsStickyMobileBar.tsx",
     "frontend/src/components/jenkins/JenkinsTrustBar.tsx",
     "frontend/src/components/jenkins/JenkinsWhyChoose.tsx",
+    "frontend/src/contexts/ToastContext.tsx",
+    "frontend/src/declarations/backend.did.d.ts",
+    "frontend/src/declarations/backend.did.js",
+    "frontend/src/hooks/useAdminQueries.ts",
+    "frontend/src/hooks/useHoustonQuoteSubmission.ts",
     "frontend/src/hooks/useQueries.ts",
-    "frontend/src/hooks/useScrollAnimation.ts",
+    "frontend/src/hooks/useReevesQuoteSubmission.ts",
     "frontend/src/index.css",
     "frontend/src/pages/JenkinsPublicSite.tsx",
     "frontend/tailwind.config.js",

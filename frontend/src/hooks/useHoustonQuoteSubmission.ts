@@ -1,17 +1,14 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useActor } from './useActor';
-import { CoverageType, BestTimeToCall } from '../backend';
 
 export interface HoustonQuoteFormData {
   name: string;
   phone: string;
   email: string;
-  zipCode: string;
-  coverageType: CoverageType;
-  bestTimeToCall: BestTimeToCall;
+  city: string;
+  coverageType: string;
+  message: string;
 }
-
-export { CoverageType, BestTimeToCall };
 
 export function useHoustonQuoteSubmission() {
   const { actor } = useActor();
@@ -20,14 +17,15 @@ export function useHoustonQuoteSubmission() {
   return useMutation({
     mutationFn: async (data: HoustonQuoteFormData) => {
       if (!actor) throw new Error('Actor not available');
-      return actor.submitQuote(
-        data.name,
-        data.phone,
-        data.email,
-        data.zipCode,
-        data.coverageType,
-        data.bestTimeToCall
-      );
+      return actor.submitQuote({
+        name: data.name,
+        phone: data.phone,
+        email: data.email,
+        city: data.city,
+        coverageType: data.coverageType,
+        message: data.message,
+        timestamp: BigInt(Date.now()),
+      });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['quoteSubmissions'] });

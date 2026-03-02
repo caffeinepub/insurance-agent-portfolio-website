@@ -35,27 +35,14 @@ export const UserProfile = IDL.Record({
   'name' : IDL.Text,
   'email' : IDL.Text,
 });
-export const BestTimeToCall = IDL.Variant({
-  'morning' : IDL.Null,
-  'evening' : IDL.Null,
-  'anyTime' : IDL.Null,
-  'afternoon' : IDL.Null,
-});
-export const CoverageType = IDL.Variant({
-  'auto' : IDL.Null,
-  'home' : IDL.Null,
-  'life' : IDL.Null,
-  'business' : IDL.Null,
-});
-export const QuoteSubmission = IDL.Record({
-  'id' : IDL.Nat,
-  'bestTimeToCall' : BestTimeToCall,
+export const PersistentQuoteSubmission = IDL.Record({
+  'city' : IDL.Text,
   'name' : IDL.Text,
   'email' : IDL.Text,
-  'zipCode' : IDL.Text,
+  'message' : IDL.Text,
   'timestamp' : IDL.Int,
   'phone' : IDL.Text,
-  'coverageType' : CoverageType,
+  'coverageType' : IDL.Text,
 });
 
 export const idlService = IDL.Service({
@@ -94,8 +81,12 @@ export const idlService = IDL.Service({
     ),
   'getCallerUserProfile' : IDL.Func([], [IDL.Opt(UserProfile)], ['query']),
   'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
-  'getQuoteById' : IDL.Func([IDL.Nat], [QuoteSubmission], ['query']),
-  'getQuoteSubmissions' : IDL.Func([], [IDL.Vec(QuoteSubmission)], ['query']),
+  'getQuoteByIndex' : IDL.Func(
+      [IDL.Nat],
+      [PersistentQuoteSubmission],
+      ['query'],
+    ),
+  'getQuotes' : IDL.Func([], [IDL.Vec(PersistentQuoteSubmission)], ['query']),
   'getUserProfile' : IDL.Func(
       [IDL.Principal],
       [IDL.Opt(UserProfile)],
@@ -103,11 +94,7 @@ export const idlService = IDL.Service({
     ),
   'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
   'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
-  'submitQuote' : IDL.Func(
-      [IDL.Text, IDL.Text, IDL.Text, IDL.Text, CoverageType, BestTimeToCall],
-      [IDL.Nat],
-      [],
-    ),
+  'submitQuote' : IDL.Func([PersistentQuoteSubmission], [], []),
   'updateBusinessInfo' : IDL.Func([IDL.Text, BusinessInfo], [], []),
 });
 
@@ -138,27 +125,14 @@ export const idlFactory = ({ IDL }) => {
     'phone' : IDL.Text,
   });
   const UserProfile = IDL.Record({ 'name' : IDL.Text, 'email' : IDL.Text });
-  const BestTimeToCall = IDL.Variant({
-    'morning' : IDL.Null,
-    'evening' : IDL.Null,
-    'anyTime' : IDL.Null,
-    'afternoon' : IDL.Null,
-  });
-  const CoverageType = IDL.Variant({
-    'auto' : IDL.Null,
-    'home' : IDL.Null,
-    'life' : IDL.Null,
-    'business' : IDL.Null,
-  });
-  const QuoteSubmission = IDL.Record({
-    'id' : IDL.Nat,
-    'bestTimeToCall' : BestTimeToCall,
+  const PersistentQuoteSubmission = IDL.Record({
+    'city' : IDL.Text,
     'name' : IDL.Text,
     'email' : IDL.Text,
-    'zipCode' : IDL.Text,
+    'message' : IDL.Text,
     'timestamp' : IDL.Int,
     'phone' : IDL.Text,
-    'coverageType' : CoverageType,
+    'coverageType' : IDL.Text,
   });
   
   return IDL.Service({
@@ -197,8 +171,12 @@ export const idlFactory = ({ IDL }) => {
       ),
     'getCallerUserProfile' : IDL.Func([], [IDL.Opt(UserProfile)], ['query']),
     'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
-    'getQuoteById' : IDL.Func([IDL.Nat], [QuoteSubmission], ['query']),
-    'getQuoteSubmissions' : IDL.Func([], [IDL.Vec(QuoteSubmission)], ['query']),
+    'getQuoteByIndex' : IDL.Func(
+        [IDL.Nat],
+        [PersistentQuoteSubmission],
+        ['query'],
+      ),
+    'getQuotes' : IDL.Func([], [IDL.Vec(PersistentQuoteSubmission)], ['query']),
     'getUserProfile' : IDL.Func(
         [IDL.Principal],
         [IDL.Opt(UserProfile)],
@@ -206,11 +184,7 @@ export const idlFactory = ({ IDL }) => {
       ),
     'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
     'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
-    'submitQuote' : IDL.Func(
-        [IDL.Text, IDL.Text, IDL.Text, IDL.Text, CoverageType, BestTimeToCall],
-        [IDL.Nat],
-        [],
-      ),
+    'submitQuote' : IDL.Func([PersistentQuoteSubmission], [], []),
     'updateBusinessInfo' : IDL.Func([IDL.Text, BusinessInfo], [], []),
   });
 };

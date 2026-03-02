@@ -1,158 +1,75 @@
-import React, { useRef, useState, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 
 const cards = [
   {
     icon: '🏆',
     title: 'Independent Agent Advantage',
-    text: 'Unlike State Farm or Allstate agents who sell ONE company\'s products, we shop 20+ carriers every time — meaning you always get the best coverage at the lowest price.',
+    text: "Unlike State Farm or Allstate agents who sell ONE company's products, we shop 20+ carriers every single time — meaning you always get the absolute best coverage at the lowest price available in Texas.",
   },
   {
     icon: '📍',
-    title: 'True Local Woodlands Expert',
-    text: 'We know The Woodlands flood zones, HOA requirements, and Montgomery County insurance laws. Not a call center. A real neighbor who answers their phone.',
+    title: 'True Local Houston Expert',
+    text: "We know Greater Houston flood zones, HOA requirements, and Texas insurance laws. Not a call center. A real neighbor who answers their phone and fights for you when claims happen.",
   },
   {
     icon: '⚡',
     title: 'Effortless & Fast',
-    text: 'Get a full quote comparison in 24 hours. Communicate by email, phone, or WhatsApp. We handle all paperwork. You just pick the best option.',
+    text: "Full quote comparison in 24 hours. Communicate by email, phone, or WhatsApp — your choice. We handle all paperwork. You just pick the best option.",
   },
 ];
 
 export default function JenkinsWhyChoose() {
-  const ref = useRef<HTMLElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
     const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { setVisible(true); observer.unobserve(el); } },
+      ([entry]) => { if (entry.isIntersecting) setVisible(true); },
       { threshold: 0.1 }
     );
-    observer.observe(el);
+    if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
   }, []);
 
-  const scrollToQuote = () => {
-    const el = document.querySelector('#quote');
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
-  };
-
   return (
-    <section
-      ref={ref}
-      style={{ backgroundColor: '#FFFFFF', padding: '90px 0' }}
-      className={`scroll-fade ${visible ? 'visible' : ''}`}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        {/* Title */}
-        <div className="text-center mb-16">
-          <h2
-            style={{
-              fontFamily: "'Montserrat', sans-serif",
-              fontWeight: 800,
-              fontSize: 'clamp(28px, 4vw, 38px)',
-              color: '#1B3A6B',
-              marginBottom: '16px',
-            }}
-          >
-            Why The Woodlands Families Choose Jenkins Insurance
+    <section className="py-[90px] bg-white">
+      <div className="max-w-6xl mx-auto px-4">
+        <div className="text-center mb-14">
+          <h2 className="font-montserrat font-extrabold text-[40px] text-jenkins-navy mb-4">
+            Why Houston Families Choose<br />Jenkins Insurance
           </h2>
-          <div style={{ width: '60px', height: '4px', backgroundColor: '#F4B942', margin: '0 auto' }} />
+          <div className="w-[60px] h-1 bg-jenkins-gold mx-auto rounded-full" />
         </div>
 
-        {/* Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div
+          ref={ref}
+          className="grid grid-cols-1 md:grid-cols-3 gap-8"
+        >
           {cards.map((card, i) => (
             <div
               key={i}
+              className={`bg-white border border-[#E8E8E8] rounded-2xl p-10 border-t-4 shadow-jenkins-card card-hover transition-all duration-700 ${
+                visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+              }`}
               style={{
-                backgroundColor: '#FFFFFF',
-                border: '1px solid #E8E8E8',
-                borderRadius: '16px',
-                padding: '40px 32px',
-                borderTop: '4px solid #F4B942',
-                boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
-                transition: 'box-shadow 0.3s ease, transform 0.3s ease',
-                cursor: 'default',
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLDivElement).style.boxShadow = '0 12px 40px rgba(0,0,0,0.15)';
-                (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-4px)';
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLDivElement).style.boxShadow = '0 4px 20px rgba(0,0,0,0.08)';
-                (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)';
+                borderTopColor: '#F4B942',
+                transitionDelay: `${i * 100}ms`,
               }}
             >
-              {/* Icon */}
               <div
-                style={{
-                  width: '64px',
-                  height: '64px',
-                  borderRadius: '50%',
-                  backgroundColor: 'rgba(244,185,66,0.15)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '28px',
-                  marginBottom: '20px',
-                }}
+                className="w-12 h-12 rounded-full flex items-center justify-center text-2xl mb-5"
+                style={{ background: 'rgba(244,185,66,0.15)' }}
               >
                 {card.icon}
               </div>
-              <h3
-                style={{
-                  fontFamily: "'Montserrat', sans-serif",
-                  fontWeight: 700,
-                  fontSize: '20px',
-                  color: '#1B3A6B',
-                  marginBottom: '12px',
-                }}
-              >
+              <h3 className="font-montserrat font-bold text-[20px] text-jenkins-navy mb-3">
                 {card.title}
               </h3>
-              <p
-                style={{
-                  fontFamily: "'Open Sans', sans-serif",
-                  fontSize: '16px',
-                  color: '#555',
-                  lineHeight: 1.7,
-                }}
-              >
+              <p className="font-opensans text-[16px] text-[#555] leading-[1.8]">
                 {card.text}
               </p>
             </div>
           ))}
-        </div>
-
-        {/* CTA */}
-        <div className="text-center mt-12">
-          <button
-            onClick={scrollToQuote}
-            style={{
-              backgroundColor: '#1B3A6B',
-              color: '#FFFFFF',
-              fontFamily: "'Montserrat', sans-serif",
-              fontWeight: 700,
-              fontSize: '16px',
-              padding: '14px 36px',
-              borderRadius: '8px',
-              border: 'none',
-              cursor: 'pointer',
-              transition: 'background-color 0.2s ease, transform 0.2s ease',
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.backgroundColor = '#0D2347';
-              (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.03)';
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.backgroundColor = '#1B3A6B';
-              (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1)';
-            }}
-          >
-            Get Your Free Quote Today →
-          </button>
         </div>
       </div>
     </section>

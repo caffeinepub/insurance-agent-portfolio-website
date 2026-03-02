@@ -1,306 +1,365 @@
 {
   "kind": "build_request",
-  "title": "Jenkins Insurance Agency — The Woodlands TX Demo Site",
-  "projectName": "Jenkins Insurance",
+  "title": "Jenkins Insurance Full Demo Site + Complete Admin Panel",
+  "projectName": "Jenkins Insurance Demo",
   "priority": "high",
   "requirements": [
     {
       "id": "REQ-1",
-      "text": "Create a new top-level page component `JenkinsPublicSite.tsx` that assembles the entire Jenkins Insurance Agency single-page demo site. Set the document title to exactly: 'Independent Insurance Agent | The Woodlands TX | Jenkins Insurance'. Register this page as the index route in App.tsx, replacing the current default route.",
+      "text": "Build the full Jenkins Insurance Agency public-facing demo site by composing all Jenkins-branded section components in JenkinsPublicSite.tsx: sticky header (JenkinsHeader), full-screen hero with animated headline and float effect (JenkinsHero), gold trust bar with count-up stats (JenkinsTrustBar), carrier badges grid (JenkinsCarrierBadges), Why Choose Us cards (JenkinsWhyChoose), coverage types grid (JenkinsCoverageTypes), About C. Jenkins section (JenkinsAbout), Google Reviews section (JenkinsReviews), Quote/Contact form (JenkinsQuoteContact), Spanish bilingual section (JenkinsBilingual), footer with Agent Login link (JenkinsFooter), floating WhatsApp button (JenkinsFloatingWhatsApp), and mobile sticky bottom bar (JenkinsStickyMobileBar). Document title must be set to 'Jenkins Insurance Agency | Greater Houston TX'. All scroll animations use IntersectionObserver. Colors: Navy #1B3A6B, Gold #F4B942, White #FFFFFF. Fonts: Montserrat (headings), Open Sans (body).",
       "target": "frontend",
       "source": {
         "messageIds": [
           "msg-2"
         ],
         "quotes": [
-          "Page title must say: 'Independent Insurance Agent | The Woodlands TX | Jenkins Insurance'"
+          "Build everything exactly as confirmed",
+          "Build BOTH to perfection"
         ]
       },
       "acceptanceCriteria": [
-        "Browser tab/title reads exactly 'Independent Insurance Agent | The Woodlands TX | Jenkins Insurance'",
-        "Page loads as the default index route",
-        "No mention of 'Los Angeles' or 'Reeves Insurance' anywhere on the page"
+        "All 11 sections render correctly in sequence on the public page",
+        "Sticky nav transitions background on scroll",
+        "Hero headline and agent photo animate on load",
+        "Trust bar count-up animations trigger on scroll into view",
+        "WhatsApp floating button has pulse animation",
+        "Mobile sticky bar shows Call Now and WhatsApp buttons",
+        "All 6 city names appear in footer service areas",
+        "Phone (281) 410-8934 appears in header and contact section"
       ]
     },
     {
       "id": "REQ-2",
-      "text": "Build a sticky responsive navigation header with navy (#1B3A6B) background. Include the Jenkins Insurance logo/wordmark on the left, desktop nav links (Home, Coverage, About, Reviews, Contact), a visible phone number '(281) 410-8934' as a clickable tel: link, a gold 'Get Free Quote' CTA button, and a hamburger menu for mobile that opens a slide-down drawer. Header should gain a drop shadow on scroll.",
+      "text": "Add an 'Agent Login →' link/button to the JenkinsFooter component that navigates to /admin.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-1",
           "msg-2"
+        ],
+        "quotes": [
+          "Access: A button in footer that says 'Agent Login →'"
         ]
       },
       "acceptanceCriteria": [
-        "Header sticks to top on scroll",
-        "Phone number (281) 410-8934 appears as a tappable link",
-        "Mobile hamburger opens/closes full nav drawer",
-        "Gold 'Get Free Quote' button scrolls to the quote form section"
+        "Footer displays 'Agent Login →' text link",
+        "Clicking it navigates to /admin route"
       ]
     },
     {
       "id": "REQ-3",
-      "text": "Build a full-screen hero section with a two-column layout. Left column: H1 headline 'Your Local Insurance Agent in The Woodlands, TX', subheadline copy establishing trust, two CTA buttons ('Get Your Free Quote' and 'Call (281) 410-8934'), and 3 inline trust badges (No Setup Fees, 5-Day Launch, 30-Day Guarantee). Right column: floating agent photo placeholder with a gold border frame, a floating Google review card showing 4.9★. Background: navy-to-dark-navy gradient. The very first 10 words visible on mobile must communicate immediate value to a Texas insurance agent prospect.",
+      "text": "Create an /admin route in App.tsx that renders an AdminLoginPage. The login page must display: centered card with navy/gold styling, the text 'Jenkins Insurance Admin Panel' as a title, a password input field, and a 'Login' button. The demo password is 'admin123'. On correct password, store authentication in sessionStorage key 'adminAuthenticated' = 'true' and redirect to /admin/dashboard. On incorrect password, show an inline error message. The login page must not show the sidebar or top bar.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-1",
           "msg-2"
         ],
         "quotes": [
-          "the very first thing I will do is open it on my phone and read the first 10 words visible on screen"
+          "URL: /admin",
+          "Password screen: Clean, professional",
+          "Logo + 'Jenkins Insurance Admin Panel'",
+          "Demo password: admin123"
         ]
       },
       "acceptanceCriteria": [
-        "First 10 words on mobile viewport make a compelling value statement for a Texas insurance agent",
-        "CTA button links to tel:(281)410-8934",
-        "Location reads 'The Woodlands, TX' — not any other city",
-        "Hero is full viewport height on desktop, tall but scrollable on mobile"
+        "Navigating to /admin shows the login page when not authenticated",
+        "Correct password (admin123) redirects to /admin/dashboard",
+        "Wrong password shows error message",
+        "Authentication state persisted in sessionStorage"
       ]
     },
     {
       "id": "REQ-4",
-      "text": "Build a gold (#F4B942) trust bar below the hero with 4 animated count-up stats: '500+ Families Served', '4.9★ Google Rating', '20+ Carrier Partners', '100% Local Texas Agent'. Stats animate from 0 to final value when scrolled into view using IntersectionObserver.",
+      "text": "Create a full admin panel layout component (AdminJenkinsLayout) with: a fixed left sidebar (260px wide, navy #1B3A6B background) containing the menu items with emoji icons — Dashboard, Quote Requests, Reviews Manager, Edit Website Content, Contact Info Settings, Service Areas, Analytics, Settings, Logout; a top bar (white background) showing 'Welcome, C. Jenkins', today's date, a notification bell icon with a red dot badge, and a gold 'View My Website →' button that links to '/'; a main content area (white, scrollable) that renders child routes via Outlet. Active sidebar menu item is highlighted gold (#F4B942 text or background). Sidebar collapses to a hamburger drawer on mobile. Smooth transition animations on sidebar open/close. All /admin/* routes (except /admin itself) are protected — redirect to /admin if not authenticated.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-1"
+          "msg-2"
+        ],
+        "quotes": [
+          "Left sidebar (fixed, 260px wide, navy)",
+          "Top bar (white, with agent name + logout)",
+          "Active menu item highlighted gold",
+          "Mobile responsive admin panel",
+          "Smooth sidebar transitions"
         ]
       },
       "acceptanceCriteria": [
-        "Bar uses gold #F4B942 background with navy text",
-        "Count-up animation triggers on scroll into view",
-        "All 4 stats visible on mobile in a 2x2 grid"
+        "Sidebar is 260px wide on desktop, navy background",
+        "All 9 menu items visible with emoji icons",
+        "Active route menu item is highlighted gold",
+        "Top bar shows 'Welcome, C. Jenkins', current date, bell with red dot, 'View My Website →' button",
+        "Mobile: sidebar collapses and opens via hamburger",
+        "Unauthenticated access to any /admin/* route redirects to /admin"
       ]
     },
     {
       "id": "REQ-5",
-      "text": "Build a carrier partner badge row showing logos/name badges for: Progressive, Travelers, Nationwide, Liberty Mutual, Safeco, and Foremost. Use grayscale badges that colorize on hover. Include a heading 'Trusted Carrier Partners'.",
+      "text": "Build the Admin Dashboard page (/admin/dashboard) as the default page after login. Display 4 stat cards in a row: Card 1 (navy): icon 📋, value '12', label 'Quote Requests This Month', subtext '↑ +3 from last month' in green. Card 2 (gold): icon ⭐, value '4.9', label 'Google Rating', subtext '127 total reviews'. Card 3 (green): icon 💰, value '$4,200', label 'Est. Revenue This Month', subtext 'Based on 12 leads × avg policy'. Card 4 (navy): icon 👁️, value '847', label 'Website Visitors This Month', subtext '↑ +23% from last month' in green. Below cards: a 'Recent Quote Requests' table with columns Name, City, Coverage, Date, Status showing 5 sample rows (Sarah M./The Woodlands/Home+Auto/Today/New, Robert T./Humble/Flood/Yesterday/Contacted, Maria G./Spring/Business/Mar 1/Quoted, Jennifer K./Magnolia/Auto/Feb 28/Contacted, David L./Tomball/Life/Feb 27/Closed). Each row has a navy 'View' button and a gold 'Mark as Contacted' button. Status badges are color-coded (yellow=New, green=Contacted, blue=Quoted/Quote Sent, green checkmark=Closed). On the right side, a 'Quick Actions' card with buttons: '+ Add New Review' (gold), 'Edit Phone Number' (navy), 'Update Business Hours' (navy), 'Download All Leads CSV' (navy).",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-1"
+          "msg-2"
+        ],
+        "quotes": [
+          "PAGE 1 — DASHBOARD (home screen)",
+          "4 stat cards at top",
+          "Recent Quote Requests",
+          "Quick Actions box"
         ]
       },
       "acceptanceCriteria": [
-        "All 6 carriers listed",
-        "Badges are responsive and wrap cleanly on mobile",
-        "Hover effect applies colorization or opacity change"
+        "4 stat cards render with correct values, colors, and icons",
+        "Recent Quote Requests table shows all 5 sample rows",
+        "Status badges are correctly color-coded",
+        "Each row has View (navy) and Mark as Contacted (gold) buttons",
+        "Quick Actions card shows all 4 buttons",
+        "Dashboard is the default page after login"
       ]
     },
     {
       "id": "REQ-6",
-      "text": "Build a 'Why Choose Jenkins Insurance' section with 3 cards in a row. Cards: (1) Independent Agent — Access to 20+ carriers for the best rates, (2) Local The Woodlands Expert — Knows the TX market personally, (3) Personalized Service — Real agent, not a call center. Each card has an icon, title, body copy, and a lift+shadow hover effect. Section background: white or light cream.",
+      "text": "Build the Quote Requests page (/admin/quotes). Display a filter bar with: search input (by name/email), City dropdown (6 cities), Coverage Type dropdown, Status dropdown, date range inputs, and a gold 'Export to CSV' button that downloads lead data as CSV. Display a sortable table with columns: #, Name, Phone, Email, City, Coverage, Message, Date, Status, Actions. Status badges: yellow=New, green=Contacted, blue=Quote Sent, green checkmark=Closed, red X=Not Interested. Actions per row: View (opens modal), Change Status (inline dropdown), Add Notes, Delete (with confirmation dialog). Pre-populate with at least 8 sample leads including the 5 from the dashboard. Clicking 'View' opens a modal popup showing full lead details, an editable Notes textarea, a Status dropdown, a green 'Send WhatsApp' button (opens wa.me link), a navy 'Send Email' button (opens mailto), and a gold 'Mark Closed — $749 Won!' button. All lead data stored and retrieved from localStorage. Sorting by any column header click. Delete requires a confirmation dialog before removing.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-1"
+          "msg-2"
+        ],
+        "quotes": [
+          "PAGE 2 — QUOTE REQUESTS",
+          "Filter bar",
+          "Full table",
+          "Click 'View' opens modal popup",
+          "Confirmation dialog before any delete action"
         ]
       },
       "acceptanceCriteria": [
-        "3 cards display in a row on desktop, stacked on mobile",
-        "Hover effect is visible on desktop",
-        "No mention of any location other than The Woodlands TX"
+        "Filter bar renders all 5 filter controls plus Export CSV button",
+        "CSV export downloads leads data as a .csv file",
+        "Table shows all columns and is sortable by clicking headers",
+        "Status badges are color-coded correctly",
+        "Delete shows confirmation dialog before removing",
+        "View modal shows all fields including editable notes, status dropdown, WhatsApp, Email, and Mark Closed buttons",
+        "Lead data persists in localStorage"
       ]
     },
     {
       "id": "REQ-7",
-      "text": "Build a 3×2 coverage types grid with 6 cards: Home Insurance, Auto Insurance, Business Insurance, Flood Insurance, RV Insurance, Life Insurance. Each card has a relevant icon, short description, and a 'Get a Quote' link that scrolls to the contact form. Use navy card headers and white card bodies.",
+      "text": "Build the Reviews Manager page (/admin/reviews). Display current reviews as cards, each showing star rating (filled stars), review text, reviewer name, city, and date. Each card has edit (✏️), delete (🗑️ with confirmation), move up (⬆️), and move down (⬇️) buttons. A gold '+ Add New Review' button at the top opens a form (inline or modal) with: star rating selector (clickable 1–5 stars), Reviewer Name input, Reviewer City dropdown (6 cities), Review Text textarea, Date input, and 'Save Review' gold button. An 'Overall Rating' display auto-calculates the average of all reviews and updates live. Pre-populate with at least 3 sample reviews. All review data stored in localStorage. Changes to reviews (add/edit/delete/reorder) are reflected immediately when the public site reads from localStorage.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-1"
+          "msg-2"
+        ],
+        "quotes": [
+          "PAGE 3 — REVIEWS MANAGER",
+          "Overall rating: Auto-calculates average from all reviews",
+          "Updates live on main website instantly"
         ]
       },
       "acceptanceCriteria": [
-        "All 6 coverage types present",
-        "'Get a Quote' links scroll to the quote form section",
-        "Grid is 3 columns on desktop, 2 on tablet, 1 on mobile"
+        "Reviews render as cards with all required fields",
+        "Add New Review form opens with all fields including star selector",
+        "Edit and Delete work with confirmation on delete",
+        "Move Up/Down reorders reviews",
+        "Overall rating auto-calculates and updates when reviews change",
+        "Data persists in localStorage"
       ]
     },
     {
       "id": "REQ-8",
-      "text": "Build a navy 'About C. Jenkins' section. Left side: agent photo placeholder, credential badges (Licensed TX Agent, Independent Broker, 10+ Years Experience). Right side: personal story copy about serving The Woodlands TX community, 3 inline stat boxes (Families Served, Carriers, Years). Background: navy #1B3A6B with white/gold text.",
+      "text": "Build the Edit Website Content page (/admin/content). Display expandable accordion/card sections: HERO SECTION (main headline, subheadline, button 1 text, button 2 text, 4 trust indicator fields), ABOUT SECTION (agent name, about text textarea, years experience, families served number, carriers count), CONTACT INFO (phone number, email address, physical address, Mon-Fri hours, Saturday hours, WhatsApp number), COVERAGE TYPES (title + description for each of 6 coverage cards), BILINGUAL SECTION (Spanish headline, Spanish body text, Spanish button text). Each section has a gold 'Save Changes' button and a navy 'Preview Changes' button. All changes saved to localStorage with keys matching the corresponding section. The public site's Jenkins components must read from localStorage (falling back to default values) so changes appear immediately on the live site after saving. Show a success toast '✅ Saved successfully!' bottom-right after any save.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-1",
           "msg-2"
         ],
         "quotes": [
-          "Agent name everywhere = C. Jenkins"
+          "PAGE 4 — EDIT WEBSITE CONTENT",
+          "Changes show on live website immediately after saving",
+          "Success toast notifications: '✅ Saved successfully!' appears bottom right after any save"
         ]
       },
       "acceptanceCriteria": [
-        "Agent name reads 'C. Jenkins' — no other name",
-        "Location references The Woodlands TX only",
-        "Section is responsive with stacked layout on mobile"
+        "All 5 expandable sections render with their respective fields",
+        "Each section has Save Changes (gold) and Preview Changes (navy) buttons",
+        "Saving stores data to localStorage",
+        "Public site Jenkins components read from localStorage and reflect changes",
+        "Success toast appears bottom-right after saving",
+        "Default values shown when localStorage is empty"
       ]
     },
     {
       "id": "REQ-9",
-      "text": "Build a Google Reviews section showing an aggregate rating summary (4.9/5, 47 reviews) and 3 testimonial cards. Each card includes a reviewer name, star rating (5★), review text relevant to Texas insurance needs, and a 'Posted on Google' badge. Use IntersectionObserver for staggered fade-in animation on scroll.",
+      "text": "Build the Analytics page (/admin/analytics). Top row: 4 stat cards for Total Visitors This Month, Total Quote Form Submissions, WhatsApp Button Clicks, Phone Number Clicks (use sample numbers). Bar chart 'Monthly Quote Requests' showing 6 months: Oct=4, Nov=6, Dec=5, Jan=8, Feb=10, Mar=12 — gold (#F4B942) bars, white card background, border-radius 16px, padding 32px — implemented with Recharts BarChart or CSS bars. Pie/donut chart 'Leads by Coverage Type': Homeowners 35%, Auto 28%, Bundle 20%, Business 10%, Other 7% — implemented with Recharts PieChart. Horizontal bar chart 'Leads by City': The Woodlands 32%, Spring 24%, Humble 20%, Magnolia 12%, Tomball 8%, Conroe 4% — rendered as CSS progress bars with gold fill.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-1"
+          "msg-2"
+        ],
+        "quotes": [
+          "PAGE 5 — ANALYTICS",
+          "Bar chart: 'Monthly Quote Requests'",
+          "Pie chart: 'Leads by Coverage Type'",
+          "Leads by City bar"
         ]
       },
       "acceptanceCriteria": [
-        "Aggregate 4.9★ rating displayed prominently",
-        "3 testimonial cards with 5-star ratings",
-        "Cards animate in on scroll",
-        "Reviews reference The Woodlands TX area"
+        "4 top stat cards render with sample data",
+        "Monthly Quote Requests bar chart shows correct 6-month data with gold bars",
+        "Leads by Coverage Type pie/donut chart shows 5 segments with correct percentages",
+        "Leads by City shows horizontal bars with correct city names and percentages",
+        "All charts are responsive"
       ]
     },
     {
       "id": "REQ-10",
-      "text": "Build a quote request + contact section on a navy gradient background. Left side: a quote form with fields for Full Name, Phone, Email, ZIP Code, Coverage Type (dropdown), and Best Time to Call, plus a gold submit button. Right side: a contact info card showing address '33018 Tamina Rd, The Woodlands TX 77354', phone '(281) 410-8934', business hours, and a WhatsApp link. Assign this section the anchor id='quote'.",
+      "text": "Build the Settings page (/admin/settings) with 4 sections: PROFILE (Agent Full Name input, License Number input labeled 'TX Dept of Insurance', Agency Name input, Profile Photo upload button); NOTIFICATIONS (4 toggle switches — gold when on — for: 'Email me when new quote arrives', 'WhatsApp alert for new leads', 'Weekly summary email', 'Monthly analytics report', all defaulting to on); WEBSITE (Custom domain text field with placeholder 'yourname.com', 'Connect Domain' button, Google Maps embed URL field, Facebook Page URL field, LinkedIn Profile URL field); CHANGE PASSWORD (Current password, New password, Confirm password inputs, 'Update Password' navy button). Each section has its own save button. Notification toggles and other settings persist to localStorage. Show success toast on save.",
       "target": "frontend",
       "source": {
         "messageIds": [
           "msg-2"
         ],
         "quotes": [
-          "Phone number everywhere = (281) 410-8934",
-          "Address = 33018 Tamina Rd, The Woodlands TX 77354"
+          "PAGE 6 — SETTINGS",
+          "PROFILE",
+          "NOTIFICATIONS",
+          "WEBSITE",
+          "CHANGE PASSWORD"
         ]
       },
       "acceptanceCriteria": [
-        "Section has id='quote' for scroll targeting",
-        "Address reads '33018 Tamina Rd, The Woodlands TX 77354'",
-        "Phone reads '(281) 410-8934'",
-        "Form submits via the existing useSubmitQuote hook or equivalent",
-        "Gold submit button is prominent"
+        "All 4 settings sections render with correct fields",
+        "Notification toggles are gold when on, defaulting to all enabled",
+        "Toggle states persist to localStorage",
+        "Update Password validates that new password and confirm password match",
+        "Success toast appears after saving each section"
       ]
     },
     {
       "id": "REQ-11",
-      "text": "Build a Spanish/bilingual section with a brief message in both English and Spanish inviting Spanish-speaking clients to get a free quote. Example: 'Hablamos Español — Se Habla Español. Llámenos hoy para una cotización gratuita.' Include a call-to-action button linking to tel:(281)410-8934.",
+      "text": "Build a Contact Info Settings page (/admin/contact) and a Service Areas page (/admin/service-areas) as stubs that are accessible from the sidebar. Contact Info Settings shows editable fields for phone, email, address, and business hours (same as the Contact Info sub-section in Edit Website Content), saved to localStorage. Service Areas shows a list of the 6 cities (The Woodlands, Spring, Humble, Magnolia, Tomball, Conroe) with checkboxes to enable/disable each, plus an 'Add City' input, saved to localStorage.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-1"
+          "msg-2"
+        ],
+        "quotes": [
+          "📞 Contact Info Settings",
+          "🌆 Service Areas"
         ]
       },
       "acceptanceCriteria": [
-        "Section contains both English and Spanish text",
-        "CTA button links to (281) 410-8934",
-        "Section is visually distinct (e.g., gold accent background stripe)"
+        "Contact Info Settings page renders with phone, email, address, hours fields",
+        "Service Areas page shows 6 cities with checkboxes",
+        "Both pages are accessible from sidebar navigation",
+        "Changes persist to localStorage"
       ]
     },
     {
       "id": "REQ-12",
-      "text": "Build a 3-column footer with: Column 1 — Jenkins Insurance logo, tagline, address '33018 Tamina Rd, The Woodlands TX 77354', phone '(281) 410-8934'. Column 2 — Quick Links (Coverage types). Column 3 — Service Areas (The Woodlands, Conroe, Spring, Tomball, Humble, Cypress TX). Bottom strip: copyright, license disclaimer, privacy policy link. Background: dark navy.",
+      "text": "Implement a global toast notification system in the admin panel. A success toast with '✅ Saved successfully!' text appears at the bottom-right of the screen for 3 seconds after any save action across all admin pages. Implement as a shared context or component used throughout the admin layout.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-1",
           "msg-2"
         ],
         "quotes": [
-          "Address = 33018 Tamina Rd, The Woodlands TX 77354"
+          "Success toast notifications: '✅ Saved successfully!' appears bottom right after any save",
+          "Loading states on all buttons"
         ]
       },
       "acceptanceCriteria": [
-        "Address and phone are correct everywhere in footer",
-        "All service areas are in Texas — no other state",
-        "Footer is 3 columns on desktop, stacked on mobile"
+        "Toast appears bottom-right after any save action",
+        "Toast auto-dismisses after ~3 seconds",
+        "Toast has a green/navy style consistent with brand",
+        "All save buttons show a loading spinner while saving"
       ]
     },
     {
       "id": "REQ-13",
-      "text": "Implement a floating WhatsApp button (bottom-right, fixed position) that is visible and accessible on ALL screen sizes — desktop, tablet, and mobile. It must use a WhatsApp green circle with a WhatsApp icon and a pulsing animation ring. The link must open `https://wa.me/12814108934` in a new tab. The button must NOT be hidden at any breakpoint.",
+      "text": "Update all Jenkins public site components (JenkinsHero, JenkinsAbout, JenkinsBilingual, JenkinsCoverageTypes, JenkinsReviews, JenkinsQuoteContact, JenkinsFooter) to read their content from localStorage (using the same keys written by the Edit Website Content admin page) and fall back to hardcoded default values when no localStorage data exists. This enables live content editing from the admin panel to appear on the public site immediately.",
       "target": "frontend",
       "source": {
         "messageIds": [
           "msg-2"
         ],
         "quotes": [
-          "WhatsApp button must be visible on EVERY screen size"
+          "Changes to content reflect on main site immediately",
+          "All data stored in browser localStorage for demo purposes"
         ]
       },
       "acceptanceCriteria": [
-        "Button visible on mobile (≤640px), tablet (641–1024px), and desktop (>1024px) — never hidden",
-        "Tapping opens wa.me/12814108934",
-        "Pulsing green animation ring is present",
-        "Button does not overlap or obscure critical content"
+        "JenkinsHero reads headline, subheadline, button text from localStorage",
+        "JenkinsAbout reads agent name, bio, stats from localStorage",
+        "JenkinsBilingual reads Spanish text fields from localStorage",
+        "JenkinsCoverageTypes reads card titles/descriptions from localStorage",
+        "JenkinsReviews reads review list from localStorage",
+        "All components fall back to hardcoded defaults when localStorage keys are absent"
       ]
     },
     {
       "id": "REQ-14",
-      "text": "Implement a mobile sticky bottom action bar (fixed, bottom of screen, mobile-only) with two buttons side-by-side: 'Call Now' linking to tel:(281)410-8934 and 'Get Quote' scrolling to #quote. This bar should only appear on screens ≤768px wide.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-1"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Visible only on mobile (≤768px)",
-        "'Call Now' dials (281) 410-8934",
-        "'Get Quote' scrolls smoothly to the quote form",
-        "Does not overlap the WhatsApp floating button"
-      ]
-    },
-    {
-      "id": "REQ-15",
-      "text": "Apply global design system: primary font Montserrat (headings), secondary font Open Sans (body), loaded from Google Fonts. Primary color Navy #1B3A6B, accent Gold #F4B942, success Green #27AE60. All section scroll-in animations use IntersectionObserver with a 0.1 threshold and translateY(30px) → translateY(0) + opacity fade. All CSS custom properties defined in index.css for the Jenkins brand.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-1"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Montserrat used for all headings site-wide",
-        "Open Sans used for all body text",
-        "Navy/Gold/Green color system consistent across all sections",
-        "Scroll animations trigger on every section as user scrolls down"
-      ]
-    },
-    {
-      "id": "REQ-16",
-      "text": "Ensure the entire frontend bundle is optimized for sub-3-second load time on mobile: lazy-load any images, use lightweight SVG icons instead of icon libraries where possible, minimize third-party script dependencies, and ensure no blocking render resources.",
+      "text": "Register all admin routes in App.tsx: /admin (login page, public), /admin/dashboard, /admin/quotes, /admin/reviews, /admin/content, /admin/contact, /admin/service-areas, /admin/analytics, /admin/settings. All routes except /admin are wrapped in the AdminJenkinsLayout and protected by sessionStorage authentication check. The /admin/dashboard route is the default landing after login.",
       "target": "frontend",
       "source": {
         "messageIds": [
           "msg-2"
         ],
         "quotes": [
-          "The demo link I send to clients must load in under 3 seconds"
+          "URL: /admin",
+          "Dashboard loads as default after login"
         ]
       },
       "acceptanceCriteria": [
-        "Images use loading='lazy' attribute",
-        "No unnecessary third-party scripts block rendering",
-        "Lighthouse performance score ≥ 85 on mobile simulation"
+        "All 9 admin routes are registered and accessible",
+        "Unauthenticated access to protected routes redirects to /admin login",
+        "After login, user lands on /admin/dashboard",
+        "Logout clears sessionStorage and redirects to /admin login"
+      ]
+    },
+    {
+      "id": "REQ-15",
+      "text": "Update the Motoko backend (backend/main.mo) to add a `submitQuote` public function that accepts a quote submission record (name, phone, email, city, coverageType, message, timestamp) and stores it in a stable array. Add a `getQuotes` admin-accessible function that returns all stored quote submissions. This enables real quote form submissions from the public site to be stored on-chain, while the admin panel can also display localStorage-based demo leads alongside backend leads.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Lead management system",
+          "Quote Requests"
+        ]
+      },
+      "acceptanceCriteria": [
+        "submitQuote function accepts and stores quote records",
+        "getQuotes returns all stored quotes",
+        "Quote form submission on public site calls the backend function",
+        "Backend compiles without errors"
       ]
     }
   ],
   "constraints": [
-    "Every location reference must be 'The Woodlands, TX' — no other city or state",
-    "Phone number must be (281) 410-8934 everywhere it appears",
-    "Agent name must be C. Jenkins everywhere — no other agent name",
-    "Address must be 33018 Tamina Rd, The Woodlands TX 77354 everywhere it appears",
-    "WhatsApp button must NOT be hidden at any CSS breakpoint",
-    "Do not modify files in frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, or frontend/src/components/ui",
-    "Do not reference 'Reeves Insurance', 'Johnathan Reeves', or 'Los Angeles' anywhere in the new components"
+    "Colors must strictly follow: Navy #1B3A6B, Gold #F4B942, White #FFFFFF",
+    "Admin authentication uses sessionStorage key 'adminAuthenticated' with demo password 'admin123'",
+    "All admin panel data (leads, reviews, content) stored in localStorage for demo purposes",
+    "Do not modify files in frontend/src/hooks/useInternetIdentity.ts, useActor.ts, main.tsx, or frontend/src/components/ui",
+    "All Jenkins public site components must fall back to hardcoded defaults when localStorage is empty",
+    "Phone number (281) 410-8934 and agent C. Jenkins must appear throughout"
   ],
   "nonGoals": [
-    "Backend data model changes are not required — quote form can use existing useSubmitQuote hook",
-    "Admin dashboard changes are out of scope",
-    "Real-time WhatsApp API integration is out of scope — link-based wa.me button only",
-    "Calendly or calendar booking integration is out of scope",
-    "Actual Google Maps embed is out of scope — address text display only",
-    "Internet Identity / authentication changes are out of scope"
+    "Real email or WhatsApp API integration (use mailto: and wa.me: links only)",
+    "Real Google Analytics integration",
+    "Real payment processing",
+    "Multi-user authentication or role-based access control",
+    "Server-side content storage for the admin panel (localStorage only for demo)",
+    "Real domain connection functionality",
+    "Internet Identity authentication for the admin panel"
   ],
   "imageRequirements": {
     "required": [
-      "Professional headshot placeholder for insurance agent C. Jenkins — friendly, trustworthy male agent in business casual attire, navy blue background, warm Texas feel (agent-photo.dim_400x500.png)",
-      "Jenkins Insurance Agency logo — clean wordmark with a navy shield icon and gold accent, white background (jenkins-logo.dim_300x80.png)",
-      "Hero section background — Texas sky at golden hour over The Woodlands TX suburban landscape, warm and professional (hero-bg.dim_1920x1080.png)"
+      "Professional headshot-style portrait of a confident male insurance agent in a navy blue suit with gold tie, neutral studio background, warm lighting, business professional (agent-photo-jenkins.dim_400x500.png)",
+      "Jenkins Insurance Agency logo mark — bold serif or sans-serif text 'Jenkins Insurance' with a shield icon in navy and gold on white background (jenkins-logo.dim_300x80.png)",
+      "Admin panel dashboard preview screenshot mockup showing navy sidebar and gold stat cards on white background (admin-preview-dashboard.dim_800x500.png)"
     ],
     "edits": []
   }

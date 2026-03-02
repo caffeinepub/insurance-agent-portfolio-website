@@ -1,18 +1,18 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useActor } from './useActor';
-import type { QuoteSubmission } from '../backend';
+import type { PersistentQuoteSubmission } from '../backend';
 
-export type { QuoteSubmission };
+export type { PersistentQuoteSubmission };
 
 // Get all quote submissions for admin
 export function useGetAllLeads() {
   const { actor, isFetching } = useActor();
 
-  return useQuery<QuoteSubmission[]>({
+  return useQuery<PersistentQuoteSubmission[]>({
     queryKey: ['quoteSubmissions'],
     queryFn: async () => {
       if (!actor) return [];
-      return actor.getQuoteSubmissions();
+      return actor.getQuotes();
     },
     enabled: !!actor && !isFetching,
   });
@@ -22,11 +22,11 @@ export function useGetAllLeads() {
 export function useGetAllAppointments() {
   const { actor, isFetching } = useActor();
 
-  return useQuery<QuoteSubmission[]>({
+  return useQuery<PersistentQuoteSubmission[]>({
     queryKey: ['quoteSubmissions'],
     queryFn: async () => {
       if (!actor) return [];
-      return actor.getQuoteSubmissions();
+      return actor.getQuotes();
     },
     enabled: !!actor && !isFetching,
   });
@@ -34,17 +34,17 @@ export function useGetAllAppointments() {
 
 // Business info - stored locally
 const defaultBusinessInfo: Record<string, string> = {
-  businessName: 'Reeves Insurance Solutions',
-  agentName: 'Johnathan Reeves',
-  phone: '(213) 555-0123',
-  email: 'john@reevesinsurance.com',
-  address: 'Los Angeles, CA',
-  city: 'Los Angeles',
-  state: 'CA',
-  zipCode: '90001',
-  licenseNumber: 'CA-INS-JR-2024',
-  whatsappNumber: '+12135550123',
-  licensedStates: 'CA, NY, TX',
+  businessName: 'Jenkins Insurance Agency',
+  agentName: 'C. Jenkins',
+  phone: '(281) 410-8934',
+  email: 'cjenkins@twfg.com',
+  address: '33018 Tamina Rd, Greater Houston Metro TX',
+  city: 'The Woodlands',
+  state: 'TX',
+  zipCode: '77354',
+  licenseNumber: 'TX-INS-CJ-2024',
+  whatsappNumber: '+12814108934',
+  licensedStates: 'TX',
   googleMapsUrl: 'https://maps.google.com',
   videoUrl: '',
 };

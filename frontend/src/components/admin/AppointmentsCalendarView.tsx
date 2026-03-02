@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import type { QuoteSubmission } from '../../hooks/useAdminQueries';
+import type { PersistentQuoteSubmission } from '../../hooks/useAdminQueries';
 
 interface Props {
-  appointments: QuoteSubmission[];
+  appointments: PersistentQuoteSubmission[];
 }
 
 const coverageColors: Record<string, string> = {
@@ -34,7 +34,6 @@ export default function AppointmentsCalendarView({ appointments }: Props) {
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const firstDay = new Date(year, month, 1).getDay();
 
-  // QuoteSubmission.timestamp is bigint nanoseconds from backend
   const getAppointmentsForDay = (day: number) => {
     return appointments.filter((a) => {
       const ms = Number(a.timestamp) / 1_000_000;
@@ -76,11 +75,11 @@ export default function AppointmentsCalendarView({ appointments }: Props) {
         >
           {day}
         </p>
-        {dayAppts.map((appt) => {
-          const coverageKey = String(appt.coverageType);
+        {dayAppts.map((appt, idx) => {
+          const coverageKey = appt.coverageType.toLowerCase();
           return (
             <div
-              key={String(appt.id)}
+              key={`${day}-${idx}`}
               className="text-xs px-1 py-0.5 rounded mb-0.5 truncate"
               style={{
                 backgroundColor: coverageBg[coverageKey] ?? 'rgba(0,0,0,0.05)',

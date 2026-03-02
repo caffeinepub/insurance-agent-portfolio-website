@@ -1,7 +1,20 @@
 import { useState } from 'react';
 import { Send, CheckCircle } from 'lucide-react';
 import { useHoustonQuoteSubmission } from '../../hooks/useHoustonQuoteSubmission';
-import { CoverageType, BestTimeToCall } from '../../backend';
+
+const coverageOptions = [
+  { value: 'auto', label: 'Auto Insurance' },
+  { value: 'home', label: 'Home Insurance' },
+  { value: 'life', label: 'Life Insurance' },
+  { value: 'business', label: 'Business Insurance' },
+];
+
+const timeOptions = [
+  { value: 'morning', label: 'Morning (8am–12pm)' },
+  { value: 'afternoon', label: 'Afternoon (12pm–5pm)' },
+  { value: 'evening', label: 'Evening (5pm–8pm)' },
+  { value: 'anyTime', label: 'Any Time' },
+];
 
 export default function HoustonQuoteForm() {
   const { mutate: submitQuote, isPending } = useHoustonQuoteSubmission();
@@ -10,23 +23,30 @@ export default function HoustonQuoteForm() {
     name: '',
     phone: '',
     email: '',
-    zipCode: '',
-    coverageType: CoverageType.auto,
-    bestTimeToCall: BestTimeToCall.anyTime,
+    city: '',
+    coverageType: 'auto',
+    bestTimeToCall: 'anyTime',
+    message: '',
   });
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
+    setForm(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    submitQuote(form, {
-      onSuccess: () => setSubmitted(true),
-    });
+    submitQuote(
+      {
+        name: form.name,
+        phone: form.phone,
+        email: form.email,
+        city: form.city,
+        coverageType: form.coverageType,
+        message: `Best time to call: ${form.bestTimeToCall}. ${form.message}`.trim(),
+      },
+      { onSuccess: () => setSubmitted(true) }
+    );
   };
 
   if (submitted) {
@@ -73,9 +93,8 @@ export default function HoustonQuoteForm() {
                 required
                 value={form.name}
                 onChange={handleChange}
-                placeholder="John Smith"
-                className="w-full px-4 py-2 rounded-lg border text-sm focus:outline-none focus:ring-2"
-                style={{ borderColor: 'rgba(255,255,255,0.3)', color: '#1e293b', backgroundColor: '#FFFFFF' }}
+                placeholder="Your full name"
+                className="w-full px-4 py-3 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 bg-white text-sm"
               />
             </div>
             <div>
@@ -88,9 +107,8 @@ export default function HoustonQuoteForm() {
                 required
                 value={form.phone}
                 onChange={handleChange}
-                placeholder="(713) 000-0000"
-                className="w-full px-4 py-2 rounded-lg border text-sm focus:outline-none focus:ring-2"
-                style={{ borderColor: 'rgba(255,255,255,0.3)', color: '#1e293b', backgroundColor: '#FFFFFF' }}
+                placeholder="(832) 555-0000"
+                className="w-full px-4 py-3 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 bg-white text-sm"
               />
             </div>
           </div>
@@ -98,32 +116,28 @@ export default function HoustonQuoteForm() {
           <div className="grid sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-semibold mb-1" style={{ color: '#FFFFFF' }}>
-                Email Address *
+                Email Address
               </label>
               <input
                 type="email"
                 name="email"
-                required
                 value={form.email}
                 onChange={handleChange}
-                placeholder="john@example.com"
-                className="w-full px-4 py-2 rounded-lg border text-sm focus:outline-none focus:ring-2"
-                style={{ borderColor: 'rgba(255,255,255,0.3)', color: '#1e293b', backgroundColor: '#FFFFFF' }}
+                placeholder="your@email.com"
+                className="w-full px-4 py-3 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 bg-white text-sm"
               />
             </div>
             <div>
               <label className="block text-sm font-semibold mb-1" style={{ color: '#FFFFFF' }}>
-                ZIP Code *
+                City / ZIP Code
               </label>
               <input
                 type="text"
-                name="zipCode"
-                required
-                value={form.zipCode}
+                name="city"
+                value={form.city}
                 onChange={handleChange}
-                placeholder="77001"
-                className="w-full px-4 py-2 rounded-lg border text-sm focus:outline-none focus:ring-2"
-                style={{ borderColor: 'rgba(255,255,255,0.3)', color: '#1e293b', backgroundColor: '#FFFFFF' }}
+                placeholder="Conroe, TX or 77301"
+                className="w-full px-4 py-3 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 bg-white text-sm"
               />
             </div>
           </div>
@@ -137,30 +151,26 @@ export default function HoustonQuoteForm() {
                 name="coverageType"
                 value={form.coverageType}
                 onChange={handleChange}
-                className="w-full px-4 py-2 rounded-lg border text-sm focus:outline-none focus:ring-2"
-                style={{ borderColor: 'rgba(255,255,255,0.3)', color: '#1e293b', backgroundColor: '#FFFFFF' }}
+                className="w-full px-4 py-3 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-yellow-400 bg-white text-sm"
               >
-                <option value={CoverageType.auto} style={{ color: '#1e293b' }}>Auto Insurance</option>
-                <option value={CoverageType.home} style={{ color: '#1e293b' }}>Home Insurance</option>
-                <option value={CoverageType.life} style={{ color: '#1e293b' }}>Life Insurance</option>
-                <option value={CoverageType.business} style={{ color: '#1e293b' }}>Business Insurance</option>
+                {coverageOptions.map(opt => (
+                  <option key={opt.value} value={opt.value}>{opt.label}</option>
+                ))}
               </select>
             </div>
             <div>
               <label className="block text-sm font-semibold mb-1" style={{ color: '#FFFFFF' }}>
-                Best Time to Call *
+                Best Time to Call
               </label>
               <select
                 name="bestTimeToCall"
                 value={form.bestTimeToCall}
                 onChange={handleChange}
-                className="w-full px-4 py-2 rounded-lg border text-sm focus:outline-none focus:ring-2"
-                style={{ borderColor: 'rgba(255,255,255,0.3)', color: '#1e293b', backgroundColor: '#FFFFFF' }}
+                className="w-full px-4 py-3 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-yellow-400 bg-white text-sm"
               >
-                <option value={BestTimeToCall.morning} style={{ color: '#1e293b' }}>Morning (8am–12pm)</option>
-                <option value={BestTimeToCall.afternoon} style={{ color: '#1e293b' }}>Afternoon (12pm–5pm)</option>
-                <option value={BestTimeToCall.evening} style={{ color: '#1e293b' }}>Evening (5pm–8pm)</option>
-                <option value={BestTimeToCall.anyTime} style={{ color: '#1e293b' }}>Any Time</option>
+                {timeOptions.map(opt => (
+                  <option key={opt.value} value={opt.value}>{opt.label}</option>
+                ))}
               </select>
             </div>
           </div>
@@ -168,13 +178,20 @@ export default function HoustonQuoteForm() {
           <button
             type="submit"
             disabled={isPending}
-            className="w-full flex items-center justify-center gap-2 py-3 rounded-lg font-bold text-base transition-all hover:opacity-90 disabled:opacity-50"
-            style={{ backgroundColor: '#f59e0b', color: '#FFFFFF' }}
+            className="w-full flex items-center justify-center gap-2 py-4 rounded-xl font-bold text-base transition-all disabled:opacity-60 min-h-[48px]"
+            style={{ backgroundColor: '#f59e0b', color: '#1e3a8a' }}
           >
-            <Send className="w-5 h-5" style={{ color: '#FFFFFF' }} />
-            <span style={{ color: '#FFFFFF' }}>
-              {isPending ? 'Submitting...' : 'Get My Free Houston Quote'}
-            </span>
+            {isPending ? (
+              <>
+                <div className="w-4 h-4 border-2 border-blue-900/30 border-t-blue-900 rounded-full animate-spin" />
+                Submitting...
+              </>
+            ) : (
+              <>
+                <Send className="w-4 h-4" />
+                Get My Free Quote
+              </>
+            )}
           </button>
         </form>
       </div>

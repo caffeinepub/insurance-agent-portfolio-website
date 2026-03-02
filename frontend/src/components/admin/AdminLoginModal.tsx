@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { X, Lock, User, Shield } from 'lucide-react';
-import { useAdminAuth } from '../../hooks/useAdminAuth';
-import { useRouter } from '@tanstack/react-router';
 
 interface AdminLoginModalProps {
   isOpen: boolean;
@@ -13,8 +11,6 @@ export default function AdminLoginModal({ isOpen, onClose }: AdminLoginModalProp
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { login } = useAdminAuth();
-  const router = useRouter();
 
   if (!isOpen) return null;
 
@@ -23,13 +19,16 @@ export default function AdminLoginModal({ isOpen, onClose }: AdminLoginModalProp
     setError('');
     setIsLoading(true);
     await new Promise(r => setTimeout(r, 400));
-    const success = login(username, password);
-    setIsLoading(false);
-    if (success) {
+
+    // Simple demo auth
+    if (password === 'admin123') {
+      sessionStorage.setItem('adminAuthenticated', 'true');
+      setIsLoading(false);
       onClose();
-      router.navigate({ to: '/admin/dashboard' });
+      window.location.href = '/admin/dashboard';
     } else {
       setError('Invalid credentials. Please try again.');
+      setIsLoading(false);
     }
   };
 
@@ -51,7 +50,7 @@ export default function AdminLoginModal({ isOpen, onClose }: AdminLoginModalProp
             </div>
             <div>
               <h2 className="text-white font-bold text-lg">Agent Portal</h2>
-              <p className="text-blue-300 text-xs">Reeves Insurance Solutions</p>
+              <p className="text-blue-300 text-xs">Jenkins Insurance Agency</p>
             </div>
           </div>
           <button

@@ -7,6 +7,15 @@ export interface None {
     __kind__: "None";
 }
 export type Option<T> = Some<T> | None;
+export interface PersistentQuoteSubmission {
+    city: string;
+    name: string;
+    email: string;
+    message: string;
+    timestamp: bigint;
+    phone: string;
+    coverageType: string;
+}
 export interface BusinessInfo {
     whatsapp: string;
     licensedStates: Array<string>;
@@ -14,31 +23,9 @@ export interface BusinessInfo {
     address: string;
     phone: string;
 }
-export interface QuoteSubmission {
-    id: bigint;
-    bestTimeToCall: BestTimeToCall;
-    name: string;
-    email: string;
-    zipCode: string;
-    timestamp: bigint;
-    phone: string;
-    coverageType: CoverageType;
-}
 export interface UserProfile {
     name: string;
     email: string;
-}
-export enum BestTimeToCall {
-    morning = "morning",
-    evening = "evening",
-    anyTime = "anyTime",
-    afternoon = "afternoon"
-}
-export enum CoverageType {
-    auto = "auto",
-    home = "home",
-    life = "life",
-    business = "business"
 }
 export enum UserRole {
     admin = "admin",
@@ -53,11 +40,11 @@ export interface backendInterface {
     }>;
     getCallerUserProfile(): Promise<UserProfile | null>;
     getCallerUserRole(): Promise<UserRole>;
-    getQuoteById(id: bigint): Promise<QuoteSubmission>;
-    getQuoteSubmissions(): Promise<Array<QuoteSubmission>>;
+    getQuoteByIndex(index: bigint): Promise<PersistentQuoteSubmission>;
+    getQuotes(): Promise<Array<PersistentQuoteSubmission>>;
     getUserProfile(user: Principal): Promise<UserProfile | null>;
     isCallerAdmin(): Promise<boolean>;
-    saveCallerUserProfile(profile: UserProfile): Promise<void>;
-    submitQuote(name: string, phone: string, email: string, zipCode: string, coverageType: CoverageType, bestTimeToCall: BestTimeToCall): Promise<bigint>;
+    saveCallerUserProfile(_profile: UserProfile): Promise<void>;
+    submitQuote(quote: PersistentQuoteSubmission): Promise<void>;
     updateBusinessInfo(name: string, info: BusinessInfo): Promise<void>;
 }
