@@ -46,7 +46,7 @@ export function useSaveCallerUserProfile() {
 
 // Get all quote submissions (admin)
 export function useGetQuoteSubmissions() {
-  const { actor, isFetching } = useActor();
+  const { actor, isFetching: actorFetching } = useActor();
 
   return useQuery<QuoteSubmission[]>({
     queryKey: ['quoteSubmissions'],
@@ -54,17 +54,21 @@ export function useGetQuoteSubmissions() {
       if (!actor) return [];
       return actor.getQuoteSubmissions();
     },
-    enabled: !!actor && !isFetching,
+    enabled: !!actor && !actorFetching,
   });
 }
 
-// Submit quote
+// Alias for admin pages
+export const useGetAllLeads = useGetQuoteSubmissions;
+export const useGetAllAppointments = useGetQuoteSubmissions;
+
+// Submit a quote
 export function useSubmitQuote() {
   const { actor } = useActor();
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (data: {
+    mutationFn: async (params: {
       name: string;
       phone: string;
       email: string;
@@ -74,12 +78,12 @@ export function useSubmitQuote() {
     }) => {
       if (!actor) throw new Error('Actor not available');
       return actor.submitQuote(
-        data.name,
-        data.phone,
-        data.email,
-        data.zipCode,
-        data.coverageType,
-        data.bestTimeToCall
+        params.name,
+        params.phone,
+        params.email,
+        params.zipCode,
+        params.coverageType,
+        params.bestTimeToCall
       );
     },
     onSuccess: () => {

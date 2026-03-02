@@ -3,21 +3,24 @@ import { ArrowRight } from 'lucide-react';
 
 const steps = [
   {
-    label: 'Figma Design',
-    sublabel: 'Custom branded mockup',
-    image: '/assets/generated/figma-design-screenshot.dim_600x400.png',
+    label: 'Figma Mockup',
+    sublabel: 'Custom branded design',
+    image: '/assets/generated/process-step1.dim_600x400.png',
+    fallbackImage: '/assets/generated/figma-design-screenshot.dim_600x400.png',
     step: '01',
   },
   {
     label: 'Live Preview',
     sublabel: 'Deployed & fully functional',
-    image: '/assets/generated/live-preview-screenshot.dim_600x400.png',
+    image: '/assets/generated/process-step2.dim_600x400.png',
+    fallbackImage: '/assets/generated/live-preview-screenshot.dim_600x400.png',
     step: '02',
   },
   {
-    label: 'Conroe #1',
+    label: 'Google #1 Conroe',
     sublabel: 'Ranked locally in 30 days',
-    image: '/assets/generated/conroe-number-one-screenshot.dim_600x400.png',
+    image: '/assets/generated/process-step3.dim_600x400.png',
+    fallbackImage: '/assets/generated/conroe-number-one-screenshot.dim_600x400.png',
     step: '03',
   },
 ];
@@ -43,7 +46,7 @@ export default function ProcessProofSection() {
           </div>
           <h2 className="font-display text-3xl lg:text-4xl font-bold text-white leading-tight">
             From Design to{' '}
-            <span className="italic text-amber">Conroe #1</span>
+            <span className="italic text-amber">Google #1 Conroe</span>
           </h2>
           <p className="font-body text-white/55 text-base mt-3 max-w-xl mx-auto">
             Every site we build follows the same proven 3-step process that gets Conroe agents ranking and converting.
@@ -64,13 +67,17 @@ export default function ProcessProofSection() {
                       alt={step.label}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       onError={(e) => {
-                        // Fallback placeholder if image not found
                         const target = e.currentTarget;
-                        target.style.display = 'none';
-                        const parent = target.parentElement;
-                        if (parent) {
-                          parent.style.background = 'linear-gradient(135deg, #1A3A2A 0%, #2D5A40 100%)';
-                          parent.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:100%;color:rgba(200,146,42,0.6);font-size:3rem;font-weight:bold;">${step.step}</div>`;
+                        // Try fallback image
+                        if (target.src !== step.fallbackImage) {
+                          target.src = step.fallbackImage;
+                        } else {
+                          target.style.display = 'none';
+                          const parent = target.parentElement;
+                          if (parent) {
+                            parent.style.background = 'linear-gradient(135deg, #1A3A2A 0%, #2D5A40 100%)';
+                            parent.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:100%;color:rgba(200,146,42,0.6);font-size:3rem;font-weight:bold;">${step.step}</div>`;
+                          }
                         }
                       }}
                     />
@@ -98,6 +105,13 @@ export default function ProcessProofSection() {
               )}
             </React.Fragment>
           ))}
+        </div>
+
+        {/* Timeline tagline */}
+        <div className="text-center mt-10">
+          <p className="font-display font-bold text-white text-xl md:text-2xl">
+            ⚡ 5 days from deposit to live site
+          </p>
         </div>
       </div>
     </section>

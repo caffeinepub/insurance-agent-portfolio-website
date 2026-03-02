@@ -3,7 +3,7 @@ import { Star, ChevronLeft, ChevronRight, Quote } from 'lucide-react';
 
 const testimonials = [
   {
-    name: 'TX Agent J.D.',
+    name: 'Texas Agent J.D.',
     role: '12 quotes first month',
     text: 'Johnathan built my insurance website and I got 12 quotes in my very first month. The leads are real Conroe residents who are actually ready to buy. Best investment I\'ve made for my agency.',
     rating: 5,
@@ -34,6 +34,8 @@ const testimonials = [
   },
 ];
 
+const carriers = ['Progressive', 'Geico', 'State Farm', 'Allstate'];
+
 export default function TestimonialsSection() {
   const [current, setCurrent] = useState(0);
 
@@ -61,10 +63,14 @@ export default function TestimonialsSection() {
         <div className="max-w-3xl mx-auto">
           <div className="relative p-6 md:p-10 rounded-2xl bg-white/5 border border-white/10">
             <Quote className="absolute top-6 left-6 w-8 h-8 text-amber-400/30" />
-            <div className="flex items-center gap-1 mb-4 justify-center">
-              {[...Array(t.rating)].map((_, i) => (
-                <Star key={i} className="w-4 h-4 text-amber-400 fill-amber-400" />
-              ))}
+            {/* Rating with 4.9 */}
+            <div className="flex items-center gap-2 mb-4 justify-center">
+              <div className="flex items-center gap-1">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="w-4 h-4 text-amber-400 fill-amber-400" />
+                ))}
+              </div>
+              <span className="text-amber-400 font-bold text-sm">4.9</span>
             </div>
             <p className="text-white text-base md:text-lg leading-relaxed text-center mb-6 italic">
               "{t.text}"
@@ -118,6 +124,23 @@ export default function TestimonialsSection() {
               <p className="text-gray-500 text-xs truncate">{t.role}</p>
             </button>
           ))}
+        </div>
+
+        {/* Carrier Compatibility Row */}
+        <div className="mt-12 text-center">
+          <p className="text-gray-400 text-xs uppercase tracking-widest font-semibold mb-4">
+            Works with Progressive, Geico, State Farm, Allstate
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-3 md:gap-4">
+            {carriers.map(carrier => (
+              <div
+                key={carrier}
+                className="px-5 py-2.5 rounded-full bg-white/8 border border-white/15 text-white text-sm font-semibold hover:bg-amber-400/10 hover:border-amber-400/30 transition-all"
+              >
+                {carrier}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

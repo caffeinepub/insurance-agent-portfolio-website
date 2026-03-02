@@ -1,15 +1,24 @@
 # Specification
 
 ## Summary
-**Goal:** Fix responsive layout across the entire public-facing site and build a complete professional admin panel with authentication, dark-themed dashboard, and full navigation.
+**Goal:** Build a complete single-page demo site for Jenkins Insurance Agency located in The Woodlands, TX, replacing the current default route with a fully branded, mobile-optimized insurance agent landing page.
 
 **Planned changes:**
-- Fix responsive layout for all public-facing sections (hero, stat row, service cards, testimonials, quote form, footer) to display correctly on mobile (375px) and laptop (1280px) without horizontal overflow
-- Add an "Agent Login" button in the header top-right that opens a modal with username/password fields; credentials `admin` / `conroe123` grant access to the admin area
-- Build admin dashboard at `/admin/dashboard` with dark theme (`#1a1a2e`, `#16213e`, `#0f3460`), featuring four stat cards, a leads table with 8+ sample Conroe TX rows, status filter tabs (New/Called/Won), Export CSV button, a leads-per-week line chart, and a policy type pie chart
-- Build admin layout shell with sidebar navigation for: Dashboard, Leads, Policy Management, Lead Assignment, Analytics, and PDF Invoices
-- Implement stub pages for Policy Management (placeholder list), Lead Assignment (lead list with agent assignment dropdown), Analytics (chart placeholders), and PDF Invoices (invoice list with per-row "Generate PDF" button triggering browser print)
-- Make admin panel mobile-responsive: hamburger menu with slide-out drawer on ≤768px, vertically stacked stat cards, and horizontally scrollable leads table
-- Protect `/admin/*` routes by redirecting unauthenticated users to the public home page; persist admin session in `sessionStorage`; add a logout button that clears session and redirects home
+- Create `JenkinsPublicSite.tsx` as the new index route with document title `Independent Insurance Agent | The Woodlands TX | Jenkins Insurance`
+- Sticky responsive navbar with navy background, Jenkins logo, nav links, phone `(281) 410-8934`, gold "Get Free Quote" CTA, and mobile hamburger drawer
+- Full-screen hero section with two-column layout: headline targeting The Woodlands TX, two CTAs, trust badges, agent photo, and floating Google review card on a navy gradient background
+- Gold trust bar with 4 animated count-up stats (500+ Families, 4.9★, 20+ Carriers, 100% Local)
+- Carrier partner badge row with 6 carriers (Progressive, Travelers, Nationwide, Liberty Mutual, Safeco, Foremost) with hover colorization
+- "Why Choose Jenkins Insurance" section with 3 feature cards (Independent Agent, Local Expert, Personalized Service)
+- 3×2 coverage grid: Home, Auto, Business, Flood, RV, Life Insurance — each linking to the quote form
+- Navy "About C. Jenkins" section with agent photo, credentials, personal story, and inline stats
+- Google Reviews section with 4.9★ aggregate and 3 testimonial cards with staggered scroll animations
+- Quote request and contact section (`id="quote"`) with form fields, gold submit button, address `33018 Tamina Rd, The Woodlands TX 77354`, phone, hours, and WhatsApp link
+- Bilingual Spanish/English section with CTA linking to `tel:(281)410-8934`
+- 3-column footer with logo, quick links, Texas service areas, copyright, and license disclaimer
+- Fixed floating WhatsApp button (bottom-right, all screen sizes) linking to `https://wa.me/12814108934` with pulsing green animation
+- Mobile sticky bottom action bar (≤768px) with "Call Now" and "Get Quote" buttons
+- Global design system: Montserrat headings, Open Sans body, navy `#1B3A6B`, gold `#F4B942`, green `#27AE60`, scroll-in animations via IntersectionObserver
+- Performance optimizations: lazy-loaded images, SVG icons, no blocking render resources
 
-**User-visible outcome:** The public site displays correctly on all screen sizes, and agents can log in via a header modal to access a fully functional dark-themed admin panel with leads management, charts, and navigation — protected by session-based authentication.
+**User-visible outcome:** Visitors see a fully branded Jenkins Insurance Agency demo site for The Woodlands, TX — with agent info for C. Jenkins, all correct contact details, mobile-optimized layout, WhatsApp and call CTAs, and a working quote request form.

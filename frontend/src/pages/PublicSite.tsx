@@ -12,6 +12,7 @@ import Footer from '../components/Footer';
 import FloatingWhatsApp from '../components/FloatingWhatsApp';
 import VideoSection from '../components/VideoSection';
 import AdminLoginModal from '../components/admin/AdminLoginModal';
+import StickyQuoteBar from '../components/StickyQuoteBar';
 
 export default function PublicSite() {
   const [adminModalOpen, setAdminModalOpen] = useState(false);
@@ -32,6 +33,7 @@ export default function PublicSite() {
       </main>
       <Footer />
       <FloatingWhatsApp />
+      <StickyQuoteBar />
       <AdminLoginModal isOpen={adminModalOpen} onClose={() => setAdminModalOpen(false)} />
     </div>
   );

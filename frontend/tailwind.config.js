@@ -44,7 +44,20 @@ export default {
         success: "oklch(var(--success) / <alpha-value>)",
         warning: "oklch(var(--warning) / <alpha-value>)",
 
-        /* Brand palette */
+        /* Jenkins Insurance Brand Palette */
+        jenkins: {
+          navy: "#1B3A6B",
+          "navy-dark": "#0D2347",
+          "navy-light": "#2E5FA3",
+          gold: "#F4B942",
+          "gold-dark": "#D9A030",
+          green: "#27AE60",
+          "green-wa": "#25D366",
+          grey: "#F8F9FA",
+          dark: "#2C2C2C",
+        },
+
+        /* Legacy colors kept for admin panel compatibility */
         forest: {
           DEFAULT: "#1A3A2A",
           light: "#2D5A40",
@@ -85,18 +98,17 @@ export default {
           light: "#2C2C2E",
           muted: "#48484A",
         },
-
-        /* Legacy Houston colors kept for compatibility */
         houstonNavy: "#1e3a8a",
         houstonGold: "#f59e0b",
         houstonLight: "#f8fafc",
         houstonDark: "#0f172a",
       },
       fontFamily: {
-        display: ["'Playfair Display'", "Georgia", "serif"],
-        body: ["'DM Sans'", "'Inter'", "sans-serif"],
-        sans: ["'DM Sans'", "'Inter'", "ui-sans-serif", "system-ui", "sans-serif"],
-        serif: ["'Playfair Display'", "Georgia", "serif"],
+        heading: ["'Montserrat'", "sans-serif"],
+        body: ["'Open Sans'", "sans-serif"],
+        display: ["'Montserrat'", "sans-serif"],
+        sans: ["'Open Sans'", "ui-sans-serif", "system-ui", "sans-serif"],
+        serif: ["'Montserrat'", "sans-serif"],
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -107,16 +119,24 @@ export default {
         "4xl": "2rem",
       },
       boxShadow: {
+        "navy-sm": "0 2px 8px rgba(27, 58, 107, 0.12)",
+        "navy-md": "0 4px 20px rgba(27, 58, 107, 0.18)",
+        "navy-lg": "0 8px 40px rgba(27, 58, 107, 0.25)",
+        "gold-glow": "0 4px 15px rgba(244, 185, 66, 0.4)",
+        "gold-glow-lg": "0 8px 30px rgba(244, 185, 66, 0.5)",
+        "card-lift": "0 4px 20px rgba(0,0,0,0.08)",
+        "card-hover": "0 12px 40px rgba(0,0,0,0.15)",
         "forest-sm": "0 2px 8px rgba(26, 58, 42, 0.12)",
         "forest-md": "0 4px 20px rgba(26, 58, 42, 0.18)",
         "forest-lg": "0 8px 40px rgba(26, 58, 42, 0.25)",
         "forest-xl": "0 16px 60px rgba(26, 58, 42, 0.30)",
         "amber-glow": "0 4px 20px rgba(200, 146, 42, 0.35)",
         "amber-glow-lg": "0 8px 40px rgba(200, 146, 42, 0.45)",
-        "card-lift": "0 2px 12px rgba(0,0,0,0.06), 0 8px 32px rgba(0,0,0,0.08)",
-        "card-hover": "0 8px 32px rgba(0,0,0,0.12), 0 20px 60px rgba(0,0,0,0.10)",
+        "card-hover-old": "0 8px 32px rgba(0,0,0,0.12), 0 20px 60px rgba(0,0,0,0.10)",
       },
       backgroundImage: {
+        "jenkins-hero": "linear-gradient(135deg, #1B3A6B 0%, #2E5FA3 100%)",
+        "jenkins-footer": "linear-gradient(180deg, #0D2347 0%, #0D2347 100%)",
         "forest-gradient": "linear-gradient(135deg, #0F2218 0%, #1A3A2A 50%, #2D5A40 100%)",
         "forest-gradient-v": "linear-gradient(180deg, #1A3A2A 0%, #0F2218 100%)",
         "amber-gradient": "linear-gradient(135deg, #A67520 0%, #C8922A 50%, #DBA84A 100%)",
@@ -144,6 +164,15 @@ export default {
           "0%": { transform: "scale(1)", opacity: "0.8" },
           "100%": { transform: "scale(1.5)", opacity: "0" },
         },
+        floatUpDown: {
+          "0%, 100%": { transform: "translateY(0px)" },
+          "50%": { transform: "translateY(-8px)" },
+        },
+        waPulse: {
+          "0%": { boxShadow: "0 0 0 0 rgba(37, 211, 102, 0.6)" },
+          "70%": { boxShadow: "0 0 0 16px rgba(37, 211, 102, 0)" },
+          "100%": { boxShadow: "0 0 0 0 rgba(37, 211, 102, 0)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -151,6 +180,8 @@ export default {
         shimmer: "shimmer 3s linear infinite",
         "fade-in-up": "fadeInUp 0.6s ease-out forwards",
         "pulse-ring": "pulseRing 2s ease-out infinite",
+        float: "floatUpDown 3s ease-in-out infinite",
+        "wa-pulse": "waPulse 3s ease-out infinite",
       },
     },
   },

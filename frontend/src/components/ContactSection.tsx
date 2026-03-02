@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Phone, Mail, MapPin, Clock, Send, CheckCircle } from 'lucide-react';
+import { Phone, Mail, MapPin, Clock, Send, CheckCircle, Users } from 'lucide-react';
 import { useSubmitQuote } from '../hooks/useQueries';
 import { CoverageType, BestTimeToCall } from '../backend';
 
@@ -35,6 +35,23 @@ export default function ContactSection() {
   return (
     <section id="contact" className="py-16 md:py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Contact Proof Banner */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 mb-10 md:mb-12 p-4 rounded-2xl bg-forest-dark/5 border border-forest/10">
+          <div className="flex items-center gap-2">
+            <Phone className="w-5 h-5 text-forest flex-shrink-0" />
+            <a href="tel:+18329360000" className="text-forest-dark font-bold text-sm md:text-base hover:text-forest transition-colors">
+              (832) 936-XXXX — Houston Developer
+            </a>
+          </div>
+          <div className="hidden sm:block w-px h-6 bg-gray-300" />
+          <div className="flex items-center gap-2">
+            <Users className="w-5 h-5 text-amber-500 flex-shrink-0" />
+            <span className="text-forest-dark font-bold text-sm md:text-base">
+              100+ Texas agents live
+            </span>
+          </div>
+        </div>
+
         <div className="text-center mb-10 md:mb-14">
           <span className="inline-block px-3 py-1 rounded-full bg-forest/10 text-forest text-xs font-semibold uppercase tracking-wide mb-3">
             Get In Touch
@@ -54,7 +71,7 @@ export default function ContactSection() {
               <h3 className="text-white font-bold text-lg mb-5">Contact Information</h3>
               <div className="space-y-4">
                 {[
-                  { icon: Phone, label: 'Phone', value: '(936) 441-2301', href: 'tel:+19364412301' },
+                  { icon: Phone, label: 'Phone', value: '(832) 936-XXXX', href: 'tel:+18329360000' },
                   { icon: Mail, label: 'Email', value: 'john@reevesinsurance.com', href: 'mailto:john@reevesinsurance.com' },
                   { icon: MapPin, label: 'Location', value: 'Conroe, TX 77301', href: null },
                   { icon: Clock, label: 'Hours', value: 'Mon–Fri 8am–6pm', href: null },
@@ -73,6 +90,15 @@ export default function ContactSection() {
                     </div>
                   </div>
                 ))}
+              </div>
+
+              {/* Social proof inside contact card */}
+              <div className="mt-5 pt-5 border-t border-white/10">
+                <div className="flex items-center gap-2 mb-1">
+                  <Users className="w-4 h-4 text-amber-400" />
+                  <span className="text-amber-400 font-bold text-sm">100+ Texas agents live</span>
+                </div>
+                <p className="text-gray-400 text-xs">Houston developer — local TX support</p>
               </div>
             </div>
 
@@ -114,7 +140,7 @@ export default function ContactSection() {
                       required
                       value={formData.phone}
                       onChange={e => setFormData(p => ({ ...p, phone: e.target.value }))}
-                      placeholder="(936) 555-0000"
+                      placeholder="(832) 555-0000"
                       className="w-full px-4 py-3 rounded-xl border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-forest/30 focus:border-forest text-sm"
                     />
                   </div>
@@ -177,7 +203,7 @@ export default function ContactSection() {
                 <button
                   type="submit"
                   disabled={isPending}
-                  className="w-full flex items-center justify-center gap-2 px-6 py-4 rounded-xl font-bold text-sm md:text-base text-forest-dark bg-amber-400 hover:bg-amber-300 transition-all disabled:opacity-60 shadow-amber-glow"
+                  className="w-full flex items-center justify-center gap-2 px-6 py-4 rounded-xl font-bold text-sm md:text-base text-forest-dark bg-amber-400 hover:bg-amber-300 transition-all disabled:opacity-60 shadow-amber-glow min-h-[48px]"
                 >
                   {isPending ? (
                     <>

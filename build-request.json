@@ -1,151 +1,307 @@
 {
   "kind": "build_request",
-  "title": "Responsive layout fix + complete professional admin panel",
-  "projectName": "Reeves Insurance Admin",
+  "title": "Jenkins Insurance Agency — The Woodlands TX Demo Site",
+  "projectName": "Jenkins Insurance",
   "priority": "high",
   "requirements": [
     {
       "id": "REQ-1",
-      "text": "Fix responsive layout across the entire public-facing site (ReevesPublicSite and all its section components): all text sizes, image dimensions, spacing, and grid layouts must adapt correctly for both mobile (≤768px) and laptop (≥1024px) viewports. Ensure hero headline, hero image/agent portrait, stat row, service cards, testimonial carousel, quote form fields, and footer columns are all properly stacked and readable on mobile without horizontal overflow or clipped content.",
+      "text": "Create a new top-level page component `JenkinsPublicSite.tsx` that assembles the entire Jenkins Insurance Agency single-page demo site. Set the document title to exactly: 'Independent Insurance Agent | The Woodlands TX | Jenkins Insurance'. Register this page as the index route in App.tsx, replacing the current default route.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-5"
+          "msg-2"
         ],
         "quotes": [
-          "adjust them properly for both mobile and laptop all text and image should be adjusted properly for both device"
+          "Page title must say: 'Independent Insurance Agent | The Woodlands TX | Jenkins Insurance'"
         ]
       },
       "acceptanceCriteria": [
-        "No horizontal scroll on any public page at 375px viewport width",
-        "Hero image and headline are fully visible and readable on mobile",
-        "Quote form fields stack vertically and are full-width on mobile",
-        "Testimonial carousel, service cards, and footer all display correctly at both 375px and 1280px widths",
-        "All font sizes use responsive Tailwind classes (text-sm → text-xl scaling)"
+        "Browser tab/title reads exactly 'Independent Insurance Agent | The Woodlands TX | Jenkins Insurance'",
+        "Page loads as the default index route",
+        "No mention of 'Los Angeles' or 'Reeves Insurance' anywhere on the page"
       ]
     },
     {
       "id": "REQ-2",
-      "text": "Add an 'Agent Login' button in the top-right corner of the ReevesHeader component. Clicking it opens a modal dialog with a username/password form. Credentials admin / conroe123 grant access to the admin dashboard. On successful login, close the modal and navigate to the admin dashboard route. Show an error message for invalid credentials. This login must be purely frontend credential-check (no Internet Identity required for this admin flow).",
+      "text": "Build a sticky responsive navigation header with navy (#1B3A6B) background. Include the Jenkins Insurance logo/wordmark on the left, desktop nav links (Home, Coverage, About, Reviews, Contact), a visible phone number '(281) 410-8934' as a clickable tel: link, a gold 'Get Free Quote' CTA button, and a hamburger menu for mobile that opens a slide-down drawer. Header should gain a drop shadow on scroll.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-5"
-        ],
-        "quotes": [
-          "ADMIN LOGIN (Top-right): \"Agent Login\" button → Modal",
-          "Username: admin | Password: conroe123 → Dark dashboard"
+          "msg-1",
+          "msg-2"
         ]
       },
       "acceptanceCriteria": [
-        "'Agent Login' button visible in header top-right on all screen sizes",
-        "Clicking button opens a centered modal overlay with username and password fields",
-        "Entering admin / conroe123 and submitting navigates to /admin/dashboard",
-        "Incorrect credentials display 'Invalid credentials' error inside the modal",
-        "Modal can be dismissed by clicking outside or an X button"
+        "Header sticks to top on scroll",
+        "Phone number (281) 410-8934 appears as a tappable link",
+        "Mobile hamburger opens/closes full nav drawer",
+        "Gold 'Get Free Quote' button scrolls to the quote form section"
       ]
     },
     {
       "id": "REQ-3",
-      "text": "Build a complete admin dashboard page at /admin/dashboard with a dark theme using background colors #1a1a2e and #16213e and accent green #0f3460. The dashboard must display: (1) Four stat cards — Total Leads: 127 (+15%), Quotes: 23 (18% conv rate), Calls: 45, Won: 8 ($24K revenue); (2) A leads table with columns Name, Phone, Email, Policy, Status, Date — pre-populated with at least 8 sample rows using real Conroe TX first/last names and 936-area-code phone numbers; (3) Status filter tabs: New / Called / Won with live table filtering; (4) An Export CSV button that downloads the visible leads as a CSV file; (5) A leads-per-week line chart (7 days); (6) A policy type pie chart showing Auto 45%, Home 30%, Life 15%, Commercial 10%.",
+      "text": "Build a full-screen hero section with a two-column layout. Left column: H1 headline 'Your Local Insurance Agent in The Woodlands, TX', subheadline copy establishing trust, two CTA buttons ('Get Your Free Quote' and 'Call (281) 410-8934'), and 3 inline trust badges (No Setup Fees, 5-Day Launch, 30-Day Guarantee). Right column: floating agent photo placeholder with a gold border frame, a floating Google review card showing 4.9★. Background: navy-to-dark-navy gradient. The very first 10 words visible on mobile must communicate immediate value to a Texas insurance agent prospect.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-5"
+          "msg-1",
+          "msg-2"
         ],
         "quotes": [
-          "[4 Cards]: Total Leads: 127 (+15%) | Quotes: 23 (18% conv) | Calls: 45 | Won: 8 ($24K)",
-          "[Leads Table]: Name | Phone | Email | Policy | Status | Date",
-          "[Filters]: New/called/won | Export CSV",
-          "[Charts]: Leads/week line + Policy pie (Auto45% Home30% Life15% Comm10%)"
+          "the very first thing I will do is open it on my phone and read the first 10 words visible on screen"
         ]
       },
       "acceptanceCriteria": [
-        "Dashboard page renders at /admin/dashboard with #1a1a2e/#16213e dark background",
-        "All 4 stat cards visible with correct values and trend indicators",
-        "Leads table shows at least 8 rows with Conroe TX names and 936-xxx-xxxx phone numbers",
-        "Filtering by New/Called/Won correctly shows only matching rows",
-        "Export CSV button downloads a CSV file containing the filtered leads data",
-        "Line chart renders leads per day for the past 7 days",
-        "Pie chart renders with correct percentage segments and legend labels"
+        "First 10 words on mobile viewport make a compelling value statement for a Texas insurance agent",
+        "CTA button links to tel:(281)410-8934",
+        "Location reads 'The Woodlands, TX' — not any other city",
+        "Hero is full viewport height on desktop, tall but scrollable on mobile"
       ]
     },
     {
       "id": "REQ-4",
-      "text": "Build the admin panel side navigation and layout shell with these sections: Dashboard (default), Leads, Policy Management, Lead Assignment, Analytics, and PDF Invoices. The layout must use the dark theme (#1a1a2e sidebar, #16213e main area, #0f3460 accent). Implement stub pages for Policy Management (list view placeholder), Lead Assignment (assign lead to agent dropdown placeholder), Analytics (extended charts placeholder), and PDF Invoices (invoice list with a 'Generate PDF' button per row that triggers a browser print/PDF of a simple invoice template).",
+      "text": "Build a gold (#F4B942) trust bar below the hero with 4 animated count-up stats: '500+ Families Served', '4.9★ Google Rating', '20+ Carrier Partners', '100% Local Texas Agent'. Stats animate from 0 to final value when scrolled into view using IntersectionObserver.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-5"
-        ],
-        "quotes": [
-          "AGENT FEATURES: Policy management | Lead assignment | Analytics | PDF invoices"
+          "msg-1"
         ]
       },
       "acceptanceCriteria": [
-        "Sidebar navigation includes all 6 sections with active-state highlight using #0f3460",
-        "Policy Management page renders with a placeholder list",
-        "Lead Assignment page renders with a lead list and an agent assignment dropdown per row",
-        "Analytics page renders extended chart placeholders",
-        "PDF Invoices page lists invoices and each row has a 'Generate PDF' button that opens a printable invoice in a new tab or triggers window.print()"
+        "Bar uses gold #F4B942 background with navy text",
+        "Count-up animation triggers on scroll into view",
+        "All 4 stats visible on mobile in a 2x2 grid"
       ]
     },
     {
       "id": "REQ-5",
-      "text": "Make the admin panel fully responsive for mobile: replace the sidebar navigation with a hamburger menu that opens a slide-out drawer on screens ≤768px; stack the 4 stat cards vertically on mobile; make the leads table horizontally scrollable (swipeable) on small screens.",
+      "text": "Build a carrier partner badge row showing logos/name badges for: Progressive, Travelers, Nationwide, Liberty Mutual, Safeco, and Foremost. Use grayscale badges that colorize on hover. Include a heading 'Trusted Carrier Partners'.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-5"
-        ],
-        "quotes": [
-          "MOBILE: Hamburger menu | Stacked cards | Swipe table"
+          "msg-1"
         ]
       },
       "acceptanceCriteria": [
-        "At 375px viewport, sidebar is hidden and a hamburger icon appears in the admin header",
-        "Tapping hamburger opens a full-height slide-out drawer with all nav links",
-        "Stat cards stack in a single column on mobile",
-        "Leads table is horizontally scrollable without clipping on mobile",
-        "All admin text and buttons remain readable and tappable on mobile"
+        "All 6 carriers listed",
+        "Badges are responsive and wrap cleanly on mobile",
+        "Hover effect applies colorization or opacity change"
       ]
     },
     {
       "id": "REQ-6",
-      "text": "Protect the admin routes so that unauthenticated users (not logged in via the admin/conroe123 credential check) are redirected to the home page or a login prompt when navigating directly to /admin/*. Store the admin session state in sessionStorage so it persists across page refreshes during the session but clears on tab close.",
+      "text": "Build a 'Why Choose Jenkins Insurance' section with 3 cards in a row. Cards: (1) Independent Agent — Access to 20+ carriers for the best rates, (2) Local The Woodlands Expert — Knows the TX market personally, (3) Personalized Service — Real agent, not a call center. Each card has an icon, title, body copy, and a lift+shadow hover effect. Section background: white or light cream.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-5"
-        ],
-        "quotes": [
-          "Username: admin | Password: conroe123 → Dark dashboard"
+          "msg-1"
         ]
       },
       "acceptanceCriteria": [
-        "Navigating directly to /admin/dashboard without being logged in redirects to the public home page",
-        "After successful login, refreshing the admin dashboard keeps the user logged in",
-        "Closing the browser tab and reopening clears the admin session",
-        "A logout button in the admin header clears session and redirects to home"
+        "3 cards display in a row on desktop, stacked on mobile",
+        "Hover effect is visible on desktop",
+        "No mention of any location other than The Woodlands TX"
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "text": "Build a 3×2 coverage types grid with 6 cards: Home Insurance, Auto Insurance, Business Insurance, Flood Insurance, RV Insurance, Life Insurance. Each card has a relevant icon, short description, and a 'Get a Quote' link that scrolls to the contact form. Use navy card headers and white card bodies.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ]
+      },
+      "acceptanceCriteria": [
+        "All 6 coverage types present",
+        "'Get a Quote' links scroll to the quote form section",
+        "Grid is 3 columns on desktop, 2 on tablet, 1 on mobile"
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "text": "Build a navy 'About C. Jenkins' section. Left side: agent photo placeholder, credential badges (Licensed TX Agent, Independent Broker, 10+ Years Experience). Right side: personal story copy about serving The Woodlands TX community, 3 inline stat boxes (Families Served, Carriers, Years). Background: navy #1B3A6B with white/gold text.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1",
+          "msg-2"
+        ],
+        "quotes": [
+          "Agent name everywhere = C. Jenkins"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Agent name reads 'C. Jenkins' — no other name",
+        "Location references The Woodlands TX only",
+        "Section is responsive with stacked layout on mobile"
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "text": "Build a Google Reviews section showing an aggregate rating summary (4.9/5, 47 reviews) and 3 testimonial cards. Each card includes a reviewer name, star rating (5★), review text relevant to Texas insurance needs, and a 'Posted on Google' badge. Use IntersectionObserver for staggered fade-in animation on scroll.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Aggregate 4.9★ rating displayed prominently",
+        "3 testimonial cards with 5-star ratings",
+        "Cards animate in on scroll",
+        "Reviews reference The Woodlands TX area"
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "text": "Build a quote request + contact section on a navy gradient background. Left side: a quote form with fields for Full Name, Phone, Email, ZIP Code, Coverage Type (dropdown), and Best Time to Call, plus a gold submit button. Right side: a contact info card showing address '33018 Tamina Rd, The Woodlands TX 77354', phone '(281) 410-8934', business hours, and a WhatsApp link. Assign this section the anchor id='quote'.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Phone number everywhere = (281) 410-8934",
+          "Address = 33018 Tamina Rd, The Woodlands TX 77354"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Section has id='quote' for scroll targeting",
+        "Address reads '33018 Tamina Rd, The Woodlands TX 77354'",
+        "Phone reads '(281) 410-8934'",
+        "Form submits via the existing useSubmitQuote hook or equivalent",
+        "Gold submit button is prominent"
+      ]
+    },
+    {
+      "id": "REQ-11",
+      "text": "Build a Spanish/bilingual section with a brief message in both English and Spanish inviting Spanish-speaking clients to get a free quote. Example: 'Hablamos Español — Se Habla Español. Llámenos hoy para una cotización gratuita.' Include a call-to-action button linking to tel:(281)410-8934.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Section contains both English and Spanish text",
+        "CTA button links to (281) 410-8934",
+        "Section is visually distinct (e.g., gold accent background stripe)"
+      ]
+    },
+    {
+      "id": "REQ-12",
+      "text": "Build a 3-column footer with: Column 1 — Jenkins Insurance logo, tagline, address '33018 Tamina Rd, The Woodlands TX 77354', phone '(281) 410-8934'. Column 2 — Quick Links (Coverage types). Column 3 — Service Areas (The Woodlands, Conroe, Spring, Tomball, Humble, Cypress TX). Bottom strip: copyright, license disclaimer, privacy policy link. Background: dark navy.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1",
+          "msg-2"
+        ],
+        "quotes": [
+          "Address = 33018 Tamina Rd, The Woodlands TX 77354"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Address and phone are correct everywhere in footer",
+        "All service areas are in Texas — no other state",
+        "Footer is 3 columns on desktop, stacked on mobile"
+      ]
+    },
+    {
+      "id": "REQ-13",
+      "text": "Implement a floating WhatsApp button (bottom-right, fixed position) that is visible and accessible on ALL screen sizes — desktop, tablet, and mobile. It must use a WhatsApp green circle with a WhatsApp icon and a pulsing animation ring. The link must open `https://wa.me/12814108934` in a new tab. The button must NOT be hidden at any breakpoint.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "WhatsApp button must be visible on EVERY screen size"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Button visible on mobile (≤640px), tablet (641–1024px), and desktop (>1024px) — never hidden",
+        "Tapping opens wa.me/12814108934",
+        "Pulsing green animation ring is present",
+        "Button does not overlap or obscure critical content"
+      ]
+    },
+    {
+      "id": "REQ-14",
+      "text": "Implement a mobile sticky bottom action bar (fixed, bottom of screen, mobile-only) with two buttons side-by-side: 'Call Now' linking to tel:(281)410-8934 and 'Get Quote' scrolling to #quote. This bar should only appear on screens ≤768px wide.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Visible only on mobile (≤768px)",
+        "'Call Now' dials (281) 410-8934",
+        "'Get Quote' scrolls smoothly to the quote form",
+        "Does not overlap the WhatsApp floating button"
+      ]
+    },
+    {
+      "id": "REQ-15",
+      "text": "Apply global design system: primary font Montserrat (headings), secondary font Open Sans (body), loaded from Google Fonts. Primary color Navy #1B3A6B, accent Gold #F4B942, success Green #27AE60. All section scroll-in animations use IntersectionObserver with a 0.1 threshold and translateY(30px) → translateY(0) + opacity fade. All CSS custom properties defined in index.css for the Jenkins brand.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Montserrat used for all headings site-wide",
+        "Open Sans used for all body text",
+        "Navy/Gold/Green color system consistent across all sections",
+        "Scroll animations trigger on every section as user scrolls down"
+      ]
+    },
+    {
+      "id": "REQ-16",
+      "text": "Ensure the entire frontend bundle is optimized for sub-3-second load time on mobile: lazy-load any images, use lightweight SVG icons instead of icon libraries where possible, minimize third-party script dependencies, and ensure no blocking render resources.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "The demo link I send to clients must load in under 3 seconds"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Images use loading='lazy' attribute",
+        "No unnecessary third-party scripts block rendering",
+        "Lighthouse performance score ≥ 85 on mobile simulation"
       ]
     }
   ],
   "constraints": [
-    "KEEP ALL PUBLIC FRONTEND IDENTICAL — hero section, quote form, testimonials, and footer must not change in content or structure",
-    "Admin dark theme must strictly use #1a1a2e, #16213e, and #0f3460 as specified",
-    "Do not modify files under frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, or frontend/src/components/ui",
-    "Admin login must use credential check (admin / conroe123) — do not require Internet Identity for this flow",
-    "Sample leads must use real Conroe TX names and 936-area-code phone numbers"
+    "Every location reference must be 'The Woodlands, TX' — no other city or state",
+    "Phone number must be (281) 410-8934 everywhere it appears",
+    "Agent name must be C. Jenkins everywhere — no other agent name",
+    "Address must be 33018 Tamina Rd, The Woodlands TX 77354 everywhere it appears",
+    "WhatsApp button must NOT be hidden at any CSS breakpoint",
+    "Do not modify files in frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, or frontend/src/components/ui",
+    "Do not reference 'Reeves Insurance', 'Johnathan Reeves', or 'Los Angeles' anywhere in the new components"
   ],
   "nonGoals": [
-    "Changing any content, copy, or visual design of the public-facing landing page sections",
-    "Integrating a real backend database for admin leads data (static/mock data is acceptable)",
-    "Real PDF generation library — browser print dialog is sufficient for PDF invoices",
-    "Internet Identity authentication for the admin login modal",
-    "Real-time data updates or WebSocket integration"
+    "Backend data model changes are not required — quote form can use existing useSubmitQuote hook",
+    "Admin dashboard changes are out of scope",
+    "Real-time WhatsApp API integration is out of scope — link-based wa.me button only",
+    "Calendly or calendar booking integration is out of scope",
+    "Actual Google Maps embed is out of scope — address text display only",
+    "Internet Identity / authentication changes are out of scope"
   ],
   "imageRequirements": {
-    "required": [],
+    "required": [
+      "Professional headshot placeholder for insurance agent C. Jenkins — friendly, trustworthy male agent in business casual attire, navy blue background, warm Texas feel (agent-photo.dim_400x500.png)",
+      "Jenkins Insurance Agency logo — clean wordmark with a navy shield icon and gold accent, white background (jenkins-logo.dim_300x80.png)",
+      "Hero section background — Texas sky at golden hour over The Woodlands TX suburban landscape, warm and professional (hero-bg.dim_1920x1080.png)"
+    ],
     "edits": []
   }
 }

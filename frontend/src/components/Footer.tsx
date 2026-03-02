@@ -1,5 +1,5 @@
 import React from 'react';
-import { Phone, Mail, MapPin, Heart } from 'lucide-react';
+import { Phone, Mail, MapPin, Heart, Users, AlertCircle } from 'lucide-react';
 import { SiFacebook, SiInstagram, SiLinkedin } from 'react-icons/si';
 import ProcessProofSection from './ProcessProofSection';
 
@@ -10,7 +10,43 @@ export default function Footer() {
   return (
     <>
       <ProcessProofSection />
+
+      {/* Urgency Strip */}
+      <div className="bg-amber-600 py-3 px-4">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 text-center">
+          <AlertCircle className="w-5 h-5 text-white flex-shrink-0" />
+          <p className="text-white font-bold text-sm md:text-base">
+            Only 3 Conroe agents per week — Reply within 24hrs
+          </p>
+          <a
+            href="#contact"
+            onClick={(e) => {
+              e.preventDefault();
+              document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+            }}
+            className="inline-flex items-center px-4 py-1.5 rounded-full bg-white text-amber-700 font-bold text-xs hover:bg-amber-50 transition-colors"
+          >
+            Claim Your Spot →
+          </a>
+        </div>
+      </div>
+
       <footer style={{ background: '#1a1a2e' }}>
+        {/* Contact Proof Bar */}
+        <div className="border-b border-white/10 py-4 px-4">
+          <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8">
+            <a href="tel:+18329360000" className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors text-sm font-semibold">
+              <Phone className="w-4 h-4 text-amber-400 flex-shrink-0" />
+              (832) 936-XXXX — Houston Developer
+            </a>
+            <div className="hidden sm:block w-px h-5 bg-white/20" />
+            <div className="flex items-center gap-2 text-gray-300 text-sm font-semibold">
+              <Users className="w-4 h-4 text-amber-400 flex-shrink-0" />
+              100+ Texas agents live
+            </div>
+          </div>
+        </div>
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
             {/* Brand */}
@@ -62,9 +98,9 @@ export default function Footer() {
             <div>
               <h4 className="text-white font-semibold text-sm mb-4">Contact</h4>
               <div className="space-y-3">
-                <a href="tel:+19364412301" className="flex items-center gap-2 text-gray-400 hover:text-white text-sm transition-colors">
+                <a href="tel:+18329360000" className="flex items-center gap-2 text-gray-400 hover:text-white text-sm transition-colors">
                   <Phone className="w-4 h-4 text-amber-400 flex-shrink-0" />
-                  (936) 441-2301
+                  (832) 936-XXXX
                 </a>
                 <a href="mailto:john@reevesinsurance.com" className="flex items-center gap-2 text-gray-400 hover:text-white text-sm transition-colors">
                   <Mail className="w-4 h-4 text-amber-400 flex-shrink-0" />

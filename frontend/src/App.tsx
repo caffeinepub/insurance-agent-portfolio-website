@@ -1,12 +1,8 @@
 import { RouterProvider, createRouter, createRoute, createRootRoute, Outlet, Navigate } from '@tanstack/react-router';
-import PublicSite from './pages/PublicSite';
+import JenkinsPublicSite from './pages/JenkinsPublicSite';
 import AdminDashboard from './components/admin/AdminDashboard';
 import AdminLayout from './components/admin/AdminLayout';
 import AdminLeadsPage from './components/admin/AdminLeadsPage';
-import AdminPolicyManagementPage from './components/admin/AdminPolicyManagementPage';
-import AdminLeadAssignmentPage from './components/admin/AdminLeadAssignmentPage';
-import AdminAnalyticsPage from './components/admin/AdminAnalyticsPage';
-import AdminPDFInvoicesPage from './components/admin/AdminPDFInvoicesPage';
 
 function ProtectedAdminRoute() {
   const isAuthenticated = sessionStorage.getItem('adminAuthenticated') === 'true';
@@ -21,7 +17,7 @@ const rootRoute = createRootRoute({ component: Outlet });
 const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/',
-  component: PublicSite,
+  component: JenkinsPublicSite,
 });
 
 const adminLayoutRoute = createRoute({
@@ -42,39 +38,11 @@ const adminLeadsRoute = createRoute({
   component: AdminLeadsPage,
 });
 
-const adminPolicyRoute = createRoute({
-  getParentRoute: () => adminLayoutRoute,
-  path: '/policy-management',
-  component: AdminPolicyManagementPage,
-});
-
-const adminLeadAssignmentRoute = createRoute({
-  getParentRoute: () => adminLayoutRoute,
-  path: '/lead-assignment',
-  component: AdminLeadAssignmentPage,
-});
-
-const adminAnalyticsRoute = createRoute({
-  getParentRoute: () => adminLayoutRoute,
-  path: '/analytics',
-  component: AdminAnalyticsPage,
-});
-
-const adminPDFInvoicesRoute = createRoute({
-  getParentRoute: () => adminLayoutRoute,
-  path: '/pdf-invoices',
-  component: AdminPDFInvoicesPage,
-});
-
 const routeTree = rootRoute.addChildren([
   indexRoute,
   adminLayoutRoute.addChildren([
     adminDashboardRoute,
     adminLeadsRoute,
-    adminPolicyRoute,
-    adminLeadAssignmentRoute,
-    adminAnalyticsRoute,
-    adminPDFInvoicesRoute,
   ]),
 ]);
 

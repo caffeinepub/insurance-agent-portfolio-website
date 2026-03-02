@@ -1,71 +1,124 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-27T13:20:50.338Z",
-  "summary": "The diff implements the vast majority of all 6 requirements. REQ-1 through REQ-6 are all substantially addressed. Minor gaps exist around the dashboard status filter tabs being hidden in compact mode, and some hallucinated extras beyond the spec. Overall coverage is very high.",
+  "generatedAt": "2026-03-02T15:59:30.210Z",
+  "summary": "The diff implements the vast majority of the Jenkins Insurance Agency demo site requirements. All 16 REQ items have corresponding components and wiring. However, several specific acceptance criteria details are partially or not met: the hero H1 uses different wording than specified, the sticky mobile bar has a WhatsApp button instead of a 'Get Quote' scroll button, the carrier badges list includes extra carriers and is missing 'Foremost', the bilingual section lacks an explicit English sentence, the trust bar 4th stat is non-animating, and the reviews aggregate count is wrong.",
   "missing_requirements": [
     {
       "id": "REQ-3",
-      "requirement": "Dashboard page must show status filter tabs (New / Called / Won) with live table filtering directly on the /admin/dashboard page",
-      "reason": "The AdminDashboard renders LeadsTable with compact=true, which hides the toolbar including filter tabs and Export CSV button per the LeadsTable code. Filter tabs and Export CSV are only accessible from AdminLeadsPage, not the /admin/dashboard view.",
+      "requirement": "Hero H1 must read exactly 'Your Local Insurance Agent in The Woodlands, TX'",
+      "reason": "JenkinsHero.tsx uses 'The Woodlands' Most Trusted Independent Insurance Agent' instead of the specified H1 copy",
       "evidence": [
-        "frontend/src/components/admin/AdminDashboard.tsx",
-        "frontend/src/components/admin/LeadsTable.tsx"
+        "frontend/src/components/jenkins/JenkinsHero.tsx"
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "requirement": "Trust bar stat '100% Local Texas Agent' with count-up animation from 0 to final value",
+      "reason": "JenkinsTrustBar.tsx sets the 4th stat value to 0 with label 'The Woodlands, TX Local' and the count-up hook skips it (target===0 branch), so no count-up animation fires for that stat and the label does not match '100% Local Texas Agent'",
+      "evidence": [
+        "frontend/src/components/jenkins/JenkinsTrustBar.tsx"
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "requirement": "Carrier badges must include exactly Progressive, Travelers, Nationwide, Liberty Mutual, Safeco, and Foremost",
+      "reason": "JenkinsCarrierBadges.tsx omits 'Foremost' entirely while adding MetLife, Allstate, TWFG, Hartford, and Farmers which were not requested",
+      "evidence": [
+        "frontend/src/components/jenkins/JenkinsCarrierBadges.tsx"
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "requirement": "Google Reviews aggregate rating summary must show 47 reviews",
+      "reason": "JenkinsReviews.tsx displays 'Based on 127 Google Reviews' instead of the spec-required 47 reviews",
+      "evidence": [
+        "frontend/src/components/jenkins/JenkinsReviews.tsx"
+      ]
+    },
+    {
+      "id": "REQ-11",
+      "requirement": "Bilingual section must contain both English and Spanish text including the phrase 'Hablamos Espanol - Se Habla Espanol. Llamenos hoy para una cotizacion gratuita.'",
+      "reason": "JenkinsBilingual.tsx contains only Spanish text with no distinct English sentence establishing the bilingual nature beyond the heading; the required English copy is absent",
+      "evidence": [
+        "frontend/src/components/jenkins/JenkinsBilingual.tsx"
+      ]
+    },
+    {
+      "id": "REQ-14",
+      "requirement": "Mobile sticky bottom bar must have 'Call Now' and 'Get Quote' (scrolls to #quote) buttons side by side",
+      "reason": "JenkinsStickyMobileBar.tsx implements 'Call Now' and a 'WhatsApp' link button; the 'Get Quote' scroll-to-#quote button is replaced with a WhatsApp deeplink, not a scroll-to-quote action",
+      "evidence": [
+        "frontend/src/components/jenkins/JenkinsStickyMobileBar.tsx"
       ]
     }
   ],
   "hallucinated_features": [
     {
-      "description": "Free-text search input field in the leads table toolbar",
-      "reason": "The build request only specifies status filter tabs (New/Called/Won) and Export CSV. The diff adds a free-text search box in the LeadsTable toolbar that was not requested.",
+      "description": "Footer includes an email address 'cjenkins@twfg.com' and social media icons (Facebook, LinkedIn) via react-icons library",
+      "reason": "The build request does not specify an email address or social media links in the footer; react-icons is also an additional third-party dependency not requested",
       "evidence": [
-        "frontend/src/components/admin/LeadsTable.tsx"
+        "frontend/src/components/jenkins/JenkinsFooter.tsx"
       ]
     },
     {
-      "description": "Toast notification system in Lead Assignment page for assignment confirmations",
-      "reason": "The spec only requests an agent assignment dropdown per lead row. The diff adds a toast notification system showing confirmation messages when a lead is assigned, which was not requested.",
+      "description": "Carrier badge row includes 10 carriers instead of the 6 specified, adding MetLife, Allstate, TWFG, Hartford, and Farmers",
+      "reason": "Only Progressive, Travelers, Nationwide, Liberty Mutual, Safeco, and Foremost were requested; the extra carriers were not requested",
       "evidence": [
-        "frontend/src/components/admin/AdminLeadAssignmentPage.tsx"
+        "frontend/src/components/jenkins/JenkinsCarrierBadges.tsx"
       ]
     },
     {
-      "description": "New Policy action button on the Policy Management page",
-      "reason": "The spec only asks for a placeholder list view for Policy Management. The diff adds a New Policy button in the header which was not requested.",
+      "description": "Mobile sticky bar shows a WhatsApp deeplink button instead of the specified 'Get Quote' scroll-to-#quote button",
+      "reason": "REQ-14 specifies 'Call Now' and 'Get Quote' scroll to #quote; a WhatsApp button in the mobile sticky bar was not requested",
       "evidence": [
-        "frontend/src/components/admin/AdminPolicyManagementPage.tsx"
+        "frontend/src/components/jenkins/JenkinsStickyMobileBar.tsx"
+      ]
+    },
+    {
+      "description": "Schema.org InsuranceAgency structured data JSON-LD script added to index.html",
+      "reason": "No requirement for structured data or JSON-LD was included in the build request",
+      "evidence": [
+        "frontend/index.html"
+      ]
+    },
+    {
+      "description": "Open Graph and Twitter Card meta tags added to index.html",
+      "reason": "Social media meta tags were not requested in the build request",
+      "evidence": [
+        "frontend/index.html"
+      ]
+    },
+    {
+      "description": "JenkinsAbout.tsx shows 4 stat boxes (Years, Clients, Carriers, Rating) instead of the specified 3 stat boxes labeled Families Served, Carriers, Years",
+      "reason": "REQ-8 specifies exactly 3 inline stat boxes; the implementation adds a 4th and changes the labels",
+      "evidence": [
+        "frontend/src/components/jenkins/JenkinsAbout.tsx"
       ]
     }
   ],
-  "confidence": 0.82,
+  "confidence": 0.72,
   "changed_files": [
+    "frontend/index.html",
     "frontend/src/App.tsx",
-    "frontend/src/components/AboutSection.tsx",
-    "frontend/src/components/ContactSection.tsx",
-    "frontend/src/components/EmotionalCloseSection.tsx",
-    "frontend/src/components/Footer.tsx",
-    "frontend/src/components/Header.tsx",
-    "frontend/src/components/HeroSection.tsx",
-    "frontend/src/components/ServicesSection.tsx",
-    "frontend/src/components/TestimonialsSection.tsx",
-    "frontend/src/components/TrustBar.tsx",
-    "frontend/src/components/WhyChooseSection.tsx",
-    "frontend/src/components/admin/AdminAnalyticsPage.tsx",
-    "frontend/src/components/admin/AdminDashboard.tsx",
-    "frontend/src/components/admin/AdminLayout.tsx",
-    "frontend/src/components/admin/AdminLeadAssignmentPage.tsx",
-    "frontend/src/components/admin/AdminLeadsPage.tsx",
-    "frontend/src/components/admin/AdminLoginModal.tsx",
-    "frontend/src/components/admin/AdminLoginPage.tsx",
-    "frontend/src/components/admin/AdminPDFInvoicesPage.tsx",
-    "frontend/src/components/admin/AdminPolicyManagementPage.tsx",
-    "frontend/src/components/admin/LeadsChart.tsx",
-    "frontend/src/components/admin/LeadsTable.tsx",
-    "frontend/src/components/admin/PolicyPieChart.tsx",
-    "frontend/src/components/admin/ProtectedAdminRoute.tsx",
-    "frontend/src/data/mockLeads.ts",
-    "frontend/src/hooks/useAdminAuth.ts",
-    "frontend/src/pages/PublicSite.tsx",
+    "frontend/src/components/jenkins/JenkinsAbout.tsx",
+    "frontend/src/components/jenkins/JenkinsBilingual.tsx",
+    "frontend/src/components/jenkins/JenkinsCarrierBadges.tsx",
+    "frontend/src/components/jenkins/JenkinsCoverageTypes.tsx",
+    "frontend/src/components/jenkins/JenkinsFloatingWhatsApp.tsx",
+    "frontend/src/components/jenkins/JenkinsFooter.tsx",
+    "frontend/src/components/jenkins/JenkinsHeader.tsx",
+    "frontend/src/components/jenkins/JenkinsHero.tsx",
+    "frontend/src/components/jenkins/JenkinsQuoteContact.tsx",
+    "frontend/src/components/jenkins/JenkinsReviews.tsx",
+    "frontend/src/components/jenkins/JenkinsStickyMobileBar.tsx",
+    "frontend/src/components/jenkins/JenkinsTrustBar.tsx",
+    "frontend/src/components/jenkins/JenkinsWhyChoose.tsx",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/hooks/useScrollAnimation.ts",
+    "frontend/src/index.css",
+    "frontend/src/pages/JenkinsPublicSite.tsx",
+    "frontend/tailwind.config.js",
     "project_state.json"
   ]
 }

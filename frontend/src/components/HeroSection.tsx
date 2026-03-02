@@ -8,14 +8,14 @@ export default function HeroSection() {
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden" style={{ background: 'linear-gradient(135deg, #1a2e1a 0%, #0d1f0d 50%, #0a1a0a 100%)' }}>
-      {/* Background image */}
+      {/* Houston skyline background */}
       <div className="absolute inset-0">
         <img
-          src="/assets/generated/hero-bg.dim_1920x1080.png"
+          src="/assets/generated/houston-skyline-bg.dim_1920x600.png"
           alt=""
-          className="w-full h-full object-cover opacity-20"
+          className="w-full h-full object-cover object-bottom opacity-15"
         />
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(26,46,26,0.85) 0%, rgba(13,31,13,0.9) 100%)' }} />
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(26,46,26,0.88) 0%, rgba(13,31,13,0.92) 100%)' }} />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-24 md:py-32">
@@ -28,20 +28,18 @@ export default function HeroSection() {
               <span className="text-amber-400 text-xs font-semibold tracking-wide uppercase">Conroe TX #1 Insurance Agency</span>
             </div>
 
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-4 md:mb-6">
-              Conroe Agents:<br />
-              <span className="text-amber-400">Get 12+ Quotes</span><br />
-              Per Month
+            <h1 className="text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-4 md:mb-6">
+              Conroe Agents Get<br />
+              <span className="text-amber-400">12+ Quotes/Month</span>
             </h1>
 
             <p className="text-gray-300 text-base md:text-lg lg:text-xl mb-6 md:mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-              Professional insurance websites built specifically for Conroe, TX agents. 
-              More leads, more quotes, more revenue — guaranteed.
+              Your site + admin panel = #1 Google ranking
             </p>
 
             {/* Trust Points */}
             <div className="flex flex-col sm:flex-row gap-3 mb-8 justify-center lg:justify-start">
-              {['No setup fees', 'Live in 48 hours', '30-day guarantee'].map(point => (
+              {['No setup fees', 'Live in 5 days', '30-day guarantee'].map(point => (
                 <div key={point} className="flex items-center gap-2 text-sm text-gray-300">
                   <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
                   {point}
@@ -53,16 +51,16 @@ export default function HeroSection() {
             <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
               <button
                 onClick={scrollToContact}
-                className="flex items-center justify-center gap-2 px-6 py-3.5 md:px-8 md:py-4 rounded-xl font-bold text-sm md:text-base text-forest-dark bg-amber-400 hover:bg-amber-300 transition-all shadow-amber-glow"
+                className="flex items-center justify-center gap-2 px-6 py-3.5 md:px-8 md:py-4 rounded-xl font-bold text-sm md:text-base text-forest-dark bg-amber-400 hover:bg-amber-300 transition-all shadow-amber-glow min-h-[48px]"
               >
-                Get Conroe Site – 3 Spots Left
+                Get Conroe Site – 3 Spots This Week
                 <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
               </button>
               <a
-                href="tel:+19364412301"
-                className="flex items-center justify-center gap-2 px-6 py-3.5 md:px-8 md:py-4 rounded-xl font-semibold text-sm md:text-base text-white border border-white/30 hover:bg-white/10 transition-all"
+                href="tel:+18329360000"
+                className="flex items-center justify-center gap-2 px-6 py-3.5 md:px-8 md:py-4 rounded-xl font-semibold text-sm md:text-base text-white border border-white/30 hover:bg-white/10 transition-all min-h-[48px]"
               >
-                Call (936) 441-2301
+                Call (832) 936-XXXX
               </a>
             </div>
           </div>
@@ -83,6 +81,7 @@ export default function HeroSection() {
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className="w-3 h-3 text-amber-400 fill-amber-400" />
                   ))}
+                  <span className="text-amber-600 text-xs font-bold ml-1">4.9</span>
                 </div>
                 <p className="text-gray-800 text-xs font-medium leading-tight">"12 quotes my first month!"</p>
                 <p className="text-gray-500 text-xs mt-1">— TX Agent J.D.</p>
@@ -95,9 +94,9 @@ export default function HeroSection() {
         <div className="mt-12 md:mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
           {[
             { value: '50+', label: 'Carrier Partners' },
-            { value: '500+', label: 'Families Served' },
+            { value: '100+', label: 'TX Agents Live' },
             { value: '4.9★', label: 'Google Rating' },
-            { value: '15+', label: 'Years Experience' },
+            { value: '5 Days', label: 'Deposit to Live' },
           ].map(({ value, label }) => (
             <div key={label} className="text-center p-3 md:p-4 rounded-xl bg-white/5 border border-white/10">
               <p className="text-2xl md:text-3xl font-bold text-amber-400">{value}</p>
